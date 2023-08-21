@@ -14,18 +14,18 @@ const ThemeButton =()=>{
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   return (
-    <>
-      <div>
+   
+      <div> 
         {currentTheme === "dark" ? (
           <button
-            className="bg-gray-900 hover:bg-black p-2 rounded-md "
+            className="bg-gray-800 text-gray-300 hover:bg-black p-2 rounded-md "
             onClick={() => setTheme("light")}
           >
             <BsMoonFill fontSize={16} />
           </button>
         ) : (
           <button
-            className="bg-gray-100  rounded-md p-2  hover:bg-gray-200"
+            className="bg-white  rounded-md p-2 text-gray-700 hover:bg-gray-200"
             onClick={() => setTheme("dark")}
           >
            <BsSunFill fontSize={16} />
@@ -33,7 +33,7 @@ const ThemeButton =()=>{
         )}
       </div>
       
-    </>
+ 
   );
 }
 
