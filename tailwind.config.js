@@ -10,8 +10,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "dark-theme": "url('../img/blackTheme.jpg')",
-        "light-theme": "url('../img/whiteTheme.jpg')",
+        "dark-theme": "url('/img/blackTheme.jpg')",
+        "light-theme": "url('/img/whiteTheme.jpg')",
       },
     },
   },

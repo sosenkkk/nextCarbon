@@ -6,12 +6,12 @@ export default function MainNagivation() {
     <Navbar
       fluid={true}
       rounded={true}
-      className="fixed top-0 z-50 w-full dark:bg-[#252525] border-b-2 border-gray-200 navbar "
+      className="fixed top-0 z-50 w-full dark:bg-white border-b-2 border-gray-200 navbar "
       style={{ minHeight: "4rem", opacity:"0.95" }}
     >
       <Navbar.Brand href="/">
         <img
-          src="https://flowbite.com/docs/images/logo.svg"
+          src="/img/carbonLogo.png"
           className="mr-3 h-6 sm:h-9"
           alt="MyLogo"
         />
