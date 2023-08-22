@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.navbar{
+    background-color: rgba(255, 255, 255, .15);  
+    backdrop-filter: blur(20px);
+}
