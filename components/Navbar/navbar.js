@@ -3,11 +3,11 @@ import Link from "next/link";
 import ThemeButton from "./themeToggler";
 export default function MainNagivation() {
   return (
-    <div>
+
       <Navbar
         fluid={true}
         rounded={true}
-        className="fixed top-0 z-50 w-full"
+        className="fixed top-0 z-50 w-full dark:bg-[#252525]"
         style={{ minHeight: "4rem" }}
       >
         <Navbar.Brand href="https://flowbite.com/">
@@ -27,7 +27,7 @@ export default function MainNagivation() {
 
         </div>
 
-        <Navbar.Collapse style={{ marginTop: "8px" }}>
+        <Navbar.Collapse style={{ marginTop: "8px" }} >
           <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
             Home
           </Link>
@@ -43,11 +43,10 @@ export default function MainNagivation() {
           <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
             Contact
           </Link>
-          <div className="pt-2 relative " style={{ bottom: "8px" }}>
+          <div className="pt-2 relative hidden md:block" style={{ bottom: "8px" }}>
             <ThemeButton />
           </div>
         </Navbar.Collapse>
       </Navbar>
-    </div>
   );
 }

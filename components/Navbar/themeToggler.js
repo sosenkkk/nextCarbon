@@ -18,7 +18,7 @@ const ThemeButton =()=>{
       <div> 
         {currentTheme === "dark" ? (
           <button
-            className="bg-gray-800 text-gray-300 hover:bg-black p-2 rounded-md "
+            className="bg-[#252525] text-gray-300 hover:bg-black p-2 rounded-md "
             onClick={() => setTheme("light")}
           >
             <BsMoonFill fontSize={16} />
