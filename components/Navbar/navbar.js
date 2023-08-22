@@ -6,7 +6,7 @@ export default function MainNagivation() {
     <Navbar
       fluid={true}
       rounded={true}
-      className="fixed top-0 z-50 w-full dark:bg-white border-b-2 border-gray-200 navbar "
+      className="fixed top-0 z-50 w-full firefox:bg-opacity-90 dark:bg-white border-b-2 border-gray-200 navbar "
       style={{ minHeight: "4rem", opacity:"0.95" }}
     >
       <Navbar.Brand href="/">

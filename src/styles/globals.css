@@ -5,4 +5,25 @@
 .navbar{
     background-color: rgba(255, 255, 255, 0.215);  
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px)
 }
+
+.imageSlider{
+    height: 100vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("/img/main.jpg");
+  
+    /* Set a specific height */
+    min-height: 500px;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

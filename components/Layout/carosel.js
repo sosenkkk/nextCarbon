@@ -1,0 +1,51 @@
+import React, { useRef, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from 'next/image';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+
+// import required modules
+import { Autoplay,  Navigation } from 'swiper/modules';
+
+export default function Carosel() {
+  return (
+    <>
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        style={{
+            '--swiper-navigation-color': '#fff',
+          }}
+        loop={true}
+        navigation={true}
+        modules={[Autoplay, Navigation]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+        </SwiperSlide>
+        <SwiperSlide>
+            <img className='imageSlider'  src='/img/main.jpg' alt='image' />
+        </SwiperSlide>
+        <SwiperSlide>
+            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+        </SwiperSlide>
+        <SwiperSlide>
+            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+        </SwiperSlide>
+       
+      </Swiper>
+    </>
+  );
+}

@@ -1,11 +1,12 @@
-import ThemeButton from "../../components/Navbar/themeToggler";
-
+import Carosel from "./../../components/Layout/carosel";
 export default function Home() {
   return (
     <>
-
-      <div className="h-screen w-screen bg-light-theme dark:bg-dark-theme "></div>
+      <div className="w-full h-screen  parallax"> </div>
       
+        <Carosel className="holder" />
+      
+
     </>
   );
 }
