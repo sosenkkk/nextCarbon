@@ -13,7 +13,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "dark-theme": "url('/img/blackTheme.jpg')",
+        "dark-theme": "url('/img/blackTheme1.jpg')",
         "light-theme": "url('/img/whiteTheme.jpg')",
       },
     },

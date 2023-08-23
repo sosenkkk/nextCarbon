@@ -26,6 +26,7 @@ export default function Carosel() {
         }}
         style={{
             '--swiper-navigation-color': '#fff',
+            height:"90vh"
           }}
         loop={true}
         navigation={true}
@@ -33,16 +34,16 @@ export default function Carosel() {
         className="mySwiper"
       >
         <SwiperSlide>
-            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+            <img className='imageSlider'  src='/img/main2.jpg' alt='image' />
         </SwiperSlide>
         <SwiperSlide>
-            <img className='imageSlider'  src='/img/main.jpg' alt='image' />
+            <img className='imageSlider'  src='/img/main1.jpg' alt='image' />
         </SwiperSlide>
         <SwiperSlide>
-            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+            <img className='imageSlider'  src='/img/main2.jpg' alt='image' />
         </SwiperSlide>
         <SwiperSlide>
-            <img className='imageSlider'  src='/img/1.jpg' alt='image' />
+            <img className='imageSlider'  src='/img/main1.jpg' alt='image' />
         </SwiperSlide>
        
       </Swiper>

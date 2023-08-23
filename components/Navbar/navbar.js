@@ -7,7 +7,7 @@ export default function MainNagivation() {
       fluid={true}
       rounded={true}
       className="fixed top-0 z-50 w-full firefox:bg-opacity-90 dark:bg-white border-b-2 border-gray-200 navbar "
-      style={{ minHeight: "4rem", opacity:"0.95" }}
+      style={{ minHeight: "4rem", opacity: "0.95" }}
     >
       <Navbar.Brand href="/">
         <img
@@ -24,20 +24,65 @@ export default function MainNagivation() {
         <ThemeButton />
       </div>
 
-      <Navbar.Collapse style={{ marginTop: "8px" }}>
-        <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
+      <Navbar.Collapse style={{ marginTop: "8px", padding: "0.5rem" }}>
+        <Link
+         className="navlinkWhite"
+          href="/"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
           Home
         </Link>
-        <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
+        <Link
+           className="navlinkWhite"
+          href="/"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
           About
         </Link>
-        <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
+        <Link
+           className="navlinkWhite"
+          href="/"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
           Services
         </Link>
-        <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
+        <Link
+           className="navlinkWhite"
+          href="/"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
           Pricing
         </Link>
-        <Link href="/" style={{ fontSize: "1.2rem", paddingTop: "4px" }}>
+        <Link
+           className="navlinkWhite"
+          href="/"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
           Contact
         </Link>
         <div
