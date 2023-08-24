@@ -11,9 +11,9 @@ function Section({ children }) {
     <section className={styles.sectionMain }ref={ref}>
       <span
         style={{
-          transform: isInView ? "none" : "translateX(-200px)",
+          transform: isInView ? "none" : "translateY(100px)",
           opacity: isInView ? 1 : 0,
-          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.35s"
+          transition: "all 0.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.35s"
         }}
       >
         {children}
@@ -26,8 +26,8 @@ function Section({ children }) {
 export default function FrontPart() {
   return (
     <>
-    <div className="w-full h-screen bg-light-theme dark:bg-dark-theme parallax">
-      <div className={styles.frontMain}>
+    <div className="w-full h-screen bg-light-theme dark:bg-dark-theme parallax" style={{position:"relative", zIndex:"-5"}} >
+      <div className={styles.frontMain} >
         <Section><h1>Carbon</h1></Section>
         <Section><p>Crafting Elegance, Inspiring Spaces</p></Section>
       </div>

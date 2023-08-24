@@ -86,8 +86,8 @@ export default function MainNagivation() {
           Contact
         </Link>
         <div
-          className="pt-2 relative hidden md:block"
-          style={{ bottom: "8px" }}
+          className="hidden md:block"
+          
         >
           <ThemeButton />
         </div>

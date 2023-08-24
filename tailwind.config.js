@@ -15,7 +15,12 @@ module.exports = {
       backgroundImage: {
         "dark-theme": "url('/img/blackTheme1.jpg')",
         "light-theme": "url('/img/whiteTheme.jpg')",
+        "light": "url('/img/white.jpg')",
+        "dark": "url('/img/black.jpg')",
       },
+    },
+    colors:{
+      'purple': '#3f3cbb',
     },
   },
   plugins: [

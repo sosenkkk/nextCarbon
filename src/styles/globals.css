@@ -18,6 +18,13 @@
   object-fit: cover;
 }
 
+.buttonTog{
+  opacity: 0.7;
+}
+.buttonTog:hover{
+  opacity: 1;
+}
+
 .parallax {
   min-height: 500px;
   background-attachment: fixed;
@@ -43,3 +50,73 @@
   font-size: 3.5rem;
   text-align: right;
 }
+
+.hoverButton {
+  position: relative;
+  margin: auto;
+  padding: 12px 18px;
+  transition: all 0.2s ease;
+  border: none;
+  margin-top: 0.7rem;
+  background: none;
+ }
+ 
+ .hoverButton:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 50px;
+  background: #6db1c6;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+ }
+ 
+ .hoverButton span {
+  position: relative;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #234567;
+ }
+ 
+ .hoverButton svg {
+  position: relative;
+  top: 0;
+  margin-left: 10px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #234567;
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+ }
+ 
+ .hoverButton:hover:before {
+  width: 100%;
+  background: #69b8d0;
+ }
+ 
+ .hoverButton:hover svg {
+  transform: translateX(0);
+ }
+ 
+ .hoverButton:active {
+  transform: scale(0.95);
+ }
+
+ .cardComponentHolder{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items:center;
+  padding: 3rem 0; 
+ }
+ .cardComponentHolder .cardComponent{
+  min-width: 350px;
+  margin: 1rem;
+ }
