@@ -75,7 +75,7 @@ export default function MainNagivation() {
         </Link>
         <Link
            className="navlinkWhite"
-          href="/"
+          href="/auth/signUp"
           style={{
             fontSize: "1.2rem",
             paddingTop: "4px",
@@ -83,7 +83,7 @@ export default function MainNagivation() {
             marginBottom: "12px",
           }}
         >
-          Contact
+          Signup
         </Link>
         <div
           className="hidden md:block"

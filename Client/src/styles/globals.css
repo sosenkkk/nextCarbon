@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Maven+Pro&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+*{
+   font-family: 'Maven Pro', sans-serif;;
+}
 
 .navbar {
   background-color: rgba(255, 255, 255, 0.215);
@@ -59,6 +61,16 @@
   border: none;
   margin-top: 0.7rem;
   background: none;
+ }
+
+ .caroselText{
+  position: absolute;
+  bottom: 1.5rem;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
  }
  
  .hoverButton:before {
@@ -117,6 +129,56 @@
   padding: 3rem 0; 
  }
  .cardComponentHolder .cardComponent{
-  min-width: 350px;
+  min-width: 250px;
   margin: 1rem;
  }
+
+ .productHolder{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding-top: 2rem;
+ }
+ .skeletonHolder{
+  padding: 1rem;
+  width: 90%;
+ }
+ 
+
+ .productSkeleton a{
+  min-width: 50%;
+  object-fit: cover;
+ }
+
+ .productSkeleton a img{
+  max-height: 600px;
+ }
+
+ .productHeader{
+  border-bottom: 1px solid;
+ }
+
+ .ruler__front {
+  border: none;
+  border-bottom: 1rem dashed rgb(28, 127, 127);
+  padding:1.5rem 3rem;
+  width: 40%;
+  min-width: 100px;
+  margin: auto;
+}
+#secondRuler{
+  position:relative;
+  top:0.5rem;
+}
+
+ @media  screen and (max-width:768px) {
+  .productSkeleton a{
+    width: 100%;
+  }
+  .skeletonHolder{
+    padding: 1rem;
+    width: 100%;
+   }
+   
+ }
+

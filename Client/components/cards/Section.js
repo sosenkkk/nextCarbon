@@ -1,9 +1,9 @@
-import styles from "./styles.module.css";
+import styles from "./../Layout/styles.module.css";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 
 
-function Section({ children }) {
+export default function Section({ children }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -19,19 +19,5 @@ function Section({ children }) {
         {children}
       </span>
     </section>
-  );
-}
-
-
-export default function FrontPart() {
-  return (
-    <>
-    <div className="w-full h-screen bg-light-theme dark:bg-dark-theme parallax" style={{position:"relative", zIndex:"-5"}} >
-      <div className={styles.frontMain} >
-        <Section><h1>Carbon</h1></Section>
-        <Section><p>Crafting Elegance, Inspiring Spaces</p></Section>
-      </div>
-      </div>
-    </>
   );
 }
