@@ -1,18 +1,37 @@
 import { useRef } from "react";
-import ThemeButton from "../../../components/Navbar/themeToggler";
 import Link from "next/link";
+import { BASE_URL } from "../../../helper/helper";
+import { useRouter } from "next/router";
 
-const SignUp = () => {
+const SignUp = (props) => {
+  const router = useRouter()
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
-  const signUpHandler = (event) => {
+  const signUpHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const confirmpassword = confirmPasswordRef.current.value;
-    const enteredData = { email: email, password: password, confirmPassword: confirmpassword };
-    console.log(enteredData);
+    const enteredData = {
+      email: email,
+      password: password,
+      confirmPassword: confirmpassword,
+    };
+    
+    const response = await fetch(BASE_URL+"signup", {
+      method: "POST",
+      headers : {
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({
+        email:enteredData.email,
+        password:enteredData.password
+      }),
+    })
+    const message = await response.json();
+    router.push("/")
+    
   };
   return (
     <>
@@ -23,7 +42,11 @@ const SignUp = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#" onSubmit={signUpHandler}>
+              <form
+                className="space-y-4 md:space-y-6"
+                action="#"
+                onSubmit={signUpHandler}
+              >
                 <div>
                   <label
                     htmlFor="email"
@@ -75,7 +98,7 @@ const SignUp = () => {
                     ref={confirmPasswordRef}
                   />
                 </div>
-                <div >
+                <div>
                   <button
                     type="submit"
                     className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"

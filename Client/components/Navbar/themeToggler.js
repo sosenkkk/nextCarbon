@@ -26,7 +26,6 @@ const ThemeButton = () => {
 
     }
   };
-  console.log(backImage)
   return (
     <div  >
       {currentTheme === "dark" ? (
