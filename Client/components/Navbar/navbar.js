@@ -1,7 +1,17 @@
 import { Navbar } from "flowbite-react";
 import Link from "next/link";
 import ThemeButton from "./themeToggler";
-export default function MainNagivation() {
+import { useSelector, useDispatch } from "react-redux";
+import {login} from "@/store/authSlice"
+export default function MainNagivation(props) {
+  const dispatch = useDispatch();
+  
+  const activity=()=>{
+    dispatch(login())
+
+  }
+  const  isAuth = useSelector((state)=>state.auth.isAuthenticated);
+  console.log(isAuth)
   return (
     <Navbar
       fluid={true}
@@ -21,6 +31,8 @@ export default function MainNagivation() {
       </Navbar.Brand>
       <div className="flex self-center items-center md:hidden gap-2">
         <Navbar.Toggle />
+        <button onClick={activity}>Toggleee</button>
+
         <ThemeButton />
       </div>
 
@@ -59,23 +71,12 @@ export default function MainNagivation() {
             marginBottom: "12px",
           }}
         >
-          Services
-        </Link>
-        <Link
-           className="navlinkWhite"
-          href="/"
-          style={{
-            fontSize: "1.2rem",
-            paddingTop: "4px",
-            width:"100%",
-            marginBottom: "12px",
-          }}
-        >
           Pricing
         </Link>
+        {!isAuth &&
         <Link
            className="navlinkWhite"
-          href="/auth/signUp"
+          href="/auth/login"
           style={{
             fontSize: "1.2rem",
             paddingTop: "4px",
@@ -83,12 +84,44 @@ export default function MainNagivation() {
             marginBottom: "12px",
           }}
         >
-          Signup
+          Login
         </Link>
+       
+        }
+        {
+          !isAuth && 
+          <Link
+          className="navlinkWhite"
+         href="/auth/signUp"
+         style={{
+           fontSize: "1.2rem",
+           paddingTop: "4px",
+           width:"100%",
+           marginBottom: "12px",
+         }}
+       >
+         Signup
+       </Link>
+        }
+         {isAuth &&
+        <Link
+           className="navlinkWhite"
+          href="/account"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+        >
+          Account
+        </Link>
+        }
+        
         <div
           className="hidden md:block"
-          
         >
+
           <ThemeButton />
         </div>
       </Navbar.Collapse>

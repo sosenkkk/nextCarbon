@@ -1,8 +1,9 @@
 import Link from "next/link";
-import ThemeButton from "../../../components/Navbar/themeToggler";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 
-const Login = () => {
+const Login = (props) => {
+  const router = useRouter()
   const emailRef = useRef();
   const passwordRef = useRef();
   const loginHandler = (event) => {
@@ -10,7 +11,7 @@ const Login = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const enteredData = { email: email, password: password };
-    console.log(enteredData);
+    router.push("/")
   };
   return (
     <>     
