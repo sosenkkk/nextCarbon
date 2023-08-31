@@ -5,13 +5,13 @@ import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from 'react-redux';
 import { login } from "@/store/authSlice";
 
-const Login = (props) => {
+const Login = () => {
   const router = useRouter()
   const emailRef = useRef();
   const passwordRef = useRef();
   const disptach = useDispatch()
   const validateEmail=(email)=>{
-    
+
   }
   const loginBlurHandler=()=>{
     console.log(emailRef.current.value)
