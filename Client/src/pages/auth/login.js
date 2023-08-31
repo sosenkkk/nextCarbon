@@ -1,16 +1,41 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import { BASE_URL } from "../../../helper/helper";
+import { useDispatch } from 'react-redux';
+import { login } from "@/store/authSlice";
 
 const Login = (props) => {
   const router = useRouter()
   const emailRef = useRef();
   const passwordRef = useRef();
-  const loginHandler = (event) => {
+  const disptach = useDispatch()
+  const validateEmail=(email)=>{
+    
+  }
+  const loginBlurHandler=()=>{
+    console.log(emailRef.current.value)
+    console.log(passwordRef.current.value)
+  }
+
+  const loginHandler = async  (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const enteredData = { email: email, password: password };
+    const response = await fetch(BASE_URL+"login",{
+      method:"POST",
+      headers : {
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({
+        email:enteredData.email,
+        password:enteredData.password
+      }),
+    })
+    const message = await response.json();
+    console.log(message)
+    disptach(login())
     router.push("/")
   };
   return (
@@ -38,6 +63,7 @@ const Login = (props) => {
                     type="email"
                     ref={emailRef}
                     name="email"
+                    onChange={loginBlurHandler}
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
@@ -55,6 +81,7 @@ const Login = (props) => {
                     type="password"
                     ref={passwordRef}
                     name="password"
+                    onChange={loginBlurHandler}
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

@@ -1,17 +1,11 @@
 import { Navbar } from "flowbite-react";
 import Link from "next/link";
 import ThemeButton from "./themeToggler";
-import { useSelector, useDispatch } from "react-redux";
-import {login} from "@/store/authSlice"
+import { useSelector } from "react-redux";
 export default function MainNagivation(props) {
-  const dispatch = useDispatch();
-  
-  const activity=()=>{
-    dispatch(login())
 
-  }
   const  isAuth = useSelector((state)=>state.auth.isAuthenticated);
-  console.log(isAuth)
+ 
   return (
     <Navbar
       fluid={true}
@@ -31,7 +25,7 @@ export default function MainNagivation(props) {
       </Navbar.Brand>
       <div className="flex self-center items-center md:hidden gap-2">
         <Navbar.Toggle />
-        <button onClick={activity}>Toggleee</button>
+       
 
         <ThemeButton />
       </div>

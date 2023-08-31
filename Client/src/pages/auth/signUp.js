@@ -30,6 +30,7 @@ const SignUp = (props) => {
       }),
     })
     const message = await response.json();
+    console.log(message)
     router.push("/auth/login")
   };
   return (
