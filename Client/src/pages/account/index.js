@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Account() {
   return (
     <>
-      <div className="w-full  pt-20 p-4 md:p-24">
+      <div className="w-full bg-[#fff] h-screen dark:bg-[#252525] dark:text-gray-200 pt-20 p-4 md:p-24">
         <div className=" text-center sm:text-left">
           <h1 className="text-3xl ">Hello user!</h1>
           <Link className="md:text-xl hover:underline" href="/account/details">

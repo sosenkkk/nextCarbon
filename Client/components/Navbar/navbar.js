@@ -32,7 +32,7 @@ export default function MainNagivation(props) {
 
       <Navbar.Collapse style={{ marginTop: "8px", padding: "0.5rem" }}>
         <Link
-         className="navlinkWhite"
+         className="navlinkWhite dark:text-white "
           href="/"
           style={{
             fontSize: "1.2rem",
@@ -44,7 +44,7 @@ export default function MainNagivation(props) {
           Home
         </Link>
         <Link
-           className="navlinkWhite"
+           className="navlinkWhite dark:text-white"
           href="/"
           style={{
             fontSize: "1.2rem",
@@ -56,7 +56,7 @@ export default function MainNagivation(props) {
           About
         </Link>
         <Link
-           className="navlinkWhite"
+           className="navlinkWhite dark:text-white"
           href="/"
           style={{
             fontSize: "1.2rem",
@@ -69,7 +69,7 @@ export default function MainNagivation(props) {
         </Link>
         {!isAuth &&
         <Link
-           className="navlinkWhite"
+           className="navlinkWhite dark:text-white"
           href="/auth/login"
           style={{
             fontSize: "1.2rem",
@@ -85,7 +85,7 @@ export default function MainNagivation(props) {
         {
           !isAuth && 
           <Link
-          className="navlinkWhite"
+          className="navlinkWhite dark:text-white"
          href="/auth/signUp"
          style={{
            fontSize: "1.2rem",
@@ -99,7 +99,7 @@ export default function MainNagivation(props) {
         }
          {isAuth &&
         <Link
-           className="navlinkWhite"
+           className="navlinkWhite dark:text-white"
           href="/account"
           style={{
             fontSize: "1.2rem",

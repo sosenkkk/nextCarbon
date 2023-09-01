@@ -1,8 +1,8 @@
 export default function Details() {
   return (
     <>
-      <div className=" p-8 pt-20 md:pt-24">
-        <form className="bg-[#f7f7f7] dark:bg-[#0f0f0f] rounded-lg shadow-md  p-4 sm:p-12 md:p-16 ">
+      <div className=" p-8 pt-20 md:pt-24 bg-[#fff] dark:bg-[#252525] h-screen">
+        <form className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md  p-4 sm:p-12 md:p-16 ">
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label

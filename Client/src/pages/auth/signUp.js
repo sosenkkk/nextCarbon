@@ -2,36 +2,96 @@ import { useRef } from "react";
 import Link from "next/link";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
+import { useToast } from "@chakra-ui/react";
 
 const SignUp = (props) => {
-  const router = useRouter()
+  const toast = useToast();
+  const router = useRouter();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const validateEmail = new RegExp(
+    /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/
+  );
+  const validateEmailHandler = (email) => {
+    if (validateEmail.test(email)) {
+      return true;
+    } else {
+      toast({
+        title: "Enter correct email address",
+        status: "error",
+        isClosable: true,
+      });
+      return false;
+    }
+  };
+  const validatePasswordHandler = (password) => {
+    if (password.trim().length > 5) {
+      return true;
+    } else {
+      toast({
+        title: "Password must contain atleast 6 characters.",
+        status: "error",
+        isClosable: true,
+      });
+      return false;
+    }
+  };
+  const validateConfirmPasswordHandler=(password, confirmpassword)=>{
+    if (password.trim()===confirmpassword.trim()) {
+      return true;
+    } else {
+      toast({
+        title: "Passwords does not match.",
+        status: "error",
+        isClosable: true,
+      });
+      return false;
+    }
+  };
+  
   const signUpHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const confirmpassword = confirmPasswordRef.current.value;
-    const enteredData = {
-      email: email,
-      password: password,
-      confirmPassword: confirmpassword,
-    };
+    const validation =
+      validateEmailHandler(email) &&
+      validatePasswordHandler(password) &&
+      validateConfirmPasswordHandler(password, confirmpassword);
+      if(validation){
+        const response = await fetch(BASE_URL + "signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        const res = await response.json();
+        if(response.status==433){
+          router.push("/auth/signup");
+          toast({
+            title: res.message,
+            status: "error",
+            isClosable: true,
+          });
+        }else if (response.status == 201) {
+          toast({
+            title: res.message,
+            status: "success",
+            isClosable: true,
+          });
+          router.push("/auth/login");
+        }
+        ;
+      }else{
+        router.push("/auth/signup");
+
+      }
     
-    const response = await fetch(BASE_URL+"signup", {
-      method: "POST",
-      headers : {
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify({
-        email:enteredData.email,
-        password:enteredData.password
-      }),
-    })
-    const message = await response.json();
-    console.log(message)
-    router.push("/auth/login")
   };
   return (
     <>
@@ -55,7 +115,7 @@ const SignUp = (props) => {
                     Your email
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
