@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 export default function MainNagivation(props) {
 
   const  isAuth = useSelector((state)=>state.auth.isAuthenticated);
- 
   return (
     <Navbar
       fluid={true}
