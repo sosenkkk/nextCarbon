@@ -54,8 +54,8 @@ exports.login = async (req, res, next) => {
 
 exports.changePassword = async (req, res, next) => {
   const email = req.body.email;
-  const password = req.body.password;
-  const newPassword = req.body.newPassword;
+  const password = req.body.oldpassword;
+  const newPassword = req.body.newpassword;
   try {
     const enteredUser = await User.findOne({ email: email });
     if (!enteredUser) {
@@ -67,14 +67,16 @@ exports.changePassword = async (req, res, next) => {
       );
       if (passwordCheck == true) {
         const hashedPassword = await bcrypt.hash(newPassword, 12);
+        const updateUser = await User.findOneAndUpdate(
+          { email: email },
+          { password: hashedPassword },
+          { returnOriginal: false }
+        );
 
+        res.status(201).json({ message: "User password changed!" });
       } else {
         res.status(433).json({ message: "User entered Incorrect password" });
       }
-      const result = await user.save();
-      res
-        .status(201)
-        .json({ message: "User account created!", userId: result._id });
     }
   } catch (err) {
     console.log(err);

@@ -145,12 +145,12 @@ const Login = () => {
                             <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                           </div>
                       </div> */}
-                  <a
-                    href="#"
+                  <Link
+                    href="/auth/forgot-password"
                     className="text-sm font-medium text-purple-600 hover:underline dark:text-purple-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <button
                   type="submit"
