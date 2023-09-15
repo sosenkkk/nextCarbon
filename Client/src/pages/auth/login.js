@@ -82,6 +82,7 @@ const Login = () => {
           status: "success",
           isClosable: true,
         });
+        console.log(res.user)
         router.push("/");
       }
     } else {

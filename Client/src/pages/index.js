@@ -4,7 +4,6 @@ import CardHolder from "../../components/cards/cardHolder";
 import ProductHolder from "../../components/products/productHolder";
 import Link from "next/link";
 
-import {login} from "@/store/authSlice"
 export default function Home() {
   
   return (
@@ -207,3 +206,4 @@ export default function Home() {
     </>
   );
 }
+
