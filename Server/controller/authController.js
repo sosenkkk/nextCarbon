@@ -39,7 +39,8 @@ exports.login = async (req, res, next) => {
         enteredUser.password
       );
       if (passwordCheck == true) {
-        res.status(201).json({ message: "User logged In" });
+        
+        res.status(201).json({ message: "User logged In" , user:enteredUser});
       } else {
         res.status(433).json({ message: "User entered Incorrect password" });
       }

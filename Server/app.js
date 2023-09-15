@@ -1,13 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const session = require("express-session");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const MongoDBStore = require("connect-mongodb-session")(session);
+
+const MONGO_URI =
+  "mongodb+srv://sosenkkk:sosenk@cluster1.wxdleee.mongodb.net/carbon?retryWrites=true&w=majority";
 const app = express();
 const PORT = process.env.PORT || 8080;
+const store = new MongoDBStore({
+  uri: MONGO_URI,
+  collection: "user-sessions",
+});
 
-const mongoUrl =
-  "mongodb+srv://sosenkkk:sosenk@cluster1.wxdleee.mongodb.net/carbon";
 app.options("*", cors());
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,10 +31,15 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = true;
-  next();
-});
+
+app.use(
+  session({
+    secret: "my secret key",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
 app.use(authRoutes);
 
@@ -39,7 +51,7 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-mongoose.connect(mongoUrl + "?retryWrites=true&w=majority").then(() => {
+mongoose.connect(MONGO_URI).then(() => {
   app.listen(PORT);
   console.log("connected");
 });
