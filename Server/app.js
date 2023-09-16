@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 const MONGO_URI =
@@ -42,6 +43,8 @@ app.use(
 );
 
 app.use(authRoutes);
+
+app.use(userRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

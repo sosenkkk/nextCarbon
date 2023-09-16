@@ -39,8 +39,11 @@ exports.login = async (req, res, next) => {
         enteredUser.password
       );
       if (passwordCheck == true) {
-        
-        res.status(201).json({ message: "User logged In" , user:enteredUser});
+        const token = jwt.sign({
+          email: enteredUser.email,
+          userId: enteredUser._id.toString(),
+        }, 'my-secret', {expiresIn: '3h'});
+        res.status(201).json({ message: "User logged In", token: token, userId : enteredUser._id.toString() });
       } else {
         res.status(433).json({ message: "User entered Incorrect password" });
       }

@@ -3,15 +3,14 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from "react-redux";
-import { login, userInfo } from "@/store/authSlice";
+import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
 
 const Login = () => {
-
   useEffect(()=>{
-    if(localStorage.getItem('user')){
-      router.push('/');
-    };
+    if(localStorage.getItem("token")){
+      router.push('/')
+    }
   })
   const toast = useToast();
   const router = useRouter();
@@ -21,6 +20,20 @@ const Login = () => {
   const validateEmail = new RegExp(
     /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/
   );
+
+  const  logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiryDate");
+    localStorage.removeItem("userId");
+    router.push('/')
+  };
+  
+  const setAutoLogout = (milliseconds) => {
+    setTimeout(() => {
+      logoutHandler();
+    }, milliseconds);
+  };
+
   const validateEmailHandler = (email) => {
     if (validateEmail.test(email)) {
       return true;
@@ -82,15 +95,21 @@ const Login = () => {
           isClosable: true,
         });
       } else if (response.status == 201) {
-        disptach(login());
+        disptach(userToken(res.token))
         toast({
           title: res.message,
           status: "success",
           isClosable: true,
         });
-        console.log(res.user)
-        disptach(userInfo(res.user))
-        localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem("token", res.token)
+        localStorage.setItem("userId", res.userId)
+        const remainingMilliseconds = 60 * 60 * 1000;
+        const expiryDate = new Date(
+          new Date().getTime() + remainingMilliseconds
+        );
+        disptach(login(true));
+        localStorage.setItem("expiryDate", expiryDate.toISOString());
+        setAutoLogout(remainingMilliseconds);
         router.push("/");
       }
     } else {

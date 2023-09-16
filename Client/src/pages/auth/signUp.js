@@ -3,8 +3,13 @@ import Link from "next/link";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-
+import { useEffect } from "react";
 const SignUp = (props) => {
+  useEffect(()=>{
+    if(localStorage.getItem("token")){
+      router.push("/")
+    }
+  })
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();

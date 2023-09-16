@@ -1,10 +1,23 @@
 import { Navbar } from "flowbite-react";
 import Link from "next/link";
 import ThemeButton from "./themeToggler";
-import { useSelector } from "react-redux";
-export default function MainNagivation(props) {
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { login } from "@/store/authSlice";
+import { info } from "@/store/userInfoSlice";
 
+export default function MainNagivation(props) {
+  const router = useRouter();
+  const dispatch = useDispatch()
   const  isAuth = useSelector((state)=>state.auth.isAuthenticated);
+  const  logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiryDate");
+    localStorage.removeItem("userId");
+    dispatch(login(false))
+    dispatch(info({}))
+    router.push('/')
+  };
   return (
     <Navbar
       fluid={true}
@@ -109,6 +122,20 @@ export default function MainNagivation(props) {
         >
           Account
         </Link>
+        }
+        {isAuth &&
+        <button
+           className="navlinkWhite text-left dark:text-white"
+          style={{
+            fontSize: "1.2rem",
+            paddingTop: "4px",
+            width:"100%",
+            marginBottom: "12px",
+          }}
+          onClick={logoutHandler}
+        >
+          Logout
+        </button>
         }
         
         <div

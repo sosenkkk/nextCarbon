@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 export default function Details() {
+  const userInfo = useSelector(state=>state.user.userInfo)
+  console.log(userInfo)
   return (
     <>
       <div className=" p-8 pt-20 md:pt-24 bg-[#fff] dark:bg-[#252525] h-screen">
