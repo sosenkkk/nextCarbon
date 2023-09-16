@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from "react-redux";
-import { login } from "@/store/authSlice";
+import { login, userInfo } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
 
 const Login = () => {
+
+  useEffect(()=>{
+    if(localStorage.getItem('user')){
+      router.push('/');
+    };
+  })
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -83,6 +89,8 @@ const Login = () => {
           isClosable: true,
         });
         console.log(res.user)
+        disptach(userInfo(res.user))
+        localStorage.setItem('user', JSON.stringify(res.user));
         router.push("/");
       }
     } else {
@@ -90,6 +98,7 @@ const Login = () => {
     }
   };
   return (
+    
     <>
       <section className="bg-light-theme dark:bg-dark-theme ">
         <div className="flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
