@@ -5,6 +5,7 @@ import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
+import { fetchUserData} from "@/store/userInfoSlice";
 
 const Login = () => {
   useEffect(()=>{
@@ -16,7 +17,7 @@ const Login = () => {
   const router = useRouter();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
   const validateEmail = new RegExp(
     /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/
   );
@@ -95,7 +96,7 @@ const Login = () => {
           isClosable: true,
         });
       } else if (response.status == 201) {
-        disptach(userToken(res.token))
+        dispatch(userToken(res.token))
         toast({
           title: res.message,
           status: "success",
@@ -107,7 +108,8 @@ const Login = () => {
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
         );
-        disptach(login(true));
+        dispatch(login(true));
+        dispatch(fetchUserData(res.token))
         localStorage.setItem("expiryDate", expiryDate.toISOString());
         setAutoLogout(remainingMilliseconds);
         router.push("/");

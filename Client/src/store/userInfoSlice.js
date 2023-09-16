@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { BASE_URL } from "../../helper/helper";
 
 const initialState = {
   userInfo: {},
@@ -11,7 +12,6 @@ export const userInfoSlice = createSlice({
   reducers: {
     info(state, action) {
       state.userInfo = action.payload;
-      console.log(state.userInfo)
     },
     cart(state, action) {
       state.userCart = action.payload;
@@ -19,7 +19,29 @@ export const userInfoSlice = createSlice({
   },
 });
 
+export const fetchUserData = (token) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(BASE_URL + "my-account", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Fetch Failed");
+      }
+      const data = await response.json();
+      return data;
+    };
 
+    const data = await fetchData();
+    const email = data.email;
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const user = { email, firstName, lastName };
+    dispatch(info(user));
+  };
+};
 
 export const { info, cart } = userInfoSlice.actions;
 
