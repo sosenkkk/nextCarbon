@@ -141,7 +141,6 @@ export default function MainNagivation(props) {
         <div
           className="hidden md:block"
         >
-
           <ThemeButton />
         </div>
       </Navbar.Collapse>

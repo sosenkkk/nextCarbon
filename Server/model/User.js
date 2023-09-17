@@ -9,10 +9,10 @@ const userSchema = new Schema({
   lastName: { type: String, default: "User" },
   phoneNo: { type: Number },
   cart: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Products",
-    },
+    // {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Products",
+    // },
   ],
 });
 

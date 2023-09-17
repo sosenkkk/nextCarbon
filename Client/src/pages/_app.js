@@ -11,14 +11,15 @@ import { fetchUserData } from "@/store/userInfoSlice";
 function App({ Component, pageProps }) {
 
   const dispatch = useDispatch()
-   
+   let token;
   useEffect(()=>{
-    const token = localStorage.getItem("token")
+    token = localStorage.getItem("token")
     if(token){
+      console.log("aa")
       dispatch(login(true))
       dispatch(fetchUserData(token))
     }
-  }, [dispatch])
+  }, [dispatch, token])
 
   return (
     <ThemeProvider enableSystem={true} attribute="class">

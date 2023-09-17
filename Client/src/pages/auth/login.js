@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
 import { fetchUserData} from "@/store/userInfoSlice";
-
+import { info } from "@/store/userInfoSlice";
 const Login = () => {
   useEffect(()=>{
     if(localStorage.getItem("token")){
@@ -26,6 +26,9 @@ const Login = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
+    dispatch(login(false));
+    dispatch(userToken({}));
+    dispatch(info({}))
     router.push('/')
   };
   
@@ -104,7 +107,7 @@ const Login = () => {
         });
         localStorage.setItem("token", res.token)
         localStorage.setItem("userId", res.userId)
-        const remainingMilliseconds = 60 * 60 * 1000;
+        const remainingMilliseconds = 60* 60 * 1000;
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
         );
