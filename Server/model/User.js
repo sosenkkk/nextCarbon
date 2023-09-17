@@ -8,6 +8,9 @@ const userSchema = new Schema({
   firstName: { type: String, default: "New" },
   lastName: { type: String, default: "User" },
   phoneNo: { type: Number },
+  profile:{
+    type:String, default:" "
+  },
   cart: [
     // {
     //   type: Schema.Types.ObjectId,

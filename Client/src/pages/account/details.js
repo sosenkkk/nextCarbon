@@ -1,14 +1,50 @@
 import { useSelector } from "react-redux";
-
+import { useRef, useState } from "react";
 export default function Details() {
-  const userInfo = useSelector(state=>state.user.userInfo)
-  console.log(userInfo)
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const profileRef = useRef();
+  const changeProfileHandler=()=>{
+    profileRef.current.click();
+  }
+  
+
+  const changeDetailHandler=(event)=>{
+    event.preventDefault();
+    console.log(profileRef.current.files[0])
+  }
   return (
     <>
-      <div className=" p-8 pt-20 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full" style={{minHeight:"100vh"}}>
-        <form className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md  p-4 sm:p-12 md:p-16 ">
+      <div className=" p-8 pt-28 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full flex align-center justify-around w-full">
+        <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md max-w-lg p-4 sm:p-12 md:p-16 w-full">
           <div className="grid gap-6 mb-6 md:grid-cols-2">
-            <div>
+            {!userInfo.profile && (
+              <div className="col-span-2">
+                <label className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
+                  Upload your Profile Photo
+                </label>
+                <div className="pfp_container">
+                  <input type="file"  style={{ display: "none" }} ref={profileRef} />
+                  <img
+                    onClick={changeProfileHandler}
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+                    alt="default_pfp"
+                  />
+                </div>
+              </div>
+            )}
+            {/* {userInfo.profile && (
+              <div className="col-span-2">
+                <label className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
+                  Your Profile Photo
+                </label>
+                <div className="pfp_container">
+                <input type="file" style={{ display: "none" }} />
+
+                  <img src={userInfo.profile} alt="user_pfp" />
+                </div>
+              </div>
+            )} */}
+            <div className="col-span-2 sm:col-span-1">
               <label
                 htmlFor="first_name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -20,10 +56,10 @@ export default function Details() {
                 id="first_name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 placeholder={userInfo.firstName}
-                required
+                
               />
             </div>
-            <div>
+            <div className="col-span-2 sm:col-span-1">
               <label
                 htmlFor="last_name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -35,10 +71,10 @@ export default function Details() {
                 id="last_name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 placeholder={userInfo.lastName}
-                required
+                
               />
             </div>
-            
+
             {/* <div>
               <label
                 htmlFor="phone"
@@ -54,9 +90,8 @@ export default function Details() {
                 
               />
             </div> */}
-           
           </div>
-          <div className="mb-6">
+          <div className="mb-6 col-span-2 sm:col-span-1">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -69,10 +104,10 @@ export default function Details() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder={userInfo.email}
               readOnly
-              style={{cursor:"not-allowed"}}
+              style={{ cursor: "not-allowed" }}
             />
           </div>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -84,7 +119,7 @@ export default function Details() {
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
-              required
+              
             />
           </div>
           <div className="mb-6">
@@ -99,7 +134,7 @@ export default function Details() {
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
-              required
+              
             />
           </div>
           <div className="mb-6">
@@ -114,13 +149,13 @@ export default function Details() {
               id="confirm_password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
-              required
+              
             />
-          </div>
+          </div> */}
 
           <button
             type="submit"
-            className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-80 px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+            className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
           >
             Submit
           </button>

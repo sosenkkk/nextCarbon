@@ -109,7 +109,7 @@ export default function NewNavbar() {
             <div>
               <button
                 className="navlinkWhite text-left dark:text-white"
-                
+                onClick={logoutHandler}
               >
                 Logout
               </button>
