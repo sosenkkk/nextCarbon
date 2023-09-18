@@ -41,6 +41,7 @@ function App({ Component, pageProps }) {
     const userId = localStorage.getItem("userId");
     const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
     dispatch(login(true));
+    dispatch(userToken(token));
     dispatch(fetchUserData(token));
     setAutoLogout(remainingMilliseconds);
   }, [dispatch]);

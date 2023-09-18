@@ -1,6 +1,12 @@
 const User = require("../model/User");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
 
+cloudinary.config({
+  cloud_name: `drlqa8duh`,
+  api_key:`858762281996182`,
+  api_secret:`Dh5ROsG7lszeA85kUPLVwuupOkA`,
+})
 
 exports.accountInfo = async (req, res, next) => {
   try {
@@ -27,3 +33,23 @@ exports.accountInfo = async (req, res, next) => {
     next();
   }
 };
+
+exports.editInfo=async( req , res, next)=>{
+  const uploadedFile = req.files.image;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const userId = req.userId;
+  cloudinary.uploader.upload(uploadedFile.tempFilePath,{folder: "carbon"}, async(err, result)=>{
+    if(err){
+      console.log(err)
+    }else{
+      const imageUrl = result.url;
+      const user = await User.findById(userId);
+      user.profile = imageUrl;
+      user.firstName = firstName;
+      user.lastName = lastName;
+      const updatedUser = await user.save();
+      res.status(200).json({message:"user Updated"})
+    }
+  })
+}

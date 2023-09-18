@@ -8,8 +8,10 @@ const userSchema = new Schema({
   firstName: { type: String, default: "New" },
   lastName: { type: String, default: "User" },
   phoneNo: { type: Number },
-  profile:{
-    type:String, default:" "
+  profile: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/drlqa8duh/image/upload/v1695057776/ce8ft1g5enngqb1ninkb.jpg",
   },
   cart: [
     // {

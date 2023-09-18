@@ -1,23 +1,41 @@
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import ProfilePicture from "../../../components/account/profilePicture";
+import { BASE_URL } from "../../../helper/helper";
 export default function Details() {
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log(userInfo)
-  const profileRef = useRef();
-  const changeProfileHandler=()=>{
-    profileRef.current.click();
-  }
+  const [profileImage, setProfileImage]= useState(null);
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const token = useSelector((state)=> state.auth.userToken)
   
+  const imageSelect=(file)=>{
+    if(file){
+      setProfileImage(file)
+    }
+  }
 
-  const changeDetailHandler=(event)=>{
+  const changeDetailHandler=async(event)=>{
     event.preventDefault();
-    console.log(profileRef.current.files[0])
+    const formData = new FormData();
+    formData.append('firstName',firstNameRef.current.value);
+    formData.append('lastName',lastNameRef.current.value);
+    formData.append('image', profileImage)
+    const response = await fetch(BASE_URL + "edit-info", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer "+ token
+      },
+      body: formData,
+    });
+    const res = await response.json()
+    console.log(res);
+    
   }
   return (
     <>
-      <div className=" p-8 pt-28 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full flex align-center justify-around w-full">
-        <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md max-w-lg p-4 sm:p-12 md:p-16 w-full">
+      <div className="p-8 pt-28 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full flex align-center justify-around w-full">
+        <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md max-w-xl p-4 sm:p-12 md:p-16 w-full">
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             {/* {!userInfo.profile && (
               <div className="col-span-2">
@@ -34,8 +52,7 @@ export default function Details() {
                 </div>
               </div>
             )} */}
-            {userInfo.profile && <ProfilePicture imgSrc = {userInfo.profile} />}
-            {!userInfo.profile && <ProfilePicture imgSrc = {"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} />}
+       <ProfilePicture imgSrc = {userInfo.profile}  onImageSelect={imageSelect}/>
             
             <div className="col-span-2 sm:col-span-1">
               <label
@@ -47,9 +64,9 @@ export default function Details() {
               <input
                 type="text"
                 id="first_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 placeholder={userInfo.firstName}
-                
+                ref={ firstNameRef}
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
@@ -62,9 +79,9 @@ export default function Details() {
               <input
                 type="text"
                 id="last_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 placeholder={userInfo.lastName}
-                
+                ref={ lastNameRef}
               />
             </div>
 
@@ -78,7 +95,7 @@ export default function Details() {
               <input
                 type="tel"
                 id="phone"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 placeholder="XXXXXXXXXX"
                 
               />
@@ -94,7 +111,7 @@ export default function Details() {
             <input
               type="email"
               id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder={userInfo.email}
               readOnly
               style={{ cursor: "not-allowed" }}
@@ -110,7 +127,7 @@ export default function Details() {
             <input
               type="password"
               id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
               
             />
@@ -125,7 +142,7 @@ export default function Details() {
             <input
               type="password"
               id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
               
             />
@@ -140,7 +157,7 @@ export default function Details() {
             <input
               type="password"
               id="confirm_password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
               placeholder="•••••••••"
               
             />

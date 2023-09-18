@@ -15,6 +15,7 @@ function ProfilePicture(props) {
         setSelectedImage(reader.result);
       };
       reader.readAsDataURL(file);
+      props.onImageSelect(file);
     }
   };
 
