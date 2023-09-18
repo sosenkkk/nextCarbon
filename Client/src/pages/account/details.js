@@ -34,8 +34,9 @@ export default function Details() {
   }
   return (
     <>
-      <div className="p-8 pt-28 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full flex align-center justify-around w-full">
-        <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md max-w-xl p-4 sm:p-12 md:p-16 w-full">
+     <div className="min-h-screen bg-[#fff] dark:bg-[#111111]">
+            <div className="p-8 pt-28 md:pt-24  flex align-center justify-around w-full h-100">
+        <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-xl max-w-xl p-4 sm:p-12 md:p-16 w-full">
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             {/* {!userInfo.profile && (
               <div className="col-span-2">
@@ -171,6 +172,8 @@ export default function Details() {
           </button>
         </form>
       </div>
+      </div>
+
     </>
   );
 }

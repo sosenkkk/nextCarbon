@@ -3,13 +3,13 @@ import Link from "next/link";
 export default function Card(props) {
   return (
     <>
-      <div className="max-w-sm bg-gray-100 border border-teal-500 rounded-lg shadow dark:bg-[#252525] cardComponent">
+      <div className="max-w-sm bg-[#fff]  rounded-lg shadow-xl dark:bg-[#252525] cardComponent">
         <Link href="#">
           <img className="rounded-t-lg" src="/img/white.jpg" alt="" />
         </Link>
         <div className="p-5">
           <Link href="#">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-700 dark:text-gray-300">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-teal-700 dark:text-teal-500">
               {props.title}
             </h5>
           </Link>

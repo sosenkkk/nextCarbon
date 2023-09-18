@@ -11,18 +11,18 @@ export default function Home() {
       <FrontPart />
       <div>
         <Carosel className="holder " />
-        <div className="bg-white dark:bg-[#252525]">
+        <div className="bg-[#f7f7f7]  dark:bg-[#171717]">
           <hr className=" ruler__front" />
         </div>
         <ProductHolder />
-        <div className="bg-white dark:bg-[#252525]">
+        <div className="bg-[#f7f7f7] dark:bg-[#171717]">
           <hr id="secondRuler" className=" ruler__front" />
         </div>
 
         <CardHolder />
       </div>
       <div id="footerContainer">
-        <footer className="bg-gray-100 dark:bg-[#2f2f2d]">
+        <footer className="bg-gray-200 dark:bg-[#252525]">
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div className="md:flex md:justify-between">
               <div className="mb-6 md:mb-0">
@@ -42,7 +42,7 @@ export default function Home() {
                   <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-gray-300">
                     Resources
                   </h2>
-                  <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                  <ul className="text-gray-600 dark:text-gray-400 font-medium">
                     <li className="mb-4">
                       <Link href="/" className="hover:underline">
                         Carbon
@@ -59,7 +59,7 @@ export default function Home() {
                   <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-gray-300">
                     Follow us
                   </h2>
-                  <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                  <ul className="text-gray-600 dark:text-gray-400 font-medium">
                     <li className="mb-4">
                       <Link
                         href="https://github.com/themesberg/Carbon"
@@ -82,7 +82,7 @@ export default function Home() {
                   <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-gray-300">
                     Legal
                   </h2>
-                  <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                  <ul className="text-gray-600 dark:text-gray-400 font-medium">
                     <li className="mb-4">
                       <Link href="#" className="hover:underline">
                         Privacy Policy
@@ -97,7 +97,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+            <hr className="my-6 border-teal-500 sm:mx-auto dark:border-teal-700 lg:my-8" />
             <div className="sm:flex sm:items-center sm:justify-between">
               <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                 © 2023{" "}

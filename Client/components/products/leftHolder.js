@@ -5,10 +5,10 @@ export default function LeftProductHolder() {
   
   return (
     <div className="skeletonHolder " style={{ alignSelf: "flex-end" }}>
-      <div className="flex  flex-col items-center bg-gray-50 border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-[#252525] dark:hover:bg-gray-800  productSkeleton">
+      <div className="flex  flex-col items-center bg-gray-100  rounded-lg shadow-xl md:flex-row   dark:bg-[#252525]  productSkeleton">
         <div className="flex flex-col justify-between p-4 leading-normal hidden md:block">
         <Section>
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-700 dark:text-gray-100  productHeader">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-teal-700 dark:text-teal-500  productHeader">
               Noteworthy technology acquisitions 2021
             </h5>
           </Section>
