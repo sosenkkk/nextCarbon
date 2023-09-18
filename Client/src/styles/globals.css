@@ -203,7 +203,8 @@
 
 .pfp_container img{
   width:100%;
-  max-width:150px;
+  width:150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
   margin:0 auto;

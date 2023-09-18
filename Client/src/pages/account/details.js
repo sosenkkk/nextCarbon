@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import ProfilePicture from "../../../components/account/profilePicture";
 export default function Details() {
   const userInfo = useSelector((state) => state.user.userInfo);
+  console.log(userInfo)
   const profileRef = useRef();
   const changeProfileHandler=()=>{
     profileRef.current.click();
@@ -17,7 +19,7 @@ export default function Details() {
       <div className=" p-8 pt-28 md:pt-24 bg-[#fff] dark:bg-[#252525] h-full flex align-center justify-around w-full">
         <form onSubmit={changeDetailHandler} action="#" className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-md max-w-lg p-4 sm:p-12 md:p-16 w-full">
           <div className="grid gap-6 mb-6 md:grid-cols-2">
-            {!userInfo.profile && (
+            {/* {!userInfo.profile && (
               <div className="col-span-2">
                 <label className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
                   Upload your Profile Photo
@@ -31,19 +33,10 @@ export default function Details() {
                   />
                 </div>
               </div>
-            )}
-            {/* {userInfo.profile && (
-              <div className="col-span-2">
-                <label className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
-                  Your Profile Photo
-                </label>
-                <div className="pfp_container">
-                <input type="file" style={{ display: "none" }} />
-
-                  <img src={userInfo.profile} alt="user_pfp" />
-                </div>
-              </div>
             )} */}
+            {userInfo.profile && <ProfilePicture imgSrc = {userInfo.profile} />}
+            {!userInfo.profile && <ProfilePicture imgSrc = {"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} />}
+            
             <div className="col-span-2 sm:col-span-1">
               <label
                 htmlFor="first_name"

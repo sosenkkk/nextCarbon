@@ -17,6 +17,7 @@ exports.accountInfo = async (req, res, next) => {
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
           cart: userInfo.cart,
+          profile: userInfo.profile
         });
     } else {
       res.status(404).json({ message: "Some Error Happened, User not found" });

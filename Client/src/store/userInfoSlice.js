@@ -37,7 +37,8 @@ export const fetchUserData = (token) => {
     const firstName = data.firstName;
     const lastName = data.lastName;
     const userCart = data.cart;
-    const user = { email, firstName, lastName, userCart };
+    const profile = data.profile;
+    const user = { email, firstName, lastName, userCart, profile };
     dispatch(info(user));
   };
 };
