@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../helper/helper";
-import { useRouter } from "next/router";
 
 const initialState = {
   userInfo: {},
@@ -29,9 +28,6 @@ export const fetchUserData = (token) => {
           Authorization: "Bearer " + token,
         },
       });
-      if (!response.ok) {
-        useRouter().push('/')
-      }
       const data = await response.json();
       return data;
     };

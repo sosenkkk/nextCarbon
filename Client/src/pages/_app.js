@@ -5,21 +5,46 @@ import { wrapper } from "@/store/store";
 import { ChakraProvider } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { BASE_URL } from "../../helper/helper";
-import { login } from "@/store/authSlice";
-import { fetchUserData } from "@/store/userInfoSlice";
-function App({ Component, pageProps }) {
+import { login, userToken } from "@/store/authSlice";
+import { fetchUserData, info } from "@/store/userInfoSlice";
+import { useRouter } from "next/router";
 
-  const dispatch = useDispatch()
-   let token;
-  useEffect(()=>{
-    token = localStorage.getItem("token")
-    if(token){
-      console.log("aa")
-      dispatch(login(true))
-      dispatch(fetchUserData(token))
+function App({ Component, pageProps }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  let token;
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiryDate");
+    localStorage.removeItem("userId");
+    dispatch(login(false));
+    dispatch(userToken({}));
+    dispatch(info({}));
+    router.push("/");
+  };
+
+  const setAutoLogout = (milliseconds) => {
+    setTimeout(() => {
+      logoutHandler();
+    }, milliseconds);
+  };
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    const expiryDate = localStorage.getItem("expiryDate");
+    if (!token || !expiryDate) {
+      return;
     }
-  }, [dispatch, token])
+    if (new Date(expiryDate) <= new Date()) {
+      logoutHandler();
+      return;
+    }
+    const userId = localStorage.getItem("userId");
+    const remainingMilliseconds =
+      new Date(expiryDate).getTime() - new Date().getTime();
+    dispatch(login(true));
+    dispatch(fetchUserData(token));
+    setAutoLogout(remainingMilliseconds);
+  }, [dispatch]);
 
   return (
     <ThemeProvider enableSystem={true} attribute="class">
