@@ -1,14 +1,19 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import ProfilePicture from "../../../components/account/profilePicture";
 import { BASE_URL } from "../../../helper/helper";
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { info } from "@/store/userInfoSlice";
 export default function Details() {
   const userInfo = useSelector((state) => state.user.userInfo);
   const [profileImage, setProfileImage]= useState(null);
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const token = useSelector((state)=> state.auth.userToken)
-  
+  const toast = useToast()
+  const dispatch = useDispatch()
+  const router = useRouter()
   const imageSelect=(file)=>{
     if(file){
       setProfileImage(file)
@@ -21,16 +26,29 @@ export default function Details() {
     formData.append('firstName',firstNameRef.current.value);
     formData.append('lastName',lastNameRef.current.value);
     formData.append('image', profileImage)
-    const response = await fetch(BASE_URL + "edit-info", {
+    const result = await fetch(BASE_URL + "edit-info", {
       method: "POST",
       headers: {
         Authorization: "Bearer "+ token
       },
       body: formData,
     });
-    const res = await response.json()
-    console.log(res);
-    
+    const response = await result.json()
+    if (response.status == 433) {
+      router.push("/account/details");
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
+    } else if (response.status == 201) {
+      toast({
+        title: res.message,
+        status: "success",
+        isClosable: true,
+      });
+      router.push('/account')
+    }
   }
   return (
     <>

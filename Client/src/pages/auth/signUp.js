@@ -93,8 +93,7 @@ const SignUp = (props) => {
         }
         ;
       }else{
-        router.push("/auth/signup");
-
+        router.push("/auth/signUp");
       }
     
   };

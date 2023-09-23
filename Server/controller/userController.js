@@ -41,6 +41,7 @@ exports.editInfo=async( req , res, next)=>{
   const userId = req.userId;
   cloudinary.uploader.upload(uploadedFile.tempFilePath,{folder: "carbon"}, async(err, result)=>{
     if(err){
+      res.status(433).json({ message: "Some error occured. Try again" });
       console.log(err)
     }else{
       const imageUrl = result.url;
@@ -49,7 +50,7 @@ exports.editInfo=async( req , res, next)=>{
       user.firstName = firstName;
       user.lastName = lastName;
       const updatedUser = await user.save();
-      res.status(200).json({message:"user Updated"})
+      res.status(201).json({message:"User Updated"})
     }
   })
 }
