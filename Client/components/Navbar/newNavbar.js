@@ -57,7 +57,7 @@ export default function NewNavbar() {
           <div>
             <Link
               className="navlinkWhite dark:text-white"
-              href="/"
+              href="/about-us"
               
             >
               About

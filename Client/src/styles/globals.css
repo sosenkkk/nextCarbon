@@ -236,7 +236,48 @@
   max-height: 50vh;
   min-height: 300px;
   object-fit: cover;
+  width: 100%;
  }
+
+.imageAbout{
+  min-width: 50%;
+  max-height: 500px ;
+  /* height: 100%; */
+}
+
+.imageAbout img{
+  border-radius: 12px;
+  height: 100%;
+  object-fit:cover;
+  width: 100%;
+  
+}
+
+.aboutUsTitle{
+  font-family: 'Oswald', sans-serif;
+  font-size: 3.5rem;
+  position: absolute;
+  top:250px;
+  font-weight:900;
+  left: 50%;
+  transform:translate(-50%, -50%);
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .1em solid rgb(9, 90, 114);
+  white-space: nowrap; /* Keeps the content on a single line */
+  animation: 
+    typing 2.2s steps(13, end),
+    blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width:210px }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgb(9,90,114); }
+}
 
  @media  screen and (max-width:768px) {
   .productSkeleton a{
@@ -250,7 +291,16 @@
    .accountButtons{
     width: 90%;
    }
+
+   .imageAbout {
+    width:100%;
+   }
+   .imageAbout img{
+    max-height: 400px;
+   }
    
  }
+
+
 
 

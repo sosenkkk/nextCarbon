@@ -57,7 +57,7 @@ export default function MainNagivation(props) {
         </Link>
         <Link
            className="navlinkWhite dark:text-white"
-          href="/"
+          href="/about-us"
           style={{
             fontSize: "1.2rem",
             paddingTop: "4px",
