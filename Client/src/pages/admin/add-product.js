@@ -5,7 +5,6 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ProductImage from "../../../components/products/productImage";
 export default function AddProduct() {
-  const userInfo = useSelector((state) => state.user.userInfo);
   const [productImage, setProductImage] = useState(null);
   const productModelRef = useRef();
   const productNameRef = useRef();
@@ -92,7 +91,6 @@ export default function AddProduct() {
                   type="text"
                   id="first_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-                  placeholder={userInfo.firstName}
                   ref={productModelRef}
                 />
               </div>
@@ -107,7 +105,6 @@ export default function AddProduct() {
                   type="text"
                   id="last_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-                  placeholder={userInfo.lastName}
                   ref={productNameRef}
                 />
               </div>

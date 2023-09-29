@@ -28,7 +28,7 @@ function ProductImage(props) {
         <input
           type="file"
           accept="image/*"
-          className="dark:text-white text-black mb-2 "
+          className="dark:text-white text-black mb-2 w-full"
           ref={profileRef}
           onChange={handleImageChange}
         />

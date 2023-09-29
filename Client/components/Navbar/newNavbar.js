@@ -29,7 +29,7 @@ export default function NewNavbar() {
   return (
     <div className="fixed top-0 z-50 w-full firefox:bg-opacity-90 dark:bg-white navbar">
       <div className="flex justify-between shadow-md" style={{padding : "1.5rem 2rem"}}>
-        <div className="flex align-center">
+        <Link href="/" className="flex align-center"> 
           <img
             src="/img/carbonLogo.png"
             className=" h-6 self-center mr-3"
@@ -38,7 +38,8 @@ export default function NewNavbar() {
           <p className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             Carbon
           </p>
-        </div>
+        </Link>
+        
         <div className="flex self-center items-center md:hidden gap-2 text-black dark:text-white">
           <Hamburger duration={0.4} size={20} toggle={hiddenHandler} rounded label="Show Menu" toggled={!collapse}/>
           <ThemeButton />
