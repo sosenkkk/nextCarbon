@@ -4,9 +4,9 @@ const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: `drlqa8duh`,
-  api_key:`858762281996182`,
-  api_secret:`Dh5ROsG7lszeA85kUPLVwuupOkA`,
-})
+  api_key: `858762281996182`,
+  api_secret: `Dh5ROsG7lszeA85kUPLVwuupOkA`,
+});
 
 exports.accountInfo = async (req, res, next) => {
   try {
@@ -15,16 +15,14 @@ exports.accountInfo = async (req, res, next) => {
       _id: new mongoose.Types.ObjectId(userId),
     });
     if (userInfo) {
-      res
-        .status(202)
-        .json({
-          message: "User data found!",
-          email: userInfo.email,
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          cart: userInfo.cart,
-          profile: userInfo.profile
-        });
+      res.status(202).json({
+        message: "User data found!",
+        email: userInfo.email,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        cart: userInfo.cart,
+        profile: userInfo.profile,
+      });
     } else {
       res.status(404).json({ message: "Some Error Happened, User not found" });
     }
@@ -34,23 +32,46 @@ exports.accountInfo = async (req, res, next) => {
   }
 };
 
-exports.editInfo=async( req , res, next)=>{
-  const uploadedFile = req.files.image;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+exports.editInfo = async (req, res, next) => {
+  let uploadedFile = null;
+  let firstName = req.body.firstName;;
+  let lastName = req.body.lastName;;
   const userId = req.userId;
-  cloudinary.uploader.upload(uploadedFile.tempFilePath,{folder: "carbon"}, async(err, result)=>{
-    if(err){
-      res.status(433).json({ message: "Some error occured. Try again" });
-      console.log(err)
-    }else{
-      const imageUrl = result.url;
-      const user = await User.findById(userId);
-      user.profile = imageUrl;
+
+  if (req.files) {
+    uploadedFile = req.files.image;
+    cloudinary.uploader.upload(
+      uploadedFile.tempFilePath,
+      { folder: "carbon" },
+      async (err, result) => {
+        if (err) {
+          res.status(433).json({ message: "Some error occured. Try again" });
+          console.log(err);
+        } else {
+          const imageUrl = result.url;
+          const user = await User.findById(userId);
+          user.profile = imageUrl;
+          
+          if (firstName.trim().length > 0) {
+            user.firstName = firstName;
+          }
+          if (lastName.trim().length > 0) {
+            user.lastName = lastName;
+          }
+          const updatedUser = await user.save();
+          res.status(201).json({ message: "User Updated" });
+        }
+      }
+    );
+  } else {
+    const user = await User.findById(userId);
+    if (firstName.trim().length > 0) {
       user.firstName = firstName;
-      user.lastName = lastName;
-      const updatedUser = await user.save();
-      res.status(201).json({message:"User Updated"})
     }
-  })
-}
+    if (lastName.trim().length > 0) {
+      user.lastName = lastName;
+    }
+    const updatedUser = await user.save();
+    res.status(201).json({ message: "User Updated" });
+  }
+};

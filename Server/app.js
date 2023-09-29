@@ -6,6 +6,7 @@ const session = require("express-session");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes")
 const MongoDBStore = require("connect-mongodb-session")(session);
 const path = require("path")
 
@@ -44,6 +45,8 @@ app.use((req, res, next) => {
 });
 
 app.use(authRoutes);
+
+app.use(adminRoutes)
 
 app.use(userRoutes);
 
