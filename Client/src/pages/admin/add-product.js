@@ -9,6 +9,7 @@ export default function AddProduct() {
   const productModelRef = useRef();
   const productNameRef = useRef();
   const modelNumberRef = useRef();
+  const priceRef = useRef();
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const router = useRouter();
@@ -23,20 +24,28 @@ export default function AddProduct() {
     }
     return false;
   };
+  const priceValidationHandler = (price) => {
+    if (isNaN(price)) {
+      return false;
+    }
+    return true;
+  };
   const changeDetailHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     const productModel = productModelRef.current.value;
     const productModelNumber = modelNumberRef.current.value;
     const productName = productNameRef.current.value;
+    const productPrice = priceRef.current.value;
     const validation =
       validationHandler(productModel) &&
       validationHandler(productName) &&
       validationHandler(productModelNumber);
-    if (validation && productImage) {
+    if (validation && productImage && priceValidationHandler(productPrice)) {
       formData.append("productModel", productModel);
       formData.append("productName", productName);
       formData.append("productModelNumber", productModelNumber);
+      formData.append("productPrice", productPrice);
       formData.append("image", productImage);
       const result = await fetch(BASE_URL + "add-product", {
         method: "POST",
@@ -61,6 +70,13 @@ export default function AddProduct() {
         });
         router.push("/admin/add-product");
       }
+    } else if (validation && !priceValidationHandler(productPrice)) {
+      toast({
+        title: "Enter a valid price.",
+        status: "error",
+        isClosable: true,
+      });
+      router.push("/admin/add-product");
     } else {
       toast({
         title: "All fields should be filled.",
@@ -121,6 +137,20 @@ export default function AddProduct() {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
                 ref={modelNumberRef}
+              />
+            </div>
+            <div className=" mb-6 col-span-2 ">
+              <label
+                htmlFor="price"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Product price
+              </label>
+              <input
+                ttype="number"
+                id="price"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                ref={priceRef}
               />
             </div>
 

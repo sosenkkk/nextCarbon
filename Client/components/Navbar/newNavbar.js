@@ -151,7 +151,7 @@ export default function NewNavbar() {
             </Link>
             <Link
               className="navlinkWhite dark:text-white"
-              href="/"
+              href="/products"
               style={{
                 fontSize: "1.2rem",
                 paddingTop: "4px",
@@ -160,7 +160,7 @@ export default function NewNavbar() {
               }}
               onClick={hiddenHandler}
             >
-              Pricing
+              Products
             </Link>
           {!isAuth && (
               <Link
