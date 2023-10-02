@@ -37,8 +37,6 @@ export default function MainNagivation(props) {
       </Navbar.Brand>
       <div className="flex self-center items-center md:hidden gap-2">
         <Navbar.Toggle />
-       
-
         <ThemeButton />
       </div>
 

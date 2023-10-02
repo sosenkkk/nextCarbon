@@ -43,6 +43,7 @@ export default function NewNavbar() {
         <div className="flex self-center items-center md:hidden gap-2 text-black dark:text-white">
           <Hamburger duration={0.4} size={20} toggle={hiddenHandler} rounded label="Show Menu" toggled={!collapse}/>
           <ThemeButton />
+          
         </div>
 
         <div className="hidden md:flex gap-6">

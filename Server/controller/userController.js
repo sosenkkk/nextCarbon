@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const Product = require("../model/Product")
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
@@ -75,3 +76,9 @@ exports.editInfo = async (req, res, next) => {
     res.status(201).json({ message: "User Updated" });
   }
 };
+
+
+exports.getProducts = async(req, res, next)=>{
+  const products = await Product.find();
+  res.status(201).json({message: "Products fetched Successfully", products: products})
+}
