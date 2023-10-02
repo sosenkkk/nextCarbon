@@ -67,10 +67,10 @@ export default function NewNavbar() {
           <div>
             <Link
               className="navlinkWhite dark:text-white"
-              href="/"
+              href="/products"
               
             >
-              Pricing
+              Products
             </Link>
           </div>
           {!isAuth && (

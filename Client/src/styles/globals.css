@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Maven+Pro&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Maven+Pro&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-   font-family: 'Maven Pro', sans-serif;;
+* {
+  font-family: "Maven Pro", sans-serif;
 }
 
 .navbar {
@@ -15,18 +15,16 @@
   min-height: 4.5rem;
 }
 
-
-
 .imageSlider {
   height: 100vh;
   width: 100%;
   object-fit: cover;
 }
 
-.buttonTog{
+.buttonTog {
   opacity: 0.7;
 }
-.buttonTog:hover{
+.buttonTog:hover {
   opacity: 1;
 }
 
@@ -38,47 +36,53 @@
   background-size: cover;
 }
 
-.navlinkWhite{
+.navlinkWhite {
   opacity: 0.65;
   font-size: 1.2rem;
 }
 
-.mobileNavbar{
+.mobileNavbar {
   border-bottom: 2px solid;
   animation: moveit 700ms ease forwards;
 }
 
 @keyframes moveit {
-  0% { transform: translateY(-60px) ; }
-  25% { transform: translateY(20px) ; }
-  50% { transform: translateY(-2px) ; }
-  100% { transform: translateY(0px) ; }
+  0% {
+    transform: translateY(-60px);
+  }
+  25% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
-
-@keyframes trans{
-  0%{
+@keyframes trans {
+  0% {
     transform: translateY(-80px);
   }
-  85%{
+  85% {
     transform: translateY(20px);
-
   }
-  100%{
-    transform: translateY(0px)
+  100% {
+    transform: translateY(0px);
   }
 }
 
-.navlinkWhite:hover{
-   opacity: 1;
+.navlinkWhite:hover {
+  opacity: 1;
 }
 
-.mainContainer{
+.mainContainer {
   padding: 4rem;
 }
 
-.mainContainer h1{
-  font-family: 'Oswald', sans-serif;
+.mainContainer h1 {
+  font-family: "Oswald", sans-serif;
   font-size: 3.5rem;
   text-align: right;
 }
@@ -91,9 +95,9 @@
   border: none;
   margin-top: 0.7rem;
   background: none;
- }
+}
 
- .caroselText{
+.caroselText {
   position: absolute;
   bottom: 1.5rem;
   color: white;
@@ -101,9 +105,9 @@
   font-size: 1rem;
   left: 50%;
   transform: translateX(-50%);
- }
- 
- .hoverButton:before {
+}
+
+.hoverButton:before {
   content: "";
   position: absolute;
   top: 0;
@@ -114,18 +118,18 @@
   width: 45px;
   height: 45px;
   transition: all 0.3s ease;
- }
- 
- .hoverButton span {
+}
+
+.hoverButton span {
   position: relative;
   font-family: "Ubuntu", sans-serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05em;
   color: #234567;
- }
- 
- .hoverButton svg {
+}
+
+.hoverButton svg {
   position: relative;
   top: 0;
   margin-left: 10px;
@@ -136,86 +140,85 @@
   stroke-width: 2;
   transform: translateX(-5px);
   transition: all 0.3s ease;
- }
- 
- .hoverButton:hover:before {
+}
+
+.hoverButton:hover:before {
   width: 100%;
   background: #69b8d0;
- }
- 
- .hoverButton:hover svg {
-  transform: translateX(0);
- }
- 
- .hoverButton:active {
-  transform: scale(0.95);
- }
+}
 
- .cardComponentHolder{
+.hoverButton:hover svg {
+  transform: translateX(0);
+}
+
+.hoverButton:active {
+  transform: scale(0.95);
+}
+
+.cardComponentHolder {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items:center;
-  padding: 3rem 0; 
- }
- .cardComponentHolder .cardComponent{
+  align-items: center;
+  padding: 3rem 0;
+}
+.cardComponentHolder .cardComponent {
   min-width: 250px;
   margin: 1rem;
- }
+}
 
- .productHolder{
+.productHolder {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   padding-top: 2rem;
- }
- .skeletonHolder{
+}
+.skeletonHolder {
   padding: 1rem;
   width: 90%;
- }
- 
+}
 
- .productSkeleton a{
+.productSkeleton a {
   min-width: 50%;
   object-fit: cover;
- }
+}
 
- .productSkeleton a img{
+.productSkeleton a img {
   max-height: 600px;
- }
+}
 
- .productHeader{
+.productHeader {
   border-bottom: 1px solid;
- }
+}
 
- .ruler__front {
+.ruler__front {
   border: none;
   border-bottom: 1rem dashed rgb(28, 127, 127);
-  padding:1.5rem 3rem;
+  padding: 1.5rem 3rem;
   width: 40%;
   min-width: 100px;
   margin: auto;
 }
-#secondRuler{
-  position:relative;
-  top:0.5rem;
+#secondRuler {
+  position: relative;
+  top: 0.5rem;
 }
 
-.pfp_container img{
-  width:100%;
-  width:150px;
+.pfp_container img {
+  width: 100%;
+  width: 150px;
   height: 150px;
   object-fit: cover;
   border-radius: 50%;
-  margin:0 auto;
+  margin: 0 auto;
   cursor: pointer;
 }
 
-.accountContainer{
+.accountContainer {
   align-items: center;
- }
+}
 
- .accountButtons{
+.accountButtons {
   flex: 1 0 45%;
   min-width: 260px;
   min-height: 70px;
@@ -225,90 +228,186 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
- }
+}
 
- .accountButtons:hover{
+.accountButtons:hover {
   transform: scale(1.02);
   box-shadow: 0 8px 8px -9px rgb(12, 12, 12);
- }
+}
 
- .imageObject{
+.imageObject {
   max-height: 50vh;
   min-height: 300px;
   object-fit: cover;
   width: 100%;
- }
+}
 
-.imageAbout{
+.imageAbout {
   min-width: 50%;
-  max-height: 500px ;
+  max-height: 500px;
   /* height: 100%; */
 }
 
-.imageAbout img{
+.imageAbout img {
   border-radius: 12px;
   height: 100%;
-  object-fit:cover;
+  object-fit: cover;
   width: 100%;
-  
 }
 
-.aboutUsTitle{
-  font-family: 'Oswald', sans-serif;
+.aboutUsTitle {
+  font-family: "Oswald", sans-serif;
   font-size: 3.5rem;
   position: absolute;
-  top:250px;
-  font-weight:900;
+  top: 250px;
+  font-weight: 900;
   left: 50%;
-  transform:translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .1em solid rgb(9, 90, 114);
+  border-right: 0.1em solid rgb(9, 90, 114);
   white-space: nowrap; /* Keeps the content on a single line */
-  animation: 
-    typing 2.2s steps(13, end),
-    blink-caret .75s step-end infinite;
+  animation: typing 2.2s steps(13, end), blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width:210px }
+  from {
+    width: 0;
+  }
+  to {
+    width: 210px;
+  }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: rgb(9,90,114); }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(9, 90, 114);
+  }
 }
 
-.productImageContainer img{
-  width:100%;
-  width:170px;
+.productImageContainer img {
+  width: 100%;
+  width: 170px;
   height: 170px;
   object-fit: cover;
   cursor: pointer;
 }
 
- @media  screen and (max-width:768px) {
-  .productSkeleton a{
+.productContainer {
+  transition: 250ms;
+}
+.productContainer:hover {
+  transform: scale(1.01);
+}
+
+.productImage {
+  max-height: 350px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.productName {
+  padding: 1rem 1.5rem;
+}
+
+.productprice {
+  padding-top: 1.3rem;
+}
+
+.cartBtn {
+  width: 140px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background-color: rgb(84, 207, 65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 0.5s;
+  overflow: hidden;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+  position: relative;
+}
+
+.cartIconContainer {
+  position: absolute;
+  left: -50px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+  transition-duration: 0.5s;
+}
+
+.cartBtn .icon {
+  border-radius: 1px;
+}
+
+.cartBtn .text {
+  height: 100%;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(240, 240, 240);
+  z-index: 1;
+  transition-duration: 0.5s;
+  font-size: 1.04em;
+  font-weight: 600;
+}
+
+.cartBtn:hover .cartIconContainer {
+  transform: translateX(55px);
+  border-radius: 40px;
+  transition-duration: 0.5s;
+}
+
+.cartBtn:hover .text {
+  transform: translate(10px, 0px);
+  transition-duration: 0.5s;
+}
+
+.cartBtn:active {
+  transform: scale(0.95);
+  transition-duration: 0.5s;
+}
+
+@media screen and (max-width: 768px) {
+  .productSkeleton a {
     width: 100%;
   }
-  .skeletonHolder{
+  .skeletonHolder {
     padding: 1rem;
     width: 100%;
-   }
+  }
 
-   .accountButtons{
+  .accountButtons {
     width: 90%;
-   }
+  }
 
-   .imageAbout {
-    width:100%;
-   }
-   .imageAbout img{
+  .imageAbout {
+    width: 100%;
+  }
+  .imageAbout img {
     max-height: 400px;
-   }
-   
- }
+  }
+}
 
-
-
-
+@media screen and (max-width: 368px) {
+  .productName {
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+  }
+  .productprice span {
+    font-size: 1.6rem;
+  }
+}
