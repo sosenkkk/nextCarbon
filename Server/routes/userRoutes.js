@@ -8,6 +8,8 @@ router.get('/my-account', isAuth,  userController.accountInfo )
 
 router.post('/edit-info', isAuth, userController.editInfo)
 
+router.post('/contact-us', isAuth, userController.contactUs)
+
 router.get('/products', userController.getProducts)
 
 module.exports = router;

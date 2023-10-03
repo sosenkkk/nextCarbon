@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const Message = require("../model/Contacts");
 const Product = require("../model/Product")
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
@@ -82,3 +83,23 @@ exports.getProducts = async(req, res, next)=>{
   const products = await Product.find();
   res.status(201).json({message: "Products fetched Successfully", products: products})
 }
+
+exports.contactUs = async (req, res, next) => {
+  try{
+    const message = req.body.message;
+    const userId = req.userId;
+    const newMessage = await new Message({
+      message: message,
+      user:userId
+    });
+    const messageSave = await newMessage.save();
+    res.status(201).json({message:"Message sent successfully."})
+  
+  }catch(err){
+    console.log(err)
+    res.status(433).json({message:"Message not sent due to some error."})
+  }
+}
+
+// const populateMessage = await Message.findOne({_id: messageSave._id}).populate('user').exec();
+// console.log(populateMessage)

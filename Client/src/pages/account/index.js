@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import Modal from "../../../components/Modal";
+import { useRouter } from "next/router";
+import { BASE_URL } from "../../../helper/helper";
 
 export default function Account() {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -11,14 +13,12 @@ export default function Account() {
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
 
-  // const dispatch = useDispatch();
-  // const router = useRouter();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const validationHandler = (firstName, lastName, image) => {
-    if (firstName.trim().length == 0 && lastName.trim().length == 0) {
-      if (!image) {
-        return false;
-      }
+  const validationHandler = (message) => {
+    if (message.trim().length < 10) {
+      return false;
     }
     return true;
   };
@@ -35,26 +35,22 @@ export default function Account() {
 
   const contactHandler = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    const validation = validationHandler(
-      firstNameRef.current.value,
-      lastNameRef.current.value,
-      profileImage
-    );
+    const message = messageRef.current.value;
+    const validation = validationHandler(message);
     if (validation) {
-      formData.append("firstName", firstNameRef.current.value);
-      formData.append("lastName", lastNameRef.current.value);
-      formData.append("image", profileImage);
-      const response = await fetch(BASE_URL + "edit-info", {
+      const response = await fetch(BASE_URL + "contact-us", {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
-        body: formData,
+        body:JSON.stringify({
+          message: message
+        }) 
       });
       const res = await response.json();
+      console.log(res)
       if (response.status == 433) {
-        router.push("/account/details");
         toast({
           title: res.message,
           status: "error",
@@ -66,19 +62,16 @@ export default function Account() {
           status: "success",
           isClosable: true,
         });
-        dispatch(fetchUserData(token));
-        router.push("/account");
+        closeModal();
       }
     } else {
-      router.push("/account/details");
       toast({
-        title: "Nothing is Changed",
+        title: "Message too short. Atleast 10 characters long.",
         status: "error",
         isClosable: true,
       });
     }
   };
-
 
   return (
     <>
