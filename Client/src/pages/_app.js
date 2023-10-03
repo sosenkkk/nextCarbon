@@ -6,7 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
-import { fetchUserData, info } from "@/store/userInfoSlice";
+import { fetchUserCart, fetchUserData, info } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
 
 function App({ Component, pageProps }) {
@@ -43,6 +43,7 @@ function App({ Component, pageProps }) {
     dispatch(login(true));
     dispatch(userToken(token));
     dispatch(fetchUserData(token));
+    dispatch(fetchUserCart(token));
     setAutoLogout(remainingMilliseconds);
   }, [dispatch]);
 

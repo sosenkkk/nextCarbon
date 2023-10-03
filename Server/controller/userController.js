@@ -101,5 +101,31 @@ exports.contactUs = async (req, res, next) => {
   }
 }
 
+exports.postCart = async (req, res, next) => {
+  try{
+    const prodId = req.body.productId;
+    const userId = req.userId;
+    const product = await Product.findById(prodId);
+    const user = await User.findOne({_id: userId});
+    const updateduser = user.addToCart(product);
+    res.status(201).json({message:"Added to cart"})
+    
+  }catch(err){
+    console.log(err)
+    res.status(433).json({message:"Item not added to cart"})
+   }
+}
+
+exports.getCart = async (req, res, next) => {
+  const userId = req.userId;
+  const user = await User.findOne({_id: userId}).populate("cart.productId").then((user) => {
+    const products = user.cart;
+    res.status(201).json({products: products})
+  }).catch(err=>{
+    next(err);
+  });;
+
+};
+
 // const populateMessage = await Message.findOne({_id: messageSave._id}).populate('user').exec();
 // console.log(populateMessage)

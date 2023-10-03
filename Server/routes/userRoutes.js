@@ -10,6 +10,10 @@ router.post('/edit-info', isAuth, userController.editInfo)
 
 router.post('/contact-us', isAuth, userController.contactUs)
 
+router.post('/cart', isAuth, userController.postCart)
+
+router.get('/cart', isAuth, userController.getCart)
+
 router.get('/products', userController.getProducts)
 
 module.exports = router;

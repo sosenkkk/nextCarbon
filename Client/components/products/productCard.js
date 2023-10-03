@@ -1,6 +1,10 @@
 import Link from "next/link";
 
 export default function ProductCard(props) {
+
+  const cartButtonHandler=()=>{
+    props.onAddCart(props.id)
+  }
   return (
     <>
       <div className="w-full max-w-sm bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
@@ -22,7 +26,7 @@ export default function ProductCard(props) {
             <span className="text-3xl font-bold  text-gray-800 dark:text-gray-200">
               {props.price}
             </span>
-            <button className="cartBtn">
+            <button onClick={cartButtonHandler} className="cartBtn">
               <span className="cartIconContainer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

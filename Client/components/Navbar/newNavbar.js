@@ -1,4 +1,3 @@
-import { Navbar } from "flowbite-react";
 import Link from "next/link";
 import ThemeButton from "./themeToggler";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +6,7 @@ import { login } from "@/store/authSlice";
 import { info } from "@/store/userInfoSlice";
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
+import CartButton from "../cart/cartButton";
 
 export default function NewNavbar() {
   const [collapse, setcollapse] = useState(true);
@@ -43,7 +43,6 @@ export default function NewNavbar() {
         <div className="flex self-center items-center md:hidden gap-2 text-black dark:text-white">
           <Hamburger duration={0.4} size={20} toggle={hiddenHandler} rounded label="Show Menu" toggled={!collapse}/>
           <ThemeButton />
-          
         </div>
 
         <div className="hidden md:flex gap-6">

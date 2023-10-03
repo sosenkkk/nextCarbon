@@ -12,7 +12,6 @@ export const userInfoSlice = createSlice({
   reducers: {
     info(state, action) {
       state.userInfo = action.payload;
-      state.userCart= action.payload.userCart;
     },
     cart(state, action) {
       state.userCart = action.payload;
@@ -40,6 +39,23 @@ export const fetchUserData = (token) => {
     const profile = data.profile;
     const user = { email, firstName, lastName, userCart, profile };
     dispatch(info(user));
+  };
+};
+
+export const fetchUserCart = (token) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(BASE_URL + "cart", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const data = await response.json();
+      return data;
+    };
+
+    const data = await fetchData();
+    dispatch(cart(data.products));
   };
 };
 

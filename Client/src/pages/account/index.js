@@ -17,7 +17,7 @@ export default function Account() {
   const router = useRouter();
 
   const validationHandler = (message) => {
-    if (message.trim().length < 10) {
+    if (message.trim().length < 6) {
       return false;
     }
     return true;
@@ -66,7 +66,7 @@ export default function Account() {
       }
     } else {
       toast({
-        title: "Message too short. Atleast 10 characters long.",
+        title: "Message too short. Atleast 6 characters long.",
         status: "error",
         isClosable: true,
       });
