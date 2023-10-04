@@ -5,8 +5,8 @@ import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
-import { fetchUserData} from "@/store/userInfoSlice";
-import { info } from "@/store/userInfoSlice";
+import { fetchUserCart, fetchUserData} from "@/store/userInfoSlice";
+import { info, cart } from "@/store/userInfoSlice";
 const Login = () => {
   useEffect(()=>{
     if(localStorage.getItem("token")){
@@ -114,6 +114,7 @@ const Login = () => {
         );
         dispatch(login(true));
         dispatch(fetchUserData(res.token))
+        dispatch(fetchUserCart(res.token))
         localStorage.setItem("expiryDate", expiryDate.toISOString());
         setAutoLogout(remainingMilliseconds);
         router.push("/");

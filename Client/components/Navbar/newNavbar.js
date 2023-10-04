@@ -3,7 +3,7 @@ import ThemeButton from "./themeToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { login } from "@/store/authSlice";
-import { info } from "@/store/userInfoSlice";
+import { info, cart } from "@/store/userInfoSlice";
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
@@ -20,6 +20,7 @@ export default function NewNavbar() {
     hiddenHandler();
     dispatch(login(false));
     dispatch(info({}));
+    dispatch(cart([]))
     router.push("/");
   };
 
@@ -43,6 +44,10 @@ export default function NewNavbar() {
         <div className="flex self-center items-center md:hidden gap-2 text-black dark:text-white">
           <Hamburger duration={0.4} size={20} toggle={hiddenHandler} rounded label="Show Menu" toggled={!collapse}/>
           <ThemeButton />
+          {isAuth && (
+          <CartButton />
+
+          )}
         </div>
 
         <div className="hidden md:flex gap-6">
@@ -116,7 +121,11 @@ export default function NewNavbar() {
               </button>
             </div>
           )}
-
+          {isAuth && (
+            <CartButton />
+          
+          )}
+          
           <ThemeButton />
         </div>
       </div>

@@ -382,6 +382,32 @@
   transition-duration: 0.5s;
 }
 
+
+
+
+#cartButton .text {
+  transition: 250ms;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 18px;
+  padding: 0 6px;
+  background: #2f7b8b;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  position: absolute;
+  font-weight: 700;
+  top:20px;
+  opacity:1;
+
+}
+
+
+
+.bump {
+  transform: scale(1.1);
+}
+
 @media screen and (max-width: 768px) {
   .productSkeleton a {
     width: 100%;
@@ -400,6 +426,9 @@
   }
   .imageAbout img {
     max-height: 400px;
+  }
+  #cartButton .text {
+    top:30px;
   }
 }
 
