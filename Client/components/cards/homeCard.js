@@ -16,7 +16,7 @@ export default function Card(props) {
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
             {props.children}
           </p>
-          <Link
+          {/* <Link
             href="#"
             className="inline-flex items-center px-3 text-sm font-medium text-center  hoverButton"
           >
@@ -25,7 +25,7 @@ export default function Card(props) {
               <path d="M1,5 L11,5"></path>
               <polyline points="8 1 12 5 8 9"></polyline>
             </svg>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>

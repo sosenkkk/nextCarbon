@@ -3,8 +3,6 @@ import Carosel from "./../../components/Layout/carosel";
 import CardHolder from "../../components/cards/cardHolder";
 import ProductHolder from "../../components/products/productHolder";
 import Link from "next/link";
-import Footer from './../../components/footer/footer';
-
 export default function Home() {
 
   return (
@@ -22,9 +20,8 @@ export default function Home() {
 
         <CardHolder />
       </div>
-        
-        {/* <Footer /> */}
-        <footer className="bg-gray-200 dark:bg-[#252525]">
+
+      <footer className="bg-gray-200 dark:bg-[#252525]">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -204,6 +201,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
+    
+        
         
     </>
   );

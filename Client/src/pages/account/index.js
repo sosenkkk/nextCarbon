@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import Modal from "../../../components/Modal";
 import { useRouter } from "next/router";
 import { BASE_URL } from "../../../helper/helper";
+import Footer from "../../../components/footer/footer";
 
 export default function Account() {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -75,7 +76,7 @@ export default function Account() {
 
   return (
     <>
-      <div className="w-full bg-[#fff] h-screen dark:bg-[#171717] dark:text-gray-200 pt-32 p-8 md:p-24">
+      <div className="w-full bg-[#fff]  dark:bg-[#171717] dark:text-gray-200 pt-32 p-8 md:p-24">
         <div className=" text-center sm:text-left">
           <h1 className="text-3xl ">Hello {userInfo.firstName}!</h1>
           <Link className="md:text-xl hover:underline" href="/account/details">
@@ -157,6 +158,7 @@ export default function Account() {
           </div>
         </div>
       </div>
+
     </>
   );
 }

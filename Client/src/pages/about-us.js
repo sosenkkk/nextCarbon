@@ -67,11 +67,9 @@ export default function AboutUs() {
                   </div>
                 </Section>
               </div>
-           
-
-            < Footer/>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

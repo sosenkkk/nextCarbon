@@ -2,6 +2,7 @@ import { useState } from "react";
 import Script from "next/script";
 import React from "react";
 import NewNavbar from "../Navbar/newNavbar";
+import Footer from "../footer/footer";
 
 function Layout(props) {
   const [auth, setauth] = useState(false)

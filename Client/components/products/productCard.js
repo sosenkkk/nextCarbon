@@ -7,7 +7,7 @@ export default function ProductCard(props) {
   }
   return (
     <>
-      <div className="w-full max-w-sm bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
+      <div className="w-full bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
         <Link href="/products">
           <img className=" rounded-t-lg productImage" src={props.image} alt="product image" />
         </Link>

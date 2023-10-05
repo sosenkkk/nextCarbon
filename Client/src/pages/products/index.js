@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserCart } from "@/store/userInfoSlice";
+import CartButton from "../../../components/cart/cartButton";
 
 export default function Products() {
   const [productPage, setproductPage] = useState(1);
@@ -39,8 +40,7 @@ export default function Products() {
   return (
     <>
 
-      <div className=" pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] grid grid-cols-1 p-4 sm:px-8 md:grid-cols-2 gap-4 lg:grid-cols-3 justify-items-center gap-y-8 ">
-        
+      <div className=" pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020]  p-4 sm:px-8  gap-4   gap-y-8 productContainerHolder">
         {products.map((product) => (
           <ProductCard
             image={product.productImage}
