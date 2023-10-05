@@ -7,7 +7,7 @@ import { fetchUserCart } from "@/store/userInfoSlice";
 import Modal from "../../../components/Modal";
 
 import Link from "next/link";
-export default function Cart() {
+export default function PlaceOrder() {
   const cart = useSelector((state) => state.user.userCart);
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
@@ -47,7 +47,7 @@ export default function Cart() {
     setModalOpen(false);
   };
   const goToPlaceOrder =()=>{
-    router.push('/account/place-order')
+    router.push('/')
   }
   const deleteFromCartHandler = async (event) => {
     const id = event.target.id.toString();

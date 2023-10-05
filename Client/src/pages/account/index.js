@@ -105,7 +105,7 @@ export default function Account() {
               onClick={openModal}
               description="Order related or any query."
             />
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="768px">
               <form
                 onSubmit={contactHandler}
                 action="#"

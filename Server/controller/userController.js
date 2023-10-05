@@ -88,26 +88,27 @@ exports.getProducts = async (req, res, next) => {
 exports.deleteFromCart = async (req, res, next) => {
   try {
     const cartId = req.params.cartId;
-  const userId = req.userId;
-  const user = await User.findOne({ _id: userId });
-  user.removeFromCart(cartId)
-  // console.log(user.cart.length)
-
-  // const cart = user.cart;
-  // const updatedCart = cart.filter((p)=> {
-  //   return p._id.toString() != cartId.toString()
-  // } )
-  // user.cart = [...updatedCart];
-  // const updatedUser = await user.save();
-  res.status(201).json({message:"Item deleted from cart!"})
+    const userId = req.userId;
+    const user = await User.findOne({ _id: userId });
+    user.removeFromCart(cartId);
+    res.status(201).json({ message: "Item deleted from cart!" });
   } catch (error) {
-    console.log(error)
-    res.status(433).json({message:"Unable to update cart"})
-
+    console.log(error);
+    res.status(433).json({ message: "Unable to update cart" });
   }
-  
 };
 
+exports.deleteCart = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findOne({ _id: userId });
+    user.clearCart();
+    res.status(201).json({ message: "Cart Deleted!" });
+  } catch (error) {
+    console.log(error);
+    res.status(433).json({ message: "Unable to delete cart!" });
+  }
+};
 exports.contactUs = async (req, res, next) => {
   try {
     const message = req.body.message;
@@ -153,22 +154,26 @@ exports.getCart = async (req, res, next) => {
 
 exports.getTotal = async (req, res, next) => {
   const userId = req.userId;
-  try{
-    let totalPrice=0, totalQuantity=0;
+  try {
+    let totalPrice = 0,
+      totalQuantity = 0;
     const user = await User.findOne({ _id: userId }).populate("cart.productId");
-   
-    
-      const products = user.cart;
-      products.forEach(product=>{
-        totalPrice = totalPrice + product.productId.productPrice*product.quantity;
-        totalQuantity = totalQuantity + product.quantity;
-      })
-      res.status(201).json({message:"Successfully fetched cart.", totalPrice: totalPrice, totalQuantity: totalQuantity})
-  }catch(err){
+
+    const products = user.cart;
+    products.forEach((product) => {
+      totalPrice =
+        totalPrice + product.productId.productPrice * product.quantity;
+      totalQuantity = totalQuantity + product.quantity;
+    });
+    res
+      .status(201)
+      .json({
+        message: "Successfully fetched cart.",
+        totalPrice: totalPrice,
+        totalQuantity: totalQuantity,
+      });
+  } catch (err) {
     console.log(err);
-    res.status(404).json({message:"Internal Error! Unable to fetch cart."})
+    res.status(404).json({ message: "Internal Error! Unable to fetch cart." });
   }
-  
 };
-
-

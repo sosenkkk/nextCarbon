@@ -18,6 +18,8 @@ router.get('/total', isAuth, userController.getTotal)
 
 router.get('/products', userController.getProducts)
 
+router.get('/delete-cart', isAuth, userController.deleteCart)
+
 router.get('/delete/:cartId', isAuth, userController.deleteFromCart)
 
 module.exports = router;

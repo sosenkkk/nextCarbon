@@ -1,13 +1,13 @@
 import { AiFillCloseCircle } from "react-icons/ai";
 import React from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, maxWidth }) => {
   return (
     <>
       {isOpen && (
         <>
           <div className="modal" onClick={onClose}></div>
-          <div className="modal-content">
+          <div className="modal-content" style={{maxWidth:maxWidth}}>
             <div className="close text-teal-700  dark:text-teal-500">
             <AiFillCloseCircle size="1.8rem"  onClick={onClose} />
             </div>
@@ -30,11 +30,8 @@ const Modal = ({ isOpen, onClose, children }) => {
         }
 
         .modal-content {
-          background-color: #fff;
           z-index:150;
-
           width:90%;
-          max-width:768px;
           border-radius: 8px;
           box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
           position: fixed;

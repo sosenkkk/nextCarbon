@@ -327,6 +327,7 @@
   border-radius: 12px;
   border: none;
   background-color: #42b7b0;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -410,6 +411,14 @@
 
 
 #orderBtn{
+  margin: 0.7rem auto;
+  width: 200px;
+  font-size: 1.2rem;
+  height: 2.2rem;
+}
+
+#clearBtn{
+  background-color:#F24C3D;
   margin: 0.7rem auto;
   width: 200px;
   font-size: 1.2rem;
