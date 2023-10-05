@@ -411,19 +411,15 @@
 
 
 #orderBtn{
-  margin: 0.7rem auto;
-  width: 200px;
+  margin-top: 0.7rem ;
+  width: 20rem;
   font-size: 1.2rem;
   height: 2.2rem;
+  border-radius:0;
+  font-weight:500;
 }
 
-#clearBtn{
-  background-color:#F24C3D;
-  margin: 0.7rem auto;
-  width: 200px;
-  font-size: 1.2rem;
-  height: 2.2rem;
-}
+
 
 .bump {
   transform: scale(1.1);
@@ -436,6 +432,9 @@
   .skeletonHolder {
     padding: 1rem;
     width: 100%;
+  }
+  #orderBtn{
+    width:200px;
   }
 
   .accountButtons {
