@@ -85,6 +85,29 @@ exports.getProducts = async (req, res, next) => {
     .json({ message: "Products fetched Successfully", products: products });
 };
 
+exports.deleteFromCart = async (req, res, next) => {
+  try {
+    const cartId = req.params.cartId;
+  const userId = req.userId;
+  const user = await User.findOne({ _id: userId });
+  user.removeFromCart(cartId)
+  // console.log(user.cart.length)
+
+  // const cart = user.cart;
+  // const updatedCart = cart.filter((p)=> {
+  //   return p._id.toString() != cartId.toString()
+  // } )
+  // user.cart = [...updatedCart];
+  // const updatedUser = await user.save();
+  res.status(201).json({message:"Item deleted from cart!"})
+  } catch (error) {
+    console.log(error)
+    res.status(433).json({message:"Unable to update cart"})
+
+  }
+  
+};
+
 exports.contactUs = async (req, res, next) => {
   try {
     const message = req.body.message;

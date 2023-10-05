@@ -4,6 +4,7 @@ import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserCart } from "@/store/userInfoSlice";
 import CartButton from "../../../components/cart/cartButton";
+import Footer from "../../../components/footer/footer";
 
 export default function Products() {
   const [productPage, setproductPage] = useState(1);
@@ -54,6 +55,7 @@ export default function Products() {
           />
         ))}
       </div>
+      <Footer/>
     </>
   );
 }

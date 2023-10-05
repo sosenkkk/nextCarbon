@@ -1,12 +1,15 @@
 import { BASE_URL } from "../../../helper/helper";
 import {useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { fetchUserCart } from "@/store/userInfoSlice";
 
 export default function Cart() {
   const cart = useSelector((state) => state.user.userCart);
+  const token = useSelector((state)=>state.auth.userToken)
   const toast = useToast();
+  const dispatch = useDispatch();
   const [total, setTotal] = useState({})
   const router = useRouter();
   useEffect(()=>{
@@ -32,8 +35,27 @@ export default function Cart() {
       
     }
     totalAmount();
+  }, [cart])
 
-  }, [])
+  const deleteFromCartHandler=async(event)=>{
+    const id = event.target.id.toString();
+    const result= await fetch(BASE_URL+'delete/'+id,{
+      headers:{
+        Authorization:"Bearer "+ token,
+        "Content-Type":"application/json"
+      }
+    })
+    if(result.status == 201){
+      dispatch(fetchUserCart(token));
+
+    }else if(result.status == 433){
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
+    }
+  }
   return (
     <>
       <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#272727] p-4 sm:px-8  ">
@@ -60,13 +82,13 @@ export default function Cart() {
                   Price
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  <span className="sr-only">Edit</span>
+                  <span className="sr-only">Delete</span>
                 </th>
               </tr>
             </thead>
             <tbody>
               {cart.map((product) => (
-                <tr key={product.productId._id} className="bg-white border-b dark:bg-[#171717] dark:border-[#111]">
+                <tr key={product.productId._id}  className="bg-white border-b dark:bg-[#171717] dark:border-[#111]">
                   <th
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -83,10 +105,11 @@ export default function Cart() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button
-                      href="/"
+                      onClick={deleteFromCartHandler}
+                      id={product._id}
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                     >
-                      Edit
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -106,7 +129,9 @@ export default function Cart() {
         </tfoot>
           </table>
         </div>
+        <button className="cartBtn text-white" id="orderBtn" >Order!</button>
       </div>
+
     </>
   );
 }

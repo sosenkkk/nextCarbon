@@ -158,7 +158,7 @@ export default function Account() {
           </div>
         </div>
       </div>
-
+      <Footer />
     </>
   );
 }

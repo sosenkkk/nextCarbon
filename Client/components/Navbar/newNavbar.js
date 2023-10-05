@@ -46,7 +46,7 @@ export default function NewNavbar() {
           <Hamburger duration={0.4} size={20} toggle={hiddenHandler} rounded label="Show Menu" toggled={!collapse}/>
           <ThemeButton />
           <Link href="/account/my-cart" className="buttonTog p-1"> 
-            <BsHandbagFill />
+            {isAuth && <BsHandbagFill />}
 
           </Link>
         </div>
