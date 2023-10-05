@@ -4,6 +4,7 @@ import { BASE_URL } from "../../helper/helper";
 const initialState = {
   userInfo: {},
   userCart: [],
+  
 };
 
 export const userInfoSlice = createSlice({
@@ -16,6 +17,7 @@ export const userInfoSlice = createSlice({
     cart(state, action) {
       state.userCart = action.payload;
     },
+    
   },
 });
 
@@ -53,11 +55,12 @@ export const fetchUserCart = (token) => {
       const data = await response.json();
       return data;
     };
-
     const data = await fetchData();
     dispatch(cart(data.products));
   };
 };
+
+
 
 export const { info, cart } = userInfoSlice.actions;
 

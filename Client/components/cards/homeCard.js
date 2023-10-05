@@ -16,16 +16,7 @@ export default function Card(props) {
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
             {props.children}
           </p>
-          {/* <Link
-            href="#"
-            className="inline-flex items-center px-3 text-sm font-medium text-center  hoverButton"
-          >
-            <span className="dark:text-gray-200">Read more</span>
-            <svg viewBox="0 0 13 10" height="10px" width="15px" >
-              <path d="M1,5 L11,5"></path>
-              <polyline points="8 1 12 5 8 9"></polyline>
-            </svg>
-          </Link> */}
+          
         </div>
       </div>
     </>

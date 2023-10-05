@@ -1,20 +1,111 @@
 import { BASE_URL } from "../../../helper/helper";
+import {useEffect, useState } from "react"
 import { useSelector } from "react-redux";
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export default function Cart() {
-  
-  const cart = useSelector((state)=>(state.user.userCart))
-  
-  
-  console.log(cart)
+  const cart = useSelector((state) => state.user.userCart);
+  const toast = useToast();
+  const [total, setTotal] = useState({})
+  const router = useRouter();
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    const totalAmount = async()=>{
+      const result = await fetch(BASE_URL +"total", {
+        headers:{
+          Authorization:"Bearer "+ token,
+          "Content-Type":"application/json"
+        }
+      })
+      const res = await result.json();
+      if(result.status == 201){
+        setTotal({price: res.totalPrice, quantity:res.totalQuantity});
+      }else{
+        router.push("/account");
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
+      
+    }
+    totalAmount();
+
+  }, [])
   return (
     <>
+      <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#272727] p-4 sm:px-8  ">
+        <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <caption className="p-5 text-lg font-semibold text-left text-gray-800 bg-white dark:text-gray-200 dark:bg-[#171717]">
+              Your Cart
+              <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+                Products added in your cart.
+              </p>
+            </caption>
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#111111] dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Product name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Model
+                </th>
+                <th scope="col" className="px-6 py-3">
+                Quantity
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  <span className="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((product) => (
+                <tr key={product.productId._id} className="bg-white border-b dark:bg-[#171717] dark:border-[#111]">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {product.productId.productName}
+                  </th>
+                  <td className="px-6 py-4">
+                    {product.productId.productModel}
+                  </td>
+                  
+                  <td className="px-6 py-4">{product.quantity}</td>
+                  <td className="px-6 py-4">
+                  ₹{product.productId.productPrice}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <button
+                      href="/"
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              
+            </tbody>
+            <tfoot className=" uppercase bg-gray-50 dark:bg-[#111111] ">
+            <tr className="font-semibold text-gray-800 dark:text-gray-300">
+                <th scope="row" className="px-6 py-3 text-base">Total</th>
+                <td className="px-6 py-3"></td>
+                <td className="px-6 py-3">{total.quantity}</td>
+                <td className="px-6 py-3">₹{total.price}</td>
+                <td className="px-6 py-3"></td>
 
-      <div className=" pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] grid grid-cols-1 p-4 sm:px-8 md:grid-cols-2 gap-4 lg:grid-cols-3 justify-items-center gap-y-8 ">
-        
-        {cart.map(product=>(
-          <li>{product.productId.productName}</li>
-        ))}
+                
+            </tr>
+        </tfoot>
+          </table>
+        </div>
       </div>
     </>
   );

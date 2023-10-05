@@ -14,6 +14,8 @@ router.post('/cart', isAuth, userController.postCart)
 
 router.get('/cart', isAuth, userController.getCart)
 
+router.get('/total', isAuth, userController.getTotal)
+
 router.get('/products', userController.getProducts)
 
 module.exports = router;

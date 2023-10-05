@@ -97,7 +97,7 @@ export default function Account() {
             />
             <AccountCard
               title="Cart"
-              link="/account/cart"
+              link="/account/my-cart"
               description="What's in your cart."
             />
             <AccountCard

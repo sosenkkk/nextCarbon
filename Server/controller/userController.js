@@ -1,6 +1,6 @@
 const User = require("../model/User");
 const Message = require("../model/Contacts");
-const Product = require("../model/Product")
+const Product = require("../model/Product");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
@@ -36,8 +36,8 @@ exports.accountInfo = async (req, res, next) => {
 
 exports.editInfo = async (req, res, next) => {
   let uploadedFile = null;
-  let firstName = req.body.firstName;;
-  let lastName = req.body.lastName;;
+  let firstName = req.body.firstName;
+  let lastName = req.body.lastName;
   const userId = req.userId;
 
   if (req.files) {
@@ -53,7 +53,7 @@ exports.editInfo = async (req, res, next) => {
           const imageUrl = result.url;
           const user = await User.findById(userId);
           user.profile = imageUrl;
-          
+
           if (firstName.trim().length > 0) {
             user.firstName = firstName;
           }
@@ -78,54 +78,74 @@ exports.editInfo = async (req, res, next) => {
   }
 };
 
-
-exports.getProducts = async(req, res, next)=>{
+exports.getProducts = async (req, res, next) => {
   const products = await Product.find();
-  res.status(201).json({message: "Products fetched Successfully", products: products})
-}
+  res
+    .status(201)
+    .json({ message: "Products fetched Successfully", products: products });
+};
 
 exports.contactUs = async (req, res, next) => {
-  try{
+  try {
     const message = req.body.message;
     const userId = req.userId;
     const newMessage = await new Message({
       message: message,
-      user:userId
+      user: userId,
     });
     const messageSave = await newMessage.save();
-    res.status(201).json({message:"Message sent successfully."})
-  
-  }catch(err){
-    console.log(err)
-    res.status(433).json({message:"Message not sent due to some error."})
+    res.status(201).json({ message: "Message sent successfully." });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Message not sent due to some error." });
   }
-}
+};
 
 exports.postCart = async (req, res, next) => {
-  try{
+  try {
     const prodId = req.body.productId;
     const userId = req.userId;
     const product = await Product.findById(prodId);
-    const user = await User.findOne({_id: userId});
+    const user = await User.findOne({ _id: userId });
     const updateduser = user.addToCart(product);
-    res.status(201).json({message:"Added to cart"})
-    
-  }catch(err){
-    console.log(err)
-    res.status(433).json({message:"Item not added to cart"})
-   }
-}
+    res.status(201).json({ message: "Added to cart" });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Item not added to cart" });
+  }
+};
 
 exports.getCart = async (req, res, next) => {
   const userId = req.userId;
-  const user = await User.findOne({_id: userId}).populate("cart.productId").then((user) => {
-    const products = user.cart;
-    res.status(201).json({products: products})
-  }).catch(err=>{
-    next(err);
-  });;
-
+  const user = await User.findOne({ _id: userId })
+    .populate("cart.productId")
+    .then((user) => {
+      const products = user.cart;
+      res.status(201).json({ products: products });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
-// const populateMessage = await Message.findOne({_id: messageSave._id}).populate('user').exec();
-// console.log(populateMessage)
+exports.getTotal = async (req, res, next) => {
+  const userId = req.userId;
+  try{
+    let totalPrice=0, totalQuantity=0;
+    const user = await User.findOne({ _id: userId }).populate("cart.productId");
+   
+    
+      const products = user.cart;
+      products.forEach(product=>{
+        totalPrice = totalPrice + product.productId.productPrice*product.quantity;
+        totalQuantity = totalQuantity + product.quantity;
+      })
+      res.status(201).json({message:"Successfully fetched cart.", totalPrice: totalPrice, totalQuantity: totalQuantity})
+  }catch(err){
+    console.log(err);
+    res.status(404).json({message:"Internal Error! Unable to fetch cart."})
+  }
+  
+};
+
+
