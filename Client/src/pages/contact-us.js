@@ -13,7 +13,7 @@ export default function ContactUs() {
 
   const dispatch = useDispatch();
   const router = useRouter();
-  
+
   const validationHandler = (firstName, lastName, image) => {
     if (firstName.trim().length == 0 && lastName.trim().length == 0) {
       if (!image) {
@@ -70,7 +70,6 @@ export default function ContactUs() {
   };
   return (
     <>
-
       <div className="min-h-screen bg-[#fff] dark:bg-[#111111]">
         <div className="p-8 pt-28 md:pt-24  flex align-center justify-around w-full h-100">
           <form
@@ -78,10 +77,10 @@ export default function ContactUs() {
             action="#"
             className="bg-[#f7f7f7] dark:bg-[#171717] rounded-lg shadow-xl max-w-xl p-4 pt-6 sm:py-8 sm:px-12   w-full"
           >
-            <h1 className="text-3xl sm:text-4xl text-gray-800 dark:text-gray-300 mb-4">Contact us</h1>
-            
+            <h1 className="text-3xl sm:text-4xl text-gray-800 dark:text-gray-300 mb-4">
+              Contact us
+            </h1>
 
-             
             <div className="mb-6 col-span-2 sm:col-span-1">
               <label
                 htmlFor="email"
@@ -113,7 +112,7 @@ export default function ContactUs() {
                 placeholder="What you wanna talk about?"
               />
             </div>
-            
+
             <button
               type="submit"
               className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
@@ -121,7 +120,6 @@ export default function ContactUs() {
               Submit
             </button>
           </form>
-          
         </div>
       </div>
     </>

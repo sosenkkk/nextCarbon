@@ -165,13 +165,11 @@ exports.getTotal = async (req, res, next) => {
         totalPrice + product.productId.productPrice * product.quantity;
       totalQuantity = totalQuantity + product.quantity;
     });
-    res
-      .status(201)
-      .json({
-        message: "Successfully fetched cart.",
-        totalPrice: totalPrice,
-        totalQuantity: totalQuantity,
-      });
+    res.status(201).json({
+      message: "Successfully fetched cart.",
+      totalPrice: totalPrice,
+      totalQuantity: totalQuantity,
+    });
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: "Internal Error! Unable to fetch cart." });

@@ -1,25 +1,24 @@
-const isAuth = require('../middleware/authMiddleware')
+const isAuth = require("../middleware/authMiddleware");
 const express = require("express");
-const userController = require("../controller/userController")
+const userController = require("../controller/userController");
 const router = express.Router();
 
+router.get("/my-account", isAuth, userController.accountInfo);
 
-router.get('/my-account', isAuth,  userController.accountInfo )
+router.post("/edit-info", isAuth, userController.editInfo);
 
-router.post('/edit-info', isAuth, userController.editInfo)
+router.post("/contact-us", isAuth, userController.contactUs);
 
-router.post('/contact-us', isAuth, userController.contactUs)
+router.post("/cart", isAuth, userController.postCart);
 
-router.post('/cart', isAuth, userController.postCart)
+router.get("/cart", isAuth, userController.getCart);
 
-router.get('/cart', isAuth, userController.getCart)
+router.get("/total", isAuth, userController.getTotal);
 
-router.get('/total', isAuth, userController.getTotal)
+router.get("/products", userController.getProducts);
 
-router.get('/products', userController.getProducts)
+router.get("/delete-cart", isAuth, userController.deleteCart);
 
-router.get('/delete-cart', isAuth, userController.deleteCart)
-
-router.get('/delete/:cartId', isAuth, userController.deleteFromCart)
+router.get("/delete/:cartId", isAuth, userController.deleteFromCart);
 
 module.exports = router;

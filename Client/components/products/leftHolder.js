@@ -2,12 +2,11 @@ import Link from "next/link";
 import Section from "../cards/Section";
 
 export default function LeftProductHolder() {
-  
   return (
     <div className="skeletonHolder " style={{ alignSelf: "flex-end" }}>
       <div className="flex  flex-col items-center bg-gray-100  rounded-lg shadow-xl md:flex-row   dark:bg-[#252525]  productSkeleton">
         <div className="flex flex-col justify-between p-4 leading-normal hidden md:block">
-        <Section>
+          <Section>
             <h5 className="mb-2 text-2xl font-bold tracking-tight  productHeader text-teal-700 dark:text-teal-500">
               Noteworthy technology acquisitions 2021
             </h5>

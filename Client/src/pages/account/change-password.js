@@ -5,7 +5,7 @@ import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 const ChangePassword = (props) => {
-  const userInfo = useSelector(state=>state.user.userInfo)
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const toast = useToast();
   const router = useRouter();
@@ -13,7 +13,6 @@ const ChangePassword = (props) => {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  
   const validatePasswordHandler = (password) => {
     if (password.trim().length > 5) {
       return true;
@@ -101,7 +100,7 @@ const ChangePassword = (props) => {
           <div className="w-full bg-[#f7f7f7] dark:bg-[#171717]  rounded-lg shadow-md  p-4 sm:max-w-xl  ">
             <div className="p-4 space-y-4  sm:p-8 sm:pt-4">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-800 md:text-2xl dark:text-gray-200">
-              Hello {userInfo.firstName} {userInfo.lastName} !
+                Hello {userInfo.firstName} {userInfo.lastName} !
               </h1>
               <form
                 className="space-y-4"
@@ -109,8 +108,9 @@ const ChangePassword = (props) => {
                 onSubmit={forgotPasswordHandler}
               >
                 <div>
-                  
-                  <h3 className="block mb-2  font-medium text-gray-900 dark:text-gray-300">{userInfo.email}</h3>
+                  <h3 className="block mb-2  font-medium text-gray-900 dark:text-gray-300">
+                    {userInfo.email}
+                  </h3>
                 </div>
                 <div>
                   <label

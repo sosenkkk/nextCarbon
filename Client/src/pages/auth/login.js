@@ -5,14 +5,14 @@ import { BASE_URL } from "../../../helper/helper";
 import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
-import { fetchUserCart, fetchUserData} from "@/store/userInfoSlice";
+import { fetchUserCart, fetchUserData } from "@/store/userInfoSlice";
 import { info, cart } from "@/store/userInfoSlice";
 const Login = () => {
-  useEffect(()=>{
-    if(localStorage.getItem("token")){
-      router.push('/')
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
     }
-  })
+  });
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -22,16 +22,16 @@ const Login = () => {
     /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/
   );
 
-  const  logoutHandler = () => {
+  const logoutHandler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
     dispatch(login(false));
     dispatch(userToken({}));
-    dispatch(info({}))
-    router.push('/')
+    dispatch(info({}));
+    router.push("/");
   };
-  
+
   const setAutoLogout = (milliseconds) => {
     setTimeout(() => {
       logoutHandler();
@@ -82,7 +82,7 @@ const Login = () => {
           password: enteredData.password,
         }),
       });
-      
+
       const res = await response.json();
 
       if (response.status == 433) {
@@ -100,21 +100,21 @@ const Login = () => {
           isClosable: true,
         });
       } else if (response.status == 201) {
-        dispatch(userToken(res.token))
+        dispatch(userToken(res.token));
         toast({
           title: res.message,
           status: "success",
           isClosable: true,
         });
-        localStorage.setItem("token", res.token)
-        localStorage.setItem("userId", res.userId)
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("userId", res.userId);
         const remainingMilliseconds = 60 * 60 * 1000;
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
         );
         dispatch(login(true));
-        dispatch(fetchUserData(res.token))
-        dispatch(fetchUserCart(res.token))
+        dispatch(fetchUserData(res.token));
+        dispatch(fetchUserCart(res.token));
         localStorage.setItem("expiryDate", expiryDate.toISOString());
         setAutoLogout(remainingMilliseconds);
         router.push("/");
@@ -124,7 +124,6 @@ const Login = () => {
     }
   };
   return (
-    
     <>
       <section className="bg-light-theme dark:bg-dark-theme ">
         <div className="flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">

@@ -16,7 +16,6 @@ export default function Card(props) {
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
             {props.children}
           </p>
-          
         </div>
       </div>
     </>

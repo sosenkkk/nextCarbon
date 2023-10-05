@@ -39,7 +39,8 @@ function App({ Component, pageProps }) {
       return;
     }
     const userId = localStorage.getItem("userId");
-    const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
+    const remainingMilliseconds =
+      new Date(expiryDate).getTime() - new Date().getTime();
     dispatch(login(true));
     dispatch(userToken(token));
     dispatch(fetchUserData(token));

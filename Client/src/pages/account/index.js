@@ -45,12 +45,12 @@ export default function Account() {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
-        body:JSON.stringify({
-          message: message
-        }) 
+        body: JSON.stringify({
+          message: message,
+        }),
       });
       const res = await response.json();
-      console.log(res)
+      console.log(res);
       if (response.status == 433) {
         toast({
           title: res.message,
@@ -114,7 +114,6 @@ export default function Account() {
                 <h1 className="text-3xl sm:text-4xl text-gray-800 dark:text-gray-300 mb-4">
                   Contact us
                 </h1>
-
                 <div className="mb-6 col-span-2 sm:col-span-1">
                   <label
                     htmlFor="email"

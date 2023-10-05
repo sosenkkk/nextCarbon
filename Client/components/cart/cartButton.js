@@ -17,16 +17,15 @@ export default function CartButton() {
   return (
     <>
       <div>
-        <Link href="/account/my-cart"
+        <Link
+          href="/account/my-cart"
           className=" text-gray-900 dark:text-white flex  "
           style={{ padding: "6px " }}
           id="cartButton"
         >
-            <BsHandbagFill className="buttonTog" fontSize={16} />
-          <span id="cartButtonBump" className="text opacity-100" >
+          <BsHandbagFill className="buttonTog" fontSize={16} />
+          <span id="cartButtonBump" className="text opacity-100">
             {cart.length}
-            
-          
           </span>
         </Link>
       </div>

@@ -7,9 +7,9 @@ const Modal = ({ isOpen, onClose, children, maxWidth }) => {
       {isOpen && (
         <>
           <div className="modal" onClick={onClose}></div>
-          <div className="modal-content" style={{maxWidth:maxWidth}}>
+          <div className="modal-content" style={{ maxWidth: maxWidth }}>
             <div className="close text-teal-700  dark:text-teal-500">
-            <AiFillCloseCircle size="1.8rem"  onClick={onClose} />
+              <AiFillCloseCircle size="1.8rem" onClick={onClose} />
             </div>
             {children}
           </div>
@@ -26,12 +26,12 @@ const Modal = ({ isOpen, onClose, children, maxWidth }) => {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index:100;
+          z-index: 100;
         }
 
         .modal-content {
-          z-index:150;
-          width:90%;
+          z-index: 150;
+          width: 90%;
           border-radius: 8px;
           box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
           position: fixed;
@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, children, maxWidth }) => {
         .close {
           position: absolute;
           top: -5px;
-          right:-5px;
+          right: -5px;
           cursor: pointer;
         }
       `}</style>

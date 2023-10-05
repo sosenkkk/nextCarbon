@@ -1,26 +1,31 @@
 import Link from "next/link";
 
 export default function ProductCard(props) {
-
-  const cartButtonHandler=()=>{
-    props.onAddCart(props.id)
-  }
+  const cartButtonHandler = () => {
+    props.onAddCart(props.id);
+  };
   return (
     <>
       <div className="w-full bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
         <Link href="/products">
-          <img className=" rounded-t-lg productImage" src={props.image} alt="product image" />
+          <img
+            className=" rounded-t-lg productImage"
+            src={props.image}
+            alt="product image"
+          />
         </Link>
         <div className="px-5 productName">
           <div className="flex justify-between items-center">
-          <Link href="#">
-            <h5 className="text-2xl hover:underline font-semibold tracking-tight text-gray-800 dark:text-gray-200">
-              {props.name}
-            </h5>
-          </Link>
-          <h6 className=" text-gray-500 dark:text-gray-400">{props.model}</h6>
+            <Link href="#">
+              <h5 className="text-2xl hover:underline font-semibold tracking-tight text-gray-800 dark:text-gray-200">
+                {props.name}
+              </h5>
+            </Link>
+            <h6 className=" text-gray-500 dark:text-gray-400">{props.model}</h6>
           </div>
-          <h6 className="text-sm text-gray-500 dark:text-gray-400">Model Number- {props.modelNo}</h6>
+          <h6 className="text-sm text-gray-500 dark:text-gray-400">
+            Model Number- {props.modelNo}
+          </h6>
 
           <div className="flex items-center justify-between sm:flex-col productprice">
             <span className="text-3xl font-bold  text-gray-800 dark:text-gray-200">

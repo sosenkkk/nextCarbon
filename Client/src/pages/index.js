@@ -4,7 +4,6 @@ import CardHolder from "../../components/cards/cardHolder";
 import ProductHolder from "../../components/products/productHolder";
 import Link from "next/link";
 export default function Home() {
-
   return (
     <>
       <FrontPart />
@@ -201,10 +200,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    
-        
-        
     </>
   );
 }
-

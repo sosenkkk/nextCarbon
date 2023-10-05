@@ -32,15 +32,13 @@ function ProductImage(props) {
           ref={profileRef}
           onChange={handleImageChange}
         />
-        {
-          props.imageUploaded &&
-        <img
-          onClick={changeProfileHandler}
-          src={selectedImage ? selectedImage : props.imgSrc}
-          alt="default_pfp"
-        />
-        }
-        
+        {props.imageUploaded && (
+          <img
+            onClick={changeProfileHandler}
+            src={selectedImage ? selectedImage : props.imgSrc}
+            alt="default_pfp"
+          />
+        )}
       </div>
     </div>
   );

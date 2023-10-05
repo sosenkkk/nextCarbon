@@ -40,7 +40,7 @@ userSchema.methods.addToCart = function (product) {
       quantity: newQuantity,
     });
   }
-  
+
   this.cart = updatedCartItems;
   return this.save();
 };
@@ -74,10 +74,9 @@ userSchema.methods.removeFromCart = function (id) {
   return this.save();
 };
 
-userSchema.methods.clearCart= function(){
-  this.cart= [];
+userSchema.methods.clearCart = function () {
+  this.cart = [];
   return this.save();
-}
-
+};
 
 module.exports = mongoose.model("User", userSchema);

@@ -6,8 +6,8 @@ const contactSchema = new Schema({
   message: { type: String, required: true },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Contact", contactSchema);

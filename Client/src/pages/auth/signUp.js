@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
 const SignUp = (props) => {
-  useEffect(()=>{
-    if(localStorage.getItem("token")){
-      router.push("/")
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
     }
-  })
+  });
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -42,8 +42,8 @@ const SignUp = (props) => {
       return false;
     }
   };
-  const validateConfirmPasswordHandler=(password, confirmpassword)=>{
-    if (password.trim()===confirmpassword.trim()) {
+  const validateConfirmPasswordHandler = (password, confirmpassword) => {
+    if (password.trim() === confirmpassword.trim()) {
       return true;
     } else {
       toast({
@@ -54,7 +54,7 @@ const SignUp = (props) => {
       return false;
     }
   };
-  
+
   const signUpHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
@@ -64,38 +64,36 @@ const SignUp = (props) => {
       validateEmailHandler(email) &&
       validatePasswordHandler(password) &&
       validateConfirmPasswordHandler(password, confirmpassword);
-      if(validation){
-        const response = await fetch(BASE_URL + "signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
+    if (validation) {
+      const response = await fetch(BASE_URL + "signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      const res = await response.json();
+      if (response.status == 433) {
+        router.push("/auth/signup");
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
         });
-        const res = await response.json();
-        if(response.status==433){
-          router.push("/auth/signup");
-          toast({
-            title: res.message,
-            status: "error",
-            isClosable: true,
-          });
-        }else if (response.status == 201) {
-          toast({
-            title: res.message,
-            status: "success",
-            isClosable: true,
-          });
-          router.push("/auth/login");
-        }
-        ;
-      }else{
-        router.push("/auth/signUp");
+      } else if (response.status == 201) {
+        toast({
+          title: res.message,
+          status: "success",
+          isClosable: true,
+        });
+        router.push("/auth/login");
       }
-    
+    } else {
+      router.push("/auth/signUp");
+    }
   };
   return (
     <>

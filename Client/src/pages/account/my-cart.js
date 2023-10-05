@@ -15,7 +15,7 @@ export default function Cart() {
   const [total, setTotal] = useState({});
   const router = useRouter();
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     const totalAmount = async () => {
       const result = await fetch(BASE_URL + "total", {
         headers: {
@@ -51,9 +51,7 @@ export default function Cart() {
   };
   const deleteFromCartHandler = async (event) => {
     const id = event.target.id.toString();
-    console.log(id);
-
-    if (id === "clearBtn") {
+    if (id === "orderBtn") {
       const result = await fetch(BASE_URL + "delete-cart", {
         headers: {
           Authorization: "Bearer " + token,
@@ -61,7 +59,10 @@ export default function Cart() {
         },
       });
       if (result.status == 201) {
-        dispatch(fetchUserCart(token));
+        setTimeout(()=>{
+          dispatch(fetchUserCart(token));
+        }, 500)
+        
       } else if (result.status == 433) {
         toast({
           title: res.message,
@@ -135,7 +136,9 @@ export default function Cart() {
                         {product.productId.productModel}
                       </td>
 
-                      <td className="px-6 py-4 dark:text-white">{product.quantity}</td>
+                      <td className="px-6 py-4 dark:text-white">
+                        {product.quantity}
+                      </td>
                       <td className="px-6 py-4 dark:text-white">
                         ₹{product.productId.productPrice}
                       </td>
@@ -172,21 +175,17 @@ export default function Cart() {
               >
                 Order!
               </button>
-
               <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="500px">
                 <div className="px-8 rounded-lg py-4 bg-[#f7f7f7]  dark:bg-[#171717] text-gray-800 dark:text-gray-200">
                   <h2 className="text-lg text-center sm:text-xl font-semibold mb-4">
                     Click "Yes" to proceed with your order!
                   </h2>
                   <div className="flex flex-col sm:flex-row items-center gap-4 sm:justify-around">
-                    <button
-                      className="cartBtn"
-                      onClick={goToPlaceOrder}
-                    >
+                    <button className="cartBtn" onClick={goToPlaceOrder}>
                       Yes
                     </button>
                     <button
-                      style={{backgroundColor:"#F24C3D"}}
+                      style={{ backgroundColor: "#F24C3D" }}
                       className="cartBtn"
                       onClick={closeModal}
                     >
@@ -200,7 +199,7 @@ export default function Cart() {
                 className="cartBtn text-white"
                 id="orderBtn"
                 onClick={deleteFromCartHandler}
-                style={{backgroundColor:"#F24C3D"}}
+                style={{ backgroundColor: "#F24C3D" }}
               >
                 Clear Cart!
               </button>
