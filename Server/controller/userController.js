@@ -10,6 +10,17 @@ cloudinary.config({
   api_secret: `Dh5ROsG7lszeA85kUPLVwuupOkA`,
 });
 
+const getTotalCart = (cart) => {
+  let totalPrice = 0,
+    totalQuantity = 0;
+  cart.forEach((product) => {
+    totalPrice = totalPrice + product.productId.productPrice * product.quantity;
+    totalQuantity = totalQuantity + product.quantity;
+  });
+  const total = { totalPrice: totalPrice, totalQuantity: totalQuantity };
+  return total;
+};
+
 exports.accountInfo = async (req, res, next) => {
   try {
     const userId = req.userId;
@@ -133,7 +144,11 @@ exports.postCart = async (req, res, next) => {
     const user = await User.findOne({ _id: userId });
     const updateduser = await user.addToCart(product);
     const updatedUserCart = await updateduser.populate("cart.productId");
-    res.status(201).json({ message: "Added to cart", cart : updatedUserCart.cart });
+    const updatedCart = updatedUserCart.cart;
+    const total = getTotalCart(updatedCart);
+    res
+      .status(201)
+      .json({ message: "Added to cart", cart: updatedCart, total: total });
   } catch (err) {
     console.log(err);
     res.status(433).json({ message: "Item not added to cart" });
@@ -142,37 +157,10 @@ exports.postCart = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
   const userId = req.userId;
-  const user = await User.findOne({ _id: userId })
-    .populate("cart.productId")
-    .then((user) => {
-      const products = user.cart;
-      res.status(201).json({ products: products });
-    })
-    .catch((err) => {
-      next(err);
-    });
+  const user = await User.findOne({ _id: userId }).populate("cart.productId");
+  const products = user.cart;
+  const total = getTotalCart(products);
+  res.status(201).json({ products: products, total : total });
 };
 
-exports.getTotal = async (req, res, next) => {
-  const userId = req.userId;
-  try {
-    let totalPrice = 0,
-      totalQuantity = 0;
-    const user = await User.findOne({ _id: userId }).populate("cart.productId");
 
-    const products = user.cart;
-    products.forEach((product) => {
-      totalPrice =
-        totalPrice + product.productId.productPrice * product.quantity;
-      totalQuantity = totalQuantity + product.quantity;
-    });
-    res.status(201).json({
-      message: "Successfully fetched cart.",
-      totalPrice: totalPrice,
-      totalQuantity: totalQuantity,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(404).json({ message: "Internal Error! Unable to fetch cart." });
-  }
-};

@@ -59,27 +59,10 @@ export const fetchUserCart = (token) => {
     };
     const data = await fetchData();
     dispatch(cart(data.products));
+    dispatch(total(data.total))
   };
 };
 
-export const fetchUserTotal = (token) => {
-  return async (dispatch) => {
-    const fetchData = async () => {
-      const result = await fetch(BASE_URL + "total", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const res = await result.json();
-      const data = {totalPrice:res.totalPrice, totalQuantity :res.totalQuantity}
-      return data;
-    };
-    const data = await fetchData();
-    await dispatch(total(data));
-
-  };
-};
 
 export const { info, cart, total } = userInfoSlice.actions;
 

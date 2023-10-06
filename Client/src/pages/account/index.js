@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import Modal from "../../../components/Modal";
-import { useRouter } from "next/router";
 import { BASE_URL } from "../../../helper/helper";
 import Footer from "../../../components/footer/footer";
 
@@ -14,8 +13,6 @@ export default function Account() {
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
 
-  const dispatch = useDispatch();
-  const router = useRouter();
 
   const validationHandler = (message) => {
     if (message.trim().length < 6) {
