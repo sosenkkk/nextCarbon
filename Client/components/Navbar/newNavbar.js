@@ -3,7 +3,7 @@ import ThemeButton from "./themeToggler";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { login } from "@/store/authSlice";
-import { info, cart } from "@/store/userInfoSlice";
+import { info, cart, total } from "@/store/userInfoSlice";
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
@@ -22,6 +22,7 @@ export default function NewNavbar() {
     dispatch(login(false));
     dispatch(info({}));
     dispatch(cart([]));
+    dispatch(total({}));
     setTimeout(()=>{
       router.push("/");
     },500)

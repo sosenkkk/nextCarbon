@@ -1,19 +1,22 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BsHandbagFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
 export default function CartButton() {
   const cart = useSelector((state) => state.user.userCart);
-
+  const [buttonBump, setButtonBump]=useState(false);
   useEffect(() => {
-    const cartBtn = document.getElementById("cartButtonBump");
-    cartBtn.classList.add("bump");
-    setTimeout(() => {
-      cartBtn.classList.remove("bump");
+    setButtonBump(true);
+    
+    const timer = setTimeout(() => {
+      setButtonBump(false);
     }, 250);
+    return ()=>{
+      clearTimeout(timer);
+    }
   }, [cart]);
-
+  const buttonClasses=` ${buttonBump ? 'text opacity-100 bump' : 'text opacity-100'}`
   return (
     <>
       <div>
@@ -24,7 +27,7 @@ export default function CartButton() {
           id="cartButton"
         >
           <BsHandbagFill className="buttonTog" fontSize={16} />
-          <span id="cartButtonBump" className="text opacity-100">
+          <span id="cartButtonBump" className={buttonClasses}>
             {cart.length}
           </span>
         </Link>

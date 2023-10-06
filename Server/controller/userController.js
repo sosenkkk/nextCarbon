@@ -131,8 +131,10 @@ exports.postCart = async (req, res, next) => {
     const userId = req.userId;
     const product = await Product.findById(prodId);
     const user = await User.findOne({ _id: userId });
-    const updateduser = user.addToCart(product);
-    res.status(201).json({ message: "Added to cart" });
+    const updateduser = await user.addToCart(product);
+    const newUser = await updateduser.populate("cart.productId")
+    console.log(newUser)
+    res.status(201).json({ message: "Added to cart", cart: newUser.cart });
   } catch (err) {
     console.log(err);
     res.status(433).json({ message: "Item not added to cart" });

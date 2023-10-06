@@ -10,33 +10,11 @@ import Footer from "../../../components/footer/footer";
 export default function PlaceOrder() {
   const cart = useSelector((state) => state.user.userCart);
   const token = useSelector((state) => state.auth.userToken);
+  const total = useSelector((state)=>state.user.total)
   const toast = useToast();
   const dispatch = useDispatch();
-  const [total, setTotal] = useState({});
   const router = useRouter();
-  useEffect(() => {
-    const totalAmount = async () => {
-      const token = localStorage.getItem("token")
-      const result = await fetch(BASE_URL + "total", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const res = await result.json();
-      if (result.status == 201) {
-        setTotal({ price: res.totalPrice, quantity: res.totalQuantity });
-      } else {
-        router.push("/account");
-        toast({
-          title: res.message,
-          status: "error",
-          isClosable: true,
-        });
-      }
-    };
-    totalAmount();
-  }, [cart]);
+ 
   
   const checkOutHandler = async (event) => {
     
@@ -71,9 +49,9 @@ export default function PlaceOrder() {
             <div className="  grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
             <div className="  md:justify-self-start justify-self-start w-full col-span-1 p-4 pt-6 pb-8 flex shadow-md flex-col md:max-w-xs gap-y-2 text-gray-800 h-fit dark:text-gray-200 bg-white dark:bg-[#252525] rounded-lg" >
                 <h1 className="text-2xl font-semibold text-center border-b-2 border-teal-500 dark:border-teal-700  ">Order Summary</h1>
-                <div className="flex justify-between"> <p>Total Items :</p> <p>{total.quantity}</p> </div>
+                <div className="flex justify-between"> <p>Total Items :</p> <p>{total.totalQuantity}</p> </div>
                
-                <div className="flex justify-between"> <p>Total Price  : </p><p>₹{total.price}</p> </div>
+                <div className="flex justify-between"> <p>Total Price  : </p><p>₹{total.totalPrice}</p> </div>
               </div>
               <form className="col-span-2 mb-8">
               <h1 className="text-2xl sm:text-3xl text-gray-800 dark:text-gray-200 mb-4"> Enter delivery address! </h1>
