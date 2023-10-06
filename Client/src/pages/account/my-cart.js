@@ -9,34 +9,13 @@ import Modal from "../../../components/Modal";
 import Link from "next/link";
 export default function Cart() {
   const cart = useSelector((state) => state.user.userCart);
+  const total = useSelector((state) => state.user.total);
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const dispatch = useDispatch();
-  const [total, setTotal] = useState({});
+  
   const router = useRouter();
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    const totalAmount = async () => {
-      const result = await fetch(BASE_URL + "total", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const res = await result.json();
-      if (result.status == 201) {
-        setTotal({ price: res.totalPrice, quantity: res.totalQuantity });
-      } else {
-        router.push("/account");
-        toast({
-          title: res.message,
-          status: "error",
-          isClosable: true,
-        });
-      }
-    };
-    totalAmount();
-  }, [cart]);
+  
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -160,8 +139,8 @@ export default function Cart() {
                       Total
                     </th>
                     <td className="px-6 py-3"></td>
-                    <td className="px-6 py-3">{total.quantity}</td>
-                    <td className="px-6 py-3">₹{total.price}</td>
+                    <td className="px-6 py-3">{total.totalQuantity}</td>
+                    <td className="px-6 py-3">₹{total.totalPrice}</td>
                     <td className="px-6 py-3"></td>
                   </tr>
                 </tfoot>
