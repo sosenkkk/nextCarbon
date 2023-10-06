@@ -4,7 +4,6 @@ import { BASE_URL } from "../../helper/helper";
 const initialState = {
   userInfo: {},
   userCart: [],
-  total:{}
 };
 
 export const userInfoSlice = createSlice({
@@ -17,9 +16,6 @@ export const userInfoSlice = createSlice({
     cart(state, action) {
       state.userCart = action.payload;
     },
-    total(state, action){
-      state.total = action.payload;
-    }
   },
 });
 
@@ -62,25 +58,6 @@ export const fetchUserCart = (token) => {
   };
 };
 
-export const fetchUserTotal = (token) => {
-  return async (dispatch) => {
-    const fetchData = async () => {
-      const result = await fetch(BASE_URL + "total", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const res = await result.json();
-      const data = {totalPrice:res.totalPrice, totalQuantity :res.totalQuantity}
-      return data;
-    };
-    const data = await fetchData();
-    await dispatch(total(data));
-
-  };
-};
-
-export const { info, cart, total } = userInfoSlice.actions;
+export const { info, cart } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;
