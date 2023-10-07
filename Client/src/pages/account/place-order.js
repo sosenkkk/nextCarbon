@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../../helper/helper";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -14,12 +14,35 @@ export default function PlaceOrder() {
   const dispatch = useDispatch();
   const total = useSelector((state) => state.user.total);
   const router = useRouter();
-  
-  
-  const checkOutHandler = async (event) => {
-    
+  const nameRef = useRef();
+  const addressRef = useRef();
+  const stateRef = useRef();
+  const cityRef = useRef();
+  const pinRef = useRef();
+  const phoneNumberRef = useRef();
+  const landmarkRef = useRef();
+  const validationHandler=(string)=>{
+    if(string.trim().length >0){
+      return true;
+    }
+    return false;
+  }
 
-    
+  const numberHandler = (number)=>{
+    if(number > 9999999999 && number<1000000000 ){
+      return false;
+    }
+    return true;
+  }
+  const checkOutHandler = async (event) => {
+    event.preventDefault();
+    const name = nameRef.current.value;
+    const address = addressRef.current.value;
+    const state = stateRef.current.value;
+    const city = cityRef.current.value;
+    const pincode = pinRef.current.value;
+    const phoneNumber = phoneNumberRef.current.value;
+    const landmark = landmarkRef.current.value;
       const result = await fetch(BASE_URL + "check-out", {
         method:"POST",
         headers: {
@@ -51,14 +74,14 @@ export default function PlaceOrder() {
                 <div className="relative z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="floating_email"
-                    id="floating_email"
+                    name="fullName"
+                    id="fullName"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-teal-500 appearance-none dark:text-white dark:border-teal-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    
+                    ref={nameRef}
                   />
                   <label
-                    for="floating_email"
+                    for="fullName"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                   >
                     Full Name
@@ -67,14 +90,14 @@ export default function PlaceOrder() {
                 <div className="relative z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="floating_password"
-                    id="floating_password"
+                    name="shippingAddress"
+                    id="shippingAddress"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-teal-500 appearance-none dark:text-white dark:border-teal-500 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    
+                    ref={addressRef}
                   />
                   <label
-                    for="floating_password"
+                    for="shippingAddress"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                   >
                     Shipping Address
