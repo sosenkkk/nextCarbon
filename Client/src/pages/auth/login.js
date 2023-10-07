@@ -81,6 +81,7 @@ const Login = () => {
           email: enteredData.email,
           password: enteredData.password,
         }),
+        credentials: "include"
       });
 
       const res = await response.json();

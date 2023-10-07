@@ -84,7 +84,7 @@ export default function Account() {
           <div className="flex flex-col sm:flex-row  gap-8 flex-wrap w-full accountContainer">
             <AccountCard
               title="Your Orders"
-              link="/account/orders"
+              link="/account/my-orders"
               description="Get info about your orders"
             />
             <AccountCard

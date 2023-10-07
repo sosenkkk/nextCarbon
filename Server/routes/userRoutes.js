@@ -19,4 +19,8 @@ router.get("/delete-cart", isAuth, userController.deleteCart);
 
 router.get("/delete/:cartId", isAuth, userController.deleteFromCart);
 
+router.get("/my-orders", isAuth, userController.getOrders);
+
+router.post("/check-out", isAuth, userController.postCheckOut);
+
 module.exports = router;
