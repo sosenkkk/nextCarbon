@@ -1,9 +1,23 @@
 import { useRouter } from "next/router";
 import { BASE_URL } from "../../../helper/helper";
-
+import {useState, useEffect} from "react"
 export default function Order(props) {
-  const order= props.order;
-  const orderDateParse = new Date(order.createdAt)
+  const order = props.order;
+  console.log(order);
+  const orderDateParse = new Date(order.createdAt);
+  let orderDate = orderDateParse.toLocaleDateString();
+  let orderTime = orderDateParse.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+  let dateAndTime;
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+      setHydrated(true);
+  }, []);
+  if (!hydrated) {
+      dateAndTime = " "
+      return null;
+  }else{
+     dateAndTime = `${orderDate} at ${orderTime}`
+  }
   return (
     <>
       <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#202020]">
@@ -14,7 +28,7 @@ export default function Order(props) {
                 Order Id: #{order._id}
               </h1>
               <p className="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">
-              {orderDateParse.toLocaleDateString()} at {orderDateParse.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                {dateAndTime}
               </p>
             </div>
             <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
@@ -27,12 +41,12 @@ export default function Order(props) {
                     <div className="pb-4 md:pb-8 w-full md:w-40">
                       <img
                         className="w-full hidden md:block"
-                        src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
+                        src={order.products[0].product.productImage}
                         alt="dress"
                       />
                       <img
                         className="w-full md:hidden"
-                        src="https://i.ibb.co/L039qbN/Rectangle-10.png"
+                        src={order.products[0].product.productImage}
                         alt="dress"
                       />
                     </div>
@@ -246,14 +260,14 @@ export default function Order(props) {
                         <path
                           d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"
                           stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                         <path
                           d="M3 7L12 13L21 7"
                           stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                       <p className="cursor-pointer text-sm leading-5 ">
