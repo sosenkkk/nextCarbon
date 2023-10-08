@@ -7,7 +7,7 @@ import { fetchUserCart } from "@/store/userInfoSlice";
 import Modal from "../../../components/Modal";
 
 import Link from "next/link";
-export default function MyCart(props) {
+export default function MyOrders(props) {
   
   const total = useSelector((state) => state.user.total);
   const token = useSelector((state) => state.auth.userToken);
@@ -29,7 +29,6 @@ export default function MyCart(props) {
   };
   const viewOrderHandler = async (event) => {
     const id = event.target.id.toString();
-    console.log(id)
 
       const result = await fetch(BASE_URL + "my-order/"+id, {
         headers: {
@@ -38,7 +37,9 @@ export default function MyCart(props) {
         },
       });
       if (result.status == 201) {
-        
+        const res = await result.json();
+        const order = res.order;
+
         
       } else if (result.status == 433) {
         toast({
@@ -120,13 +121,13 @@ export default function MyCart(props) {
                         ₹{product.total.totalPrice}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={viewOrderHandler}
+                        <Link
+                          href={`/account/${product.id}`}
                           id={product.id}
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
                           View
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   ))}

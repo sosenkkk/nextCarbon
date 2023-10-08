@@ -213,16 +213,14 @@ exports.getOrders = async (req, res, next) => {
         return {
           user: order.user,
           total: order.total,
-          orderPlaced:order.createdAt.toLocaleDateString(),
-          id: order._id.toString()
+          orderPlaced: order.createdAt.toLocaleDateString(),
+          id: order._id.toString(),
         };
       });
-      res
-        .status(201)
-        .json({
-          message: "Fetched Orders Successfully.",
-          orders: updatedOrders,
-        });
+      res.status(201).json({
+        message: "Fetched Orders Successfully.",
+        orders: updatedOrders,
+      });
     } else {
       res.status(404).json({ message: "No orders found." });
     }
@@ -233,5 +231,7 @@ exports.getOrders = async (req, res, next) => {
 };
 
 exports.getSingleOrder = async (req, res, next) => {
-  console.log(req.params.orderId)
-}
+  const orderId = req.params.orderId;
+  const order = await Order.findById(orderId);
+  res.status(201).json({message:"Order fetched successfully.", order:order})
+};

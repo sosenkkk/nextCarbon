@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
 import CartButton from "../../../components/cart/cartButton";
 import Footer from "../../../components/footer/footer";
+import NewProductCard from "../../../components/cards/newProductCard";
 
 export default function Products() {
   const [productPage, setproductPage] = useState(1);
@@ -56,6 +57,7 @@ export default function Products() {
             onAddCart={cartChangeHandler}
           />
         ))}
+        
       </div>
       <Footer />
     </>

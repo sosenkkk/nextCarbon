@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Maven+Pro&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Dancing+Script:wght@600&family=Oswald:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -309,16 +310,20 @@
 
 .productImage {
   max-height: 350px;
+  border-radius: 20px;
+  padding: 10px;
   width: 100%;
   object-fit: cover;
 }
 
 .productName {
-  padding: 1rem 1.5rem;
+  padding: 0.4rem 1.5rem 1.2rem;
 }
-
+.productName span{
+  font-family: 'Archivo Black', sans-serif;
+}
 .productprice {
-  padding-top: 0.8rem;
+  padding:5px 0rem;
 }
 
 .cartBtn {
@@ -337,7 +342,9 @@
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
   position: relative;
 }
-
+.cartBtnWidth{
+  width:100%;
+}
 .cartIconContainer {
   position: absolute;
   left: -50px;
@@ -372,7 +379,7 @@
 }
 
 .cartBtn:hover .cartIconContainer {
-  transform: translateX(55px);
+  transform: translateX(100px);
   border-radius: 40px;
   transition-duration: 0.5s;
 }
@@ -454,7 +461,7 @@
 
 @media screen and (max-width: 368px) {
   .productName {
-    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    padding: 0.6rem 0.8rem 1rem 0.8rem;
   }
   .productprice span {
     font-size: 1.6rem;

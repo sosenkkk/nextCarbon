@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
 import { BsHandbagFill } from "react-icons/bs";
-import { BASE_URL, deleteCookie } from "../../helper/helper";
+import { BASE_URL } from "../../helper/helper";
 
 export default function NewNavbar() {
   const [collapse, setcollapse] = useState(true);
@@ -27,7 +27,6 @@ export default function NewNavbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
-    deleteCookie("jwt")
     hiddenHandler();
     dispatch(login(false));
     dispatch(info({}));
@@ -42,7 +41,7 @@ export default function NewNavbar() {
     setcollapse((state) => !state);
   };
   return (
-    <div className="fixed top-0 z-50 w-full firefox:bg-opacity-90 dark:bg-white navbar">
+    <div className="fixed top-0 z-50 w-full firefox:bg-opacity-90  navbar">
       <div
         className="flex justify-between shadow-md"
         style={{ padding: "1.5rem 2rem" }}
@@ -68,9 +67,10 @@ export default function NewNavbar() {
             toggled={!collapse}
           />
           <ThemeButton />
-          <Link href="/account/my-cart" className="buttonTog p-1">
+          {/* <Link href="/account/my-cart" className="buttonTog p-1">
             {isAuth && <BsHandbagFill />}
-          </Link>
+          </Link> */}
+           {isAuth &&  <CartButton />}
         </div>
 
         <div className="hidden md:flex gap-6">

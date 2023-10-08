@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { fetchUserCart, fetchUserData, info, cart, total } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
+import { BASE_URL } from "../../helper/helper";
 
 function App({ Component, pageProps }) {
   const router = useRouter();

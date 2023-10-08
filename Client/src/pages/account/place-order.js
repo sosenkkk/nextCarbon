@@ -1,9 +1,12 @@
 import { BASE_URL } from "../../../helper/helper";
-import {  useRef } from "react";
+import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import {cart as changeCart, total as totalHandler } from "@/store/userInfoSlice";
+import {
+  cart as changeCart,
+  total as totalHandler,
+} from "@/store/userInfoSlice";
 
 import Link from "next/link";
 import Footer from "../../../components/footer/footer";
@@ -22,7 +25,6 @@ export default function PlaceOrder() {
   const phoneNumberRef = useRef();
   const landmarkRef = useRef();
   const validationHandler = (number) => {
-
     if (number.trim().length == 0) {
       return false;
     }
@@ -44,42 +46,59 @@ export default function PlaceOrder() {
     const pincode = pinRef.current.value;
     const phoneNumber = phoneNumberRef.current.value;
     const landmark = landmarkRef.current.value;
-    const validation = validationHandler(name)&& validationHandler(address)&& validationHandler(state)&& validationHandler(city)&& numberHandler(pincode)&& validationHandler(phoneNumber);
-    const user = {
-      name: name,
-      shippingAddress: address,
-      state: state,
-      city: city,
-      pincode: pincode,
-      phoneNumber: phoneNumber,
-      landmark: landmark,
-    };
-    const result = await fetch(BASE_URL + "check-out", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      
-      body: JSON.stringify({
-        user: user,
-        products: cart,
-        total: total,
-      }),
-    });
-    const res = result.json();
-    if(result.status== 201){
-      router.push("/account")
-      dispatch(changeCart([]))
-      dispatch(totalHandler({}))
-    }else if(result.status == 433){
+    const validation =
+      validationHandler(name) &&
+      validationHandler(address) &&
+      validationHandler(state) &&
+      validationHandler(city) &&
+      numberHandler(pincode) &&
+      validationHandler(phoneNumber);
+    console.log(validation);
+    if (validation) {
+      const user = {
+        name: name,
+        shippingAddress: address,
+        state: state,
+        city: city,
+        pincode: pincode,
+        phoneNumber: phoneNumber,
+        landmark: landmark,
+      };
+      const result = await fetch(BASE_URL + "check-out", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          user: user,
+          products: cart,
+          total: total,
+        }),
+      });
+      const res = await result.json();
+      console.log(res);
+      if (result.status == 201) {
+        router.push("/account");
+        dispatch(changeCart([]));
+        dispatch(totalHandler({}));
+      } else if (result.status == 433) {
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
+    } else {
       toast({
-        title: res.message,
+        title: "Fill every detail before submitting.",
         status: "error",
         isClosable: true,
       });
     }
   };
+
   return (
     <>
       <div className=" pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#171717] p-4 sm:px-6  ">
@@ -227,7 +246,6 @@ export default function PlaceOrder() {
                   Submit
                 </button>
               </form>
-              
             </div>
           </>
         )}

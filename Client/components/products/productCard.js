@@ -9,7 +9,7 @@ export default function ProductCard(props) {
       <div className="w-full bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
         <Link href="/products">
           <img
-            className=" rounded-t-lg productImage"
+            className=" p-2  rounded-lg productImage"
             src={props.image}
             alt="product image"
           />
@@ -29,9 +29,11 @@ export default function ProductCard(props) {
 
           <div className="flex items-center justify-between sm:flex-col productprice">
             <span className="text-3xl font-bold  text-gray-800 dark:text-gray-200">
-              {props.price}
+              ${props.price}
             </span>
-            <button onClick={cartButtonHandler} className="cartBtn">
+            
+          </div>
+          <button onClick={cartButtonHandler} className="cartBtn cartBtnWidth">
               <span className="cartIconContainer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +47,6 @@ export default function ProductCard(props) {
               </span>
               <p className="text">Add to Cart</p>
             </button>
-          </div>
         </div>
       </div>
     </>
