@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../../helper/helper";
-import { useEffect, useRef, useState } from "react";
+import {  useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -61,6 +61,7 @@ export default function PlaceOrder() {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      
       body: JSON.stringify({
         user: user,
         products: cart,
@@ -72,7 +73,7 @@ export default function PlaceOrder() {
       dispatch(changeCart([]))
       dispatch(totalHandler({}))
       router.push("/account")
-    }else if(result.status = 433){
+    }else if(result.status == 433){
       toast({
         title: res.message,
         status: "error",
@@ -227,12 +228,7 @@ export default function PlaceOrder() {
                   Submit
                 </button>
               </form>
-              {/* <div className=" md:block hidden md:justify-self-end justify-self-start w-full col-span-1 p-4 pt-6 pb-8 flex shadow-md flex-col md:max-w-xs gap-y-2 text-gray-800 h-fit dark:text-gray-200 bg-white rounded-lg" >
-                <h1 className="text-2xl font-semibold text-center border-b-2 border-teal-500 dark:border-teal-700  ">Order Summary</h1>
-                <div className="flex justify-between"> <p>Total Items :</p> <p>{total.quantity}</p> </div>
-               
-                <div className="flex justify-between"> <p>Total Price  : </p><p>₹{total.price}</p> </div>
-              </div> */}
+              
             </div>
           </>
         )}

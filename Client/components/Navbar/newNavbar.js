@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
 import { BsHandbagFill } from "react-icons/bs";
+import { clearCookie } from "../../helper/cookie";
 
 export default function NewNavbar() {
   const [collapse, setcollapse] = useState(true);
@@ -18,6 +19,7 @@ export default function NewNavbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
+    clearCookie("jwt")
     hiddenHandler();
     dispatch(login(false));
     dispatch(info({}));
@@ -137,7 +139,7 @@ export default function NewNavbar() {
 
           <Link
             className="navlinkWhite dark:text-white"
-            href="/"
+            href="/about-us"
             style={{
               fontSize: "1.2rem",
               paddingTop: "4px",

@@ -74,6 +74,7 @@ const Login = () => {
     if (validation) {
       const response = await fetch(BASE_URL + "login", {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -81,7 +82,6 @@ const Login = () => {
           email: enteredData.email,
           password: enteredData.password,
         }),
-        credentials: "include"
       });
 
       const res = await response.json();

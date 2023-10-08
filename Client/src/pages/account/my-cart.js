@@ -13,7 +13,7 @@ export default function Cart() {
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const dispatch = useDispatch();
-
+  
   const router = useRouter();
   
   const [isModalOpen, setModalOpen] = useState(false);

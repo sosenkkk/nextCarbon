@@ -5,15 +5,15 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { fetchUserCart } from "@/store/userInfoSlice";
 import Modal from "../../../components/Modal";
- 
+
 import Link from "next/link";
-export default function MyOrders(props) {
+export default function MyCart(props) {
   const cart = useSelector((state) => state.user.userCart);
   const total = useSelector((state) => state.user.total);
-  token = useSelector((state) => state.auth.userToken);
+  const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const dispatch = useDispatch();
-
+  
   const router = useRouter();
   
   const [isModalOpen, setModalOpen] = useState(false);
@@ -207,22 +207,4 @@ export default function MyOrders(props) {
       </div>
     </>
   );
-
 }
-
-export async function getServerSideProps(context) {
-  // Fetch data from an API or database here
-  const { req } = context;
-  const jwtToken = req.headers.authorization;
-  console.log(token)
-  const response = await fetch('https://example.com/api/data');
-  const data = await response.json();
-
-  // Pass the fetched data as props
-  return {
-    props: {
-      data,
-    },
-  };
-}
-

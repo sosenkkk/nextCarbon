@@ -1,8 +1,8 @@
 const User = require("../model/User");
 const Message = require("../model/Contacts");
 const Product = require("../model/Product");
-const mongoose = require("mongoose");
 const Order = require("../model/Order");
+const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -164,24 +164,23 @@ exports.getCart = async (req, res, next) => {
   res.status(201).json({ products: products, total: total });
 };
 
-exports.getOrders= async (req, res, next) => {
-  console.log('heh')
-}
-
 exports.postCheckOut = async (req, res, next) => {
   try {
-    const userId = req.userId;
-    let products = [];
-    req.body.products.forEach((product) => {
-      const quantity = product.quantity;
-      const productId = product.productId;
+    const products = req.body.products;
+    let extProducts = [];
+    products.forEach((p) => {
+      const productInfo = p.productId;
+      const productQuantity = p.quantity;
       const prod = {
-        quantity: quantity,
-        product: productId,
+        product: productInfo,
+        quantity: productQuantity,
       };
-      products.push(prod);
+      extProducts.push(prod);
     });
+    const total = req.body.total;
+    const userId = req.userId;
     const user = {
+      userId: userId,
       name: req.body.user.name,
       shippingAddress: req.body.user.shippingAddress,
       landmark: req.body.user.landmark,
@@ -189,21 +188,18 @@ exports.postCheckOut = async (req, res, next) => {
       city: req.body.user.city,
       pincode: req.body.user.pincode,
       phoneNumber: req.body.user.phoneNumber,
-      userId: userId,
     };
     const order = new Order({
-      products: products,
-      total: req.body.total,
+      products: extProducts,
+      total: total,
       user: user,
     });
-    const placedOrder = await order.save();
+    const postOrder = await order.save();
     const userCart = await User.findOne({ _id: userId });
-    userCart.clearCart();
-    res.status(201).json({ message: "Order Placed!" });
-  } catch (err) {
-    console.log(error)
-    res
-      .status(433)
-      .json({ message: "Some error occured!Unable to place order" });
+    await userCart.clearCart();
+    res.status(201).json({ message: "Order successful." });
+  } catch (error) {
+    console.log(error);
+    res.status(433).json({ message: "Order unsuccessful." });
   }
 };

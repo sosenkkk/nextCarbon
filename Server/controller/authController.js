@@ -1,7 +1,6 @@
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cookie = require('cookie');
 
 exports.signup = async (req, res, next) => {
   const email = req.body.email;
@@ -46,18 +45,16 @@ exports.login = async (req, res, next) => {
             userId: enteredUser._id.toString(),
           },
           "my-secret",
-          { expiresIn: "3h" }
+          { expiresIn: "1h" }
         );
 
-        res.cookie('userToken', token, { maxAge: 7 * 24 * 60 * 60 * 1000, sameSite: "none", secure: true, httpOnly: true })
-        
-        res
-          .status(201)
-          .json({
-            message: "User logged In",
-            token: token,
-            userId: enteredUser._id.toString(),
-          });
+        res.cookie("jwt", token, { maxAge: 1000*60*60, httpOnly: true });
+
+        res.status(201).json({
+          message: "User logged In",
+          token: token,
+          userId: enteredUser._id.toString(),
+        });
       } else {
         res.status(433).json({ message: "User entered Incorrect password" });
       }

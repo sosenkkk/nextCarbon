@@ -4,7 +4,7 @@ const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -19,13 +19,15 @@ const PORT = process.env.PORT || 8080;
 const store = new MongoDBStore({
   uri: MONGO_URI,
   collection: "user-sessions",
-})
+});
 
-app.use(cors({
-  origin: ["http://localhost:3000"],
-  methods: ["POST", "GET", "HEAD", "PUT", "DELETE"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["POST", "GET", "HEAD", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -37,24 +39,6 @@ app.use(
 );
 
 app.use("/images", express.static(path.join(__dirname, "images")));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET",
-//     "POST",
-//     "PUT",
-//     "PATCH",
-//     "DELETE"
-//   );
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
-
-app.use((req, res) => {
-  console.log(req.cookies);
-  // console.log(req);
-})
 
 app.use(authRoutes);
 

@@ -30,6 +30,7 @@ export const fetchUserData = (token) => {
         headers: {
           Authorization: "Bearer " + token,
         },
+        credentials:"include"
       });
       const data = await response.json();
       return data;
@@ -53,7 +54,7 @@ export const fetchUserCart = (token) => {
         headers: {
           Authorization: "Bearer " + token,
         },
-        credentials: "include"
+        credentials:"include"
       });
       const data = await response.json();
       return data;
