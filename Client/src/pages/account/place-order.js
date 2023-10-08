@@ -45,7 +45,6 @@ export default function PlaceOrder() {
     const phoneNumber = phoneNumberRef.current.value;
     const landmark = landmarkRef.current.value;
     const validation = validationHandler(name)&& validationHandler(address)&& validationHandler(state)&& validationHandler(city)&& numberHandler(pincode)&& validationHandler(phoneNumber);
-    console.log(validation)
     const user = {
       name: name,
       shippingAddress: address,
@@ -70,9 +69,9 @@ export default function PlaceOrder() {
     });
     const res = result.json();
     if(result.status== 201){
+      router.push("/account")
       dispatch(changeCart([]))
       dispatch(totalHandler({}))
-      router.push("/account")
     }else if(result.status == 433){
       toast({
         title: res.message,
@@ -118,7 +117,7 @@ export default function PlaceOrder() {
                     ref={nameRef}
                   />
                   <label
-                    for="fullName"
+                    htmlFor="fullName"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                   >
                     Full Name
@@ -134,7 +133,7 @@ export default function PlaceOrder() {
                     ref={addressRef}
                   />
                   <label
-                    for="shippingAddress"
+                    htmlFor="shippingAddress"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                   >
                     Shipping Address
@@ -150,7 +149,7 @@ export default function PlaceOrder() {
                     ref={landmarkRef}
                   />
                   <label
-                    for="landmark"
+                    htmlFor="landmark"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                   >
                     LandMark(optional)
@@ -167,7 +166,7 @@ export default function PlaceOrder() {
                       ref={stateRef}
                     />
                     <label
-                      for="state"
+                      htmlFor="state"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                     >
                       State
@@ -183,7 +182,7 @@ export default function PlaceOrder() {
                       ref={cityRef}
                     />
                     <label
-                      for="city"
+                      htmlFor="city"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                     >
                       City
@@ -201,7 +200,7 @@ export default function PlaceOrder() {
                       ref={pinRef}
                     />
                     <label
-                      for="floating_company"
+                      htmlFor="floating_company"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                     >
                       Pincode
@@ -217,7 +216,7 @@ export default function PlaceOrder() {
                       ref={phoneNumberRef}
                     />
                     <label
-                      for="floating_phone"
+                      htmlFor="floating_phone"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
                     >
                       Phone number

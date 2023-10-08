@@ -8,18 +8,26 @@ import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
 import { BsHandbagFill } from "react-icons/bs";
-import { clearCookie } from "../../helper/cookie";
+import { BASE_URL, deleteCookie } from "../../helper/helper";
 
 export default function NewNavbar() {
   const [collapse, setcollapse] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
-  const logoutHandler = () => {
+  const logoutHandler = async() => {
+    const result = await fetch(BASE_URL + 'logout',{
+      headers:{
+        "Content-type":'application/json'
+      },
+      credentials: "include",
+    })
+    const res = await result.json();
+    
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
-    clearCookie("jwt")
+    deleteCookie("jwt")
     hiddenHandler();
     dispatch(login(false));
     dispatch(info({}));

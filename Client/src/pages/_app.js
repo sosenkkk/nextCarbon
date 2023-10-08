@@ -13,7 +13,14 @@ function App({ Component, pageProps }) {
   const router = useRouter();
   const dispatch = useDispatch();
   let token;
-  const logoutHandler = () => {
+  const logoutHandler = async() => {
+    const result = await fetch(BASE_URL + 'logout',{
+      headers:{
+        "Content-type":'application/json'
+      },
+      credentials: "include",
+    })
+    const res = await result.json();
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");

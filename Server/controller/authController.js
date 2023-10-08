@@ -48,7 +48,7 @@ exports.login = async (req, res, next) => {
           { expiresIn: "1h" }
         );
 
-        res.cookie("jwt", token, { maxAge: 1000*60*60, httpOnly: true });
+        res.cookie("jwt", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
 
         res.status(201).json({
           message: "User logged In",
@@ -97,4 +97,10 @@ exports.changePassword = async (req, res, next) => {
     console.log(err);
     next();
   }
+};
+
+exports.getLogout = async (req, res, next) => {
+  // Clear the 'authCookie' by setting it to null and expiring it immediately
+  await res.clearCookie("jwt");
+  res.status(201).json({ message: "User Logged Out." });
 };

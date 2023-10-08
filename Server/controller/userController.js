@@ -203,3 +203,35 @@ exports.postCheckOut = async (req, res, next) => {
     res.status(433).json({ message: "Order unsuccessful." });
   }
 };
+
+exports.getOrders = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const orders = await Order.find({ "user.userId": userId });
+    if (orders.length > 0) {
+      const updatedOrders = orders.map((order) => {
+        return {
+          user: order.user,
+          total: order.total,
+          orderPlaced:order.createdAt.toLocaleDateString(),
+          id: order._id.toString()
+        };
+      });
+      res
+        .status(201)
+        .json({
+          message: "Fetched Orders Successfully.",
+          orders: updatedOrders,
+        });
+    } else {
+      res.status(404).json({ message: "No orders found." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(433).json({ message: "Some error occured" });
+  }
+};
+
+exports.getSingleOrder = async (req, res, next) => {
+  console.log(req.params.orderId)
+}
