@@ -232,6 +232,7 @@ exports.getOrders = async (req, res, next) => {
 
 exports.getSingleOrder = async (req, res, next) => {
   const orderId = req.params.orderId;
-  const order = await Order.findById(orderId);
+  const order = await Order.findById(orderId).populate("user.userId");
+  console.log(order)
   res.status(201).json({message:"Order fetched successfully.", order:order})
 };
