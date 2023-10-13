@@ -68,6 +68,11 @@ export default function AddProduct() {
           status: "success",
           isClosable: true,
         });
+        productModelRef.current.value = "";
+        modelNumberRef.current.value = "";
+        priceRef.current.value = "";
+        productNameRef.current.value = "";
+        setProductImage(null)
         router.push("/admin/add-product");
       }
     } else if (validation && !priceValidationHandler(productPrice)) {

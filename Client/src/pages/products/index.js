@@ -6,6 +6,7 @@ import { cart, total } from "@/store/userInfoSlice";
 import CartButton from "../../../components/cart/cartButton";
 import Footer from "../../../components/footer/footer";
 import NewProductCard from "../../../components/cards/newProductCard";
+import { Pagination } from "@nextui-org/react";
 
 export default function Products() {
   const [productPage, setproductPage] = useState(1);
@@ -42,6 +43,9 @@ export default function Products() {
       console.log("noo");
     }
   };
+  const paginationHandler = (event) => {
+    console.log(event);
+  };
   return (
     <>
       <div className="min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020]  p-4 sm:px-8  gap-4   gap-y-8 productContainerHolder">
@@ -57,8 +61,8 @@ export default function Products() {
             onAddCart={cartChangeHandler}
           />
         ))}
-        
       </div>
+      <Pagination total={4} initialPage={1} onChange={paginationHandler} />
       <Footer />
     </>
   );

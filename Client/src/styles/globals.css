@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fjalla+One&family=Maven+Pro&family=Oswald:wght@400;700&family=Roboto:wght@300;400&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Dancing+Script:wght@600&family=Oswald:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Dancing+Script:wght@600&family=Oswald:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -309,7 +309,7 @@
 }
 
 .productImage {
-  max-height: 350px;
+  height: 265px;
   border-radius: 20px;
   padding: 10px;
   width: 100%;
@@ -319,11 +319,11 @@
 .productName {
   padding: 0.4rem 1.5rem 1.2rem;
 }
-.productName span{
-  font-family: 'Archivo Black', sans-serif;
+.productName span {
+  font-family: "Archivo Black", sans-serif;
 }
 .productprice {
-  padding:5px 0rem;
+  padding: 5px 0rem;
 }
 
 .cartBtn {
@@ -342,8 +342,8 @@
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
   position: relative;
 }
-.cartBtnWidth{
-  width:100%;
+.cartBtnWidth {
+  width: 100%;
 }
 .cartIconContainer {
   position: absolute;
@@ -424,7 +424,7 @@
   font-weight: 500;
 }
 
-#orderBtn:hover{
+#orderBtn:hover {
   box-shadow: 0 8px 10px -8px black;
 }
 

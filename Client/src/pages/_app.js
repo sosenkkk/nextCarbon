@@ -9,6 +9,7 @@ import { login, userToken } from "@/store/authSlice";
 import { fetchUserCart, fetchUserData, info, cart, total } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
 import { BASE_URL } from "../../helper/helper";
+import {NextUIProvider} from "@nextui-org/react";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -60,9 +61,11 @@ function App({ Component, pageProps }) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
       <ChakraProvider>
+      <NextUIProvider>
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        </NextUIProvider>
       </ChakraProvider>
     </ThemeProvider>
   );
