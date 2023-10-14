@@ -13,6 +13,7 @@ import {
   cart,
   total,
 } from "@/store/userInfoSlice";
+import { fetchProductModels } from "@/store/productSlice";
 import { useRouter } from "next/router";
 import { BASE_URL } from "../../helper/helper";
 import { NextUIProvider } from "@nextui-org/react";
@@ -46,6 +47,7 @@ function App({ Component, pageProps }) {
     }, milliseconds);
   };
   useEffect(() => {
+    dispatch(fetchProductModels())
     token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     if (!token || !expiryDate) {
@@ -66,13 +68,13 @@ function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-        <ChakraProvider>
+      <ChakraProvider>
         <NextUIProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-          </NextUIProvider>
-        </ChakraProvider>
+        </NextUIProvider>
+      </ChakraProvider>
     </ThemeProvider>
   );
 }

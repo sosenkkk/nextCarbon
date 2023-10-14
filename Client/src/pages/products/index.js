@@ -7,11 +7,21 @@ import Footer from "../../../components/footer/footer";
 import { Pagination } from "@nextui-org/react";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import {
+  setProductPage,
+  setTotalProductPages,
+  setFilter,
+  setSort
+} from "@/store/productSlice";
 import ProductBar from "../../../components/Navbar/ProductsBar";
+
 export default function Products() {
-  const [productPage, setproductPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [productFilter, setproductFilter] = useState(" ");
+  const productPage = useSelector((state) => state.product.productPage);
+  const productSort = useSelector((state) => state.product.productSort) || "";
+  const totalProductPages = useSelector(
+    (state) => state.product.totalProductPages
+  );
+  const productFilter = useSelector((state) => state.product.productFilter) || "";
   const dispatch = useDispatch();
   const [products, setproducts] = useState([]);
   const token = useSelector((state) => state.auth.userToken);
@@ -20,13 +30,13 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       const result = await fetch(
-        BASE_URL + "products?page=" + productPage + "&filter=" + productFilter
+        BASE_URL + `products?page=${productPage}&filter=${productFilter}&sort=${productSort}`
       );
       const res = await result.json();
       if (result.status == 201) {
         setproducts(res.products);
         const pages = Math.ceil(res.totalProducts / 4);
-        setTotalPages(pages);
+        dispatch(setTotalProductPages(pages));
       } else {
         router.push("/");
         toast({
@@ -37,7 +47,7 @@ export default function Products() {
       }
     };
     fetchProducts();
-  }, [productPage, totalPages, productFilter]);
+  }, [productPage, totalProductPages, productFilter, productSort]);
   const cartChangeHandler = async (id) => {
     const productId = id;
     const result = await fetch(BASE_URL + "cart", {
@@ -60,18 +70,21 @@ export default function Products() {
     }
   };
   const paginationHandler = (event) => {
-    setproductPage(event);
+    dispatch(setProductPage(event));
   };
-  const changeProductsHandler=(event)=>{
-    setproductFilter(event)
-    paginationHandler(1)
-  }
+  const changeProductsHandler = (event) => {
+    dispatch(setFilter(event));
+    dispatch(setProductPage(1));
+  };
+  const sortProductsHandler = (event) => {
+    dispatch(setSort(event));
+    dispatch(setProductPage(1));
+  };
   return (
     <>
       <div className="min-h-screen pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8">
-        <ProductBar onChangeProducts={changeProductsHandler}/>
+        <ProductBar onChangeProducts={changeProductsHandler} onsortProducts={sortProductsHandler}/>
         <div className="  gap-4   gap-y-8 productContainerHolder">
-
           {products.map((product) => (
             <ProductCard
               image={product.productImage}
@@ -89,7 +102,7 @@ export default function Products() {
           <Pagination
             showShadow
             color="secondary"
-            total={totalPages}
+            total={totalProductPages}
             initialPage={1}
             page={productPage}
             onChange={paginationHandler}

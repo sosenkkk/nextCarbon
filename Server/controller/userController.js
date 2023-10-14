@@ -92,16 +92,29 @@ exports.editInfo = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   let currentPage = req.query.page || 1;
   const query = {};
-  if (req.query.filter) {
+  let sort;
+  if (req.query.filter && req.query.filter != " ") {
     query.productModel = req.query.filter;
   }
+  if (req.query.sort && req.query.sort!='') {
+    sort = req.query.sort;
+  }
+  
   const limit = 4;
   try {
     const totalProducts = await Product.find(query).countDocuments();
-
-    const products = await Product.find(query)
+    let products;
+    if(sort){
+       products = await Product.find(query).sort({productPrice:sort})
       .skip((currentPage - 1) * limit)
       .limit(limit);
+    }
+    else{
+       products = await Product.find(query)
+      .skip((currentPage - 1) * limit)
+      .limit(limit);
+    }
+    
     if (products.length != 0) {
       res.status(201).json({
         message: "Products fetched Successfully",
@@ -115,6 +128,16 @@ exports.getProducts = async (req, res, next) => {
     console.log(err);
     res.status(433).json({ message: "Products fecthing failed" });
   }
+};
+
+exports.getTotalProducts = async (req, res, next) => {
+  const totalProductModels = await Product.distinct("productModel");
+  res
+    .status(201)
+    .json({
+      message: "Successfully fetched all product models",
+      totalProductModels: totalProductModels,
+    });
 };
 
 exports.deleteFromCart = async (req, res, next) => {
