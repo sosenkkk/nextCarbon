@@ -91,20 +91,23 @@ exports.editInfo = async (req, res, next) => {
 };
 exports.getProducts = async (req, res, next) => {
   let currentPage = req.query.page || 1;
+  const query = {};
+  if (req.query.filter) {
+    query.productModel = req.query.filter;
+  }
   const limit = 4;
   try {
-    const totalProducts = await Product.find().countDocuments();
-    const products = await Product.find()
+    const totalProducts = await Product.find(query).countDocuments();
+
+    const products = await Product.find(query)
       .skip((currentPage - 1) * limit)
       .limit(limit);
     if (products.length != 0) {
-      res
-        .status(201)
-        .json({
-          message: "Products fetched Successfully",
-          products: products,
-          totalProducts: totalProducts,
-        });
+      res.status(201).json({
+        message: "Products fetched Successfully",
+        products: products,
+        totalProducts: totalProducts,
+      });
     } else {
       throw new Error("failed fetching");
     }

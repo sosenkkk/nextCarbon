@@ -7,7 +7,6 @@ import { info, cart } from "@/store/userInfoSlice";
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
-import { BsHandbagFill } from "react-icons/bs";
 import { BASE_URL } from "../../helper/helper";
 
 export default function NewNavbar() {
