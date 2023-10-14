@@ -3,25 +3,39 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
-import CartButton from "../../../components/cart/cartButton";
 import Footer from "../../../components/footer/footer";
-import NewProductCard from "../../../components/cards/newProductCard";
 import { Pagination } from "@nextui-org/react";
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export default function Products() {
   const [productPage, setproductPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch();
   const [products, setproducts] = useState([]);
   const token = useSelector((state) => state.auth.userToken);
-
+  const router = useRouter();
+  const toast = useToast();
   useEffect(() => {
+    console.log(productPage);
     const fetchProducts = async () => {
-      const result = await fetch(BASE_URL + "products");
+      const result = await fetch(BASE_URL + "products?page=" + productPage);
       const res = await result.json();
-      setproducts(res.products);
+      if (result.status == 201) {
+        setproducts(res.products);
+        const pages = Math.ceil(res.totalProducts / 4);
+        setTotalPages(pages);
+      } else {
+        router.push("/");
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
     };
     fetchProducts();
-  }, []);
+  }, [productPage, totalPages]);
   const cartChangeHandler = async (id) => {
     const productId = id;
     const result = await fetch(BASE_URL + "cart", {
@@ -44,11 +58,11 @@ export default function Products() {
     }
   };
   const paginationHandler = (event) => {
-    console.log(event);
+    setproductPage(event);
   };
   return (
     <>
-      <div className="min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020]  p-4 sm:px-8  gap-4   gap-y-8 productContainerHolder">
+      <div className="min-h-screen pt-28 transition-colors md:pt-24 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8  gap-4   gap-y-8 productContainerHolder">
         {products.map((product) => (
           <ProductCard
             image={product.productImage}
@@ -62,7 +76,15 @@ export default function Products() {
           />
         ))}
       </div>
-      <Pagination total={4} initialPage={1} onChange={paginationHandler} />
+      <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
+        <Pagination
+          showShadow
+          color="secondary"
+          total={totalPages}
+          initialPage={1}
+          onChange={paginationHandler}
+        />
+      </div>
       <Footer />
     </>
   );

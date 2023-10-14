@@ -89,12 +89,29 @@ exports.editInfo = async (req, res, next) => {
     res.status(201).json({ message: "User Updated" });
   }
 };
-
 exports.getProducts = async (req, res, next) => {
-  const products = await Product.find();
-  res
-    .status(201)
-    .json({ message: "Products fetched Successfully", products: products });
+  let currentPage = req.query.page || 1;
+  const limit = 4;
+  try {
+    const totalProducts = await Product.find().countDocuments();
+    const products = await Product.find()
+      .skip((currentPage - 1) * limit)
+      .limit(limit);
+    if (products.length != 0) {
+      res
+        .status(201)
+        .json({
+          message: "Products fetched Successfully",
+          products: products,
+          totalProducts: totalProducts,
+        });
+    } else {
+      throw new Error("failed fetching");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Products fecthing failed" });
+  }
 };
 
 exports.deleteFromCart = async (req, res, next) => {
@@ -233,6 +250,8 @@ exports.getOrders = async (req, res, next) => {
 exports.getSingleOrder = async (req, res, next) => {
   const orderId = req.params.orderId;
   const order = await Order.findById(orderId).populate("user.userId");
-  console.log(order)
-  res.status(201).json({message:"Order fetched successfully.", order:order})
+  console.log(order);
+  res
+    .status(201)
+    .json({ message: "Order fetched successfully.", order: order });
 };

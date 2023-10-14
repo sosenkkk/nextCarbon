@@ -6,7 +6,7 @@ export default function FrontPart() {
     <>
       <div
         className="w-full h-screen bg-light-theme dark:bg-dark-theme parallax"
-        style={{ position: "relative", zIndex: "-5" }}
+        style={{ position: "relative", zIndex: "0" }}
       >
         <div className={styles.frontMain}>
           <Section>

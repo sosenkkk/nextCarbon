@@ -6,22 +6,28 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
-import { fetchUserCart, fetchUserData, info, cart, total } from "@/store/userInfoSlice";
+import {
+  fetchUserCart,
+  fetchUserData,
+  info,
+  cart,
+  total,
+} from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
 import { BASE_URL } from "../../helper/helper";
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
   const dispatch = useDispatch();
   let token;
-  const logoutHandler = async() => {
-    const result = await fetch(BASE_URL + 'logout',{
-      headers:{
-        "Content-type":'application/json'
+  const logoutHandler = async () => {
+    const result = await fetch(BASE_URL + "logout", {
+      headers: {
+        "Content-type": "application/json",
       },
       credentials: "include",
-    })
+    });
     const res = await result.json();
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
@@ -30,7 +36,7 @@ function App({ Component, pageProps }) {
     dispatch(userToken({}));
     dispatch(info({}));
     dispatch(cart([]));
-    dispatch(total({}))
+    dispatch(total({}));
     router.push("/");
   };
 
@@ -60,13 +66,13 @@ function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-      <ChakraProvider>
-      <NextUIProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        </NextUIProvider>
-      </ChakraProvider>
+        <ChakraProvider>
+        <NextUIProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          </NextUIProvider>
+        </ChakraProvider>
     </ThemeProvider>
   );
 }

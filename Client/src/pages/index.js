@@ -7,6 +7,7 @@ export default function Home() {
   return (
     <>
       <FrontPart />
+      <div style={{zIndex:"5", position:"relative"}}>
       <div>
         <Carosel className="holder " />
         <div className="bg-[#f7f7f7]  dark:bg-[#171717]">
@@ -18,7 +19,7 @@ export default function Home() {
         </div>
 
         <CardHolder />
-      </div>
+      </div >
 
       <footer className="bg-gray-200 dark:bg-[#252525]">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
@@ -200,6 +201,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </div>
     </>
   );
 }
