@@ -2,23 +2,23 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-export default function ProductBar(props) {
+export default function RequestBar(props) {
   const router = useRouter();
-  const productModels = useSelector((state) => state.product.productModels);
-  const categoryHandler = (event) => {
-    props.onChangeProducts(event.target.value);
-  };
+//   const productModels = useSelector((state) => state.product.productModels);
+//   const categoryHandler = (event) => {
+//     props.onChangeProducts(event.target.value);
+//   };
   const sortingHandler = (event) => {
     props.onsortProducts(event.target.value);
   };
-  const productsCategory = productModels;
+//   const productsCategory = productModels;
   const sortCategory = [
-    { label: "Low to High", value: 1 },
-    { label: "High to Low", value: -1 },
+    { label: "Newest First", value: 1 },
+    { label: "Oldest First", value: -1 },
   ];
   return (
     <div className="w-100 dark:text-white flex gap-4 justify-end items-center p-2 flex-col sm:flex-row">
-      <Select
+      {/* <Select
         size="sm"
         label="Category"
         placeholder="Filter Category"
@@ -37,7 +37,7 @@ export default function ProductBar(props) {
             {category}
           </SelectItem>
         ))}
-      </Select>
+      </Select> */}
       <Select
         onChange={sortingHandler}
         size="sm"

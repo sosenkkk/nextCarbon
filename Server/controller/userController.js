@@ -93,14 +93,14 @@ exports.getProducts = async (req, res, next) => {
   let currentPage = req.query.page || 1;
   const query = {};
   let sort;
-  if (req.query.filter && req.query.filter != " ") {
+  if (req.query.filter && req.query.filter != " " && req.query.filter!="all") {
     query.productModel = req.query.filter;
   }
   if (req.query.sort && req.query.sort!='') {
     sort = req.query.sort;
   }
   
-  const limit = 4;
+  const limit = 8;
   try {
     const totalProducts = await Product.find(query).countDocuments();
     let products;

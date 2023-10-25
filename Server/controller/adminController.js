@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const Contacts = require("../model/Contacts")
 const Product = require("../model/Product");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
@@ -64,3 +65,20 @@ exports.addProduct = async (req, res, next) => {
     }
   );
 };
+
+exports.getRequests= async(req,res,next)=>{
+    try {
+      const requests = await Contacts.find().populate("user");
+      res.status(201).json({message:"Successfully fetched Requests!", requests:requests})
+
+    } catch (error) {
+      console.log(error)
+      res.status(404).json({message:"Requests failed to load!"})
+      
+    }
+}
+
+exports.deleteRequest=async(req, res, next)=>{
+    const reqId = req.params.reqId;
+    
+}
