@@ -1,12 +1,40 @@
-import { BASE_URL } from "../../../helper/helper";
-import { useSelector } from "react-redux";
+import { BASE_URL } from "../../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
+import RequestBar from "../../../../components/Navbar/requestBar";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Pagination } from "@nextui-org/react";
 
-export default function MyOrders(props) {
-  const token = useSelector((state) => state.auth.userToken);
+
+export default function ViewOrders(props) {
   const toast = useToast();
- 
+  const [sort, setsort] = useState("");
+  const [orders, setorders] = useState(props.orders);
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    const fetchData = async()=>{
+      const result = await fetch(BASE_URL + "view-orders?sort="+sort, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
+      const res = await result.json();
+      let orders;
+      if (result.status == 201) {
+        setorders(res.orders);
+      } else if (result.status == 433) {
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
+    
+    }
+    fetchData();
+  },[sort])
   const viewOrderHandler = async (event) => {
     const id = event.target.id.toString();
 
@@ -30,17 +58,22 @@ export default function MyOrders(props) {
       }
    
   };
+  const sortRequestHandler = (event) => {
+    setsort(event)
+  };
   return (
     <>
       <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
-        {props.orders.length != 0 && (
+      <RequestBar onsortProducts={sortRequestHandler} />
+
+        {orders.length != 0 && (
           <>
             <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <caption className="p-5 text-lg font-semibold text-left text-gray-800 bg-white dark:text-gray-200 dark:bg-[#171717]">
-                  Your Orders
+                  Orders Placed 
                   <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                    Orders you've placed before.
+                    Orders placed by customer before.
                   </p>
                 </caption>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#111111] dark:text-gray-400">
@@ -63,7 +96,7 @@ export default function MyOrders(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {props.orders.map((product) => (
+                  {orders.map((product) => (
                     <tr
                       key={product.id}
                       className="bg-white border-b dark:bg-[#171717] dark:border-[#111]"
@@ -86,7 +119,7 @@ export default function MyOrders(props) {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <Link
-                          href={`/account/${product.id}`}
+                          href={`/admin/view-orders/${product.id}`}
                           id={product.id}
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
@@ -98,11 +131,21 @@ export default function MyOrders(props) {
                 </tbody>
                
               </table>
+              
             </div>
-            
+            <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
+          <Pagination
+            showShadow
+            color="secondary"
+            total={4}
+            initialPage={1}
+            page={1}
+            // onChange={paginationHandler}
+          />
+        </div>
           </>
         )}
-        {props.orders.length === 0 && (
+        {orders.length === 0 && (
           <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <caption className="p-5 text-lg font-semibold text-left text-gray-800 bg-white dark:text-gray-200 dark:bg-[#171717]">
@@ -126,33 +169,29 @@ export default function MyOrders(props) {
   );
 }
 
-export const getServerSideProps=async(context)=>{
-  const {req} = context;
+export async function getServerSideProps({ req }) {
   const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL+"my-orders",{
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:"Bearer "+token
+  const result = await fetch(BASE_URL + "view-orders", {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
     },
-    credentials:"include"
-  })
+  });
   const res = await result.json();
-  let orders, message;
-  if(result.status==201){
-     orders = res.orders;
-    message= res.message;
-    
-  }else if(result.status == 404){
-    orders = [];
-    message= res.message;
-  }else{
-    orders = [];
-    message= res.message;
+  let orders;
+  if (result.status == 201) {
+    orders = res.orders;
+  } else if (result.status == 433) {
+    toast({
+      title: res.message,
+      status: "error",
+      isClosable: true,
+    });
   }
+
   return {
-    props:{
-      orders:orders,
-      message : message
-    }
-  }
+    props: {
+      orders: orders,
+    },
+  };
 }

@@ -13,8 +13,8 @@ export default function RequestBar(props) {
   };
 //   const productsCategory = productModels;
   const sortCategory = [
-    { label: "Newest First", value: 1 },
-    { label: "Oldest First", value: -1 },
+    { label: "Newest First", value: -1 },
+    { label: "Oldest First", value: 1 },
   ];
   return (
     <div className="w-100 dark:text-white flex gap-4 justify-end items-center p-2 flex-col sm:flex-row">

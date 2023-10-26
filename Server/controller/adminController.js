@@ -1,5 +1,6 @@
 const User = require("../model/User");
-const Contacts = require("../model/Contacts")
+const Order = require("../model/Order");
+const Contacts = require("../model/Contacts");
 const Product = require("../model/Product");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
@@ -66,19 +67,84 @@ exports.addProduct = async (req, res, next) => {
   );
 };
 
-exports.getRequests= async(req,res,next)=>{
-    try {
-      const requests = await Contacts.find().populate("user");
-      res.status(201).json({message:"Successfully fetched Requests!", requests:requests})
-
-    } catch (error) {
-      console.log(error)
-      res.status(404).json({message:"Requests failed to load!"})
-      
+exports.getRequests = async (req, res, next) => {
+  let sort;
+  if (req.query.sort && req.query.sort != "") {
+    sort = req.query.sort;
+  }
+  try {
+    let requests;
+    if (sort) {
+      requests = await Contacts.find().sort({createdAt:sort}).populate("user");
+    } else {
+      requests = await Contacts.find().populate("user");
     }
-}
+    res
+      .status(201)
+      .json({ message: "Successfully fetched Requests!", requests: requests });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Requests failed to load!" });
+  }
+};
 
-exports.deleteRequest=async(req, res, next)=>{
+exports.getOrders = async (req, res, next) => {
+  let sort;
+  if (req.query.sort && req.query.sort != "") {
+    sort = req.query.sort;
+  }
+  console.log(sort)
+  try {
+    let orders;
+    if (sort) {
+      orders = await Order.find().sort({createdAt:sort});
+    } else {
+      orders = await Order.find();
+    }
+    if (orders.length > 0) {
+      const updatedOrders = orders.map((order) => {
+        return {
+          user: order.user,
+          total: order.total,
+          orderPlaced: order.createdAt.toLocaleDateString(),
+          id: order._id.toString(),
+        };
+      });
+      res.status(201).json({
+        message: "Fetched Orders Successfully.",
+        orders: updatedOrders,
+      });
+    } else {
+      res.status(404).json({ message: "No orders found." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(433).json({ message: "Some error occured" });
+  }
+};
+
+exports.getSingleOrder = async (req, res, next) => {
+  const orderId = req.params.orderId;
+  console.log(req.params);
+  const order = await Order.findById(orderId).populate("user.userId");
+  res
+    .status(201)
+    .json({ message: "Order fetched successfully.", order: order });
+};
+
+exports.getRequest = async (req, res, next) => {
+  try {
     const reqId = req.params.reqId;
-    
-}
+    const request = await Contacts.findOne({ _id: reqId }).populate("user");
+    res
+      .status(201)
+      .json({ message: "Successfully fetched request!", request: request });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Requests failed to load!" });
+  }
+};
+
+exports.deleteRequest = async (req, res, next) => {
+  const reqId = req.params.reqId;
+};
