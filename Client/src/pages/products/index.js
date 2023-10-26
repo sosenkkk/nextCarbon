@@ -2,7 +2,7 @@ import ProductCard from "../../../components/products/productCard";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
-import ProductBar from "../../../components/Navbar/productsBar";
+import ProductBar from "../../../components/Navbar/ProductBar";
 import { cart, total } from "@/store/userInfoSlice";
 import Footer from "../../../components/footer/footer";
 import { Pagination } from "@nextui-org/react";
