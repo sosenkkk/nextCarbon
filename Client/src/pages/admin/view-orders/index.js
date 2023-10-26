@@ -175,7 +175,6 @@ export default function ViewOrders(props) {
           </div>
         )}
       </div>
-      <Footer/>
     </>
   );
 }

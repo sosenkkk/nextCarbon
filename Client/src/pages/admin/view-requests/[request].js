@@ -32,7 +32,7 @@ export default function Requests(props) {
 
   return (
     <>
-      <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] text-gray-800 dark:text-gray-200  ">
+      <div className="  pt-28 transition-colors md:pt-24 bg-[#f7f7f7] pb-12 dark:bg-[#202020] text-gray-800 dark:text-gray-200  ">
         <section className="text-center mb-4">
           <h1 className="sm:text-xl md:text-2xl font-bold border-b-2 inline">
             Request Id - {request._id}

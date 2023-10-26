@@ -11,12 +11,13 @@ function Layout(props) {
   };
   return (
     <>
-      <main>
+      <main className="min-h-screen bg-gray-200 dark:bg-[#252525]">
         <NewNavbar
           isAuthenticated={auth}
           onLoginSuccess={loginSuccessHandler}
         />
         {props.children}
+        <Footer/>
       </main>
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></Script>
     </>

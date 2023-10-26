@@ -76,7 +76,7 @@ export default function Details() {
   };
   return (
     <>
-      <div className="min-h-screen bg-[#fff] dark:bg-[#111111]">
+      <div className="min-h-[500px] bg-[#fff] dark:bg-[#111111]">
         <div className="p-8 pt-28 md:pt-24  flex align-center justify-around w-full h-100">
           <form
             onSubmit={changeDetailHandler}

@@ -69,7 +69,7 @@ export default function Cart() {
   };
   return (
     <>
-      <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
+      <div className=" min-h-[500px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
         {cart.length != 0 && (
           <>
             <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">

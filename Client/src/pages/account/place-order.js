@@ -269,7 +269,6 @@ export default function PlaceOrder() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

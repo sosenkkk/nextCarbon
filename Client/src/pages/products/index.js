@@ -83,7 +83,7 @@ export default function Products() {
   };
   return (
     <>
-      <div className="min-h-screen pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
+      <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
         <ProductBar onChangeProducts={changeProductsHandler} onsortProducts={sortProductsHandler}/>
         <div className="  gap-4   gap-y-8 productContainerHolder">
           {products.map((product) => (
@@ -110,7 +110,6 @@ export default function Products() {
           />
         </div>
       </div>
-      <Footer />
     </>
   );
 }

@@ -164,7 +164,6 @@ export default function Requests(props) {
           </div>
         )}
       </div>
-      <Footer/>
     </>
   );
 }
