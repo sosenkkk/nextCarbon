@@ -95,7 +95,7 @@ const ChangePassword = (props) => {
   };
   return (
     <>
-      <section className="bg-[#fff] dark:bg-[#252525] pt-12 md:pt-10 ">
+      <section className="bg-[#fff] transition-colors dark:bg-[#252525] pt-12 md:pt-10 ">
         <div className="flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto md:h-screen ">
           <div className="w-full bg-[#f7f7f7] dark:bg-[#171717]  rounded-lg shadow-md  p-4 sm:max-w-xl  ">
             <div className="p-4 space-y-4  sm:p-8 sm:pt-4">
@@ -103,7 +103,7 @@ const ChangePassword = (props) => {
                 Hello {userInfo.firstName} {userInfo.lastName} !
               </h1>
               <form
-                className="space-y-4"
+                className="space-y-4 transition-colors"
                 action="#"
                 onSubmit={forgotPasswordHandler}
               >

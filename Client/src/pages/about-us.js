@@ -4,7 +4,7 @@ import Footer from "./../../components/footer/footer";
 export default function AboutUs() {
   return (
     <>
-      <div className="pt-24 md:pt-20 bg-[#f7f7f7] dark:bg-[#171717]">
+      <div className="pt-24 md:pt-20 bg-[#f7f7f7] dark:bg-[#171717] transition-colors">
         <div className="w-full">
           <div className="aboutUsTitle">
             <h1 className=" text-teal-700">Carbon</h1>
@@ -18,7 +18,7 @@ export default function AboutUs() {
         <div className="text-gray-700 dark:text-gray-200">
           <div className="p-8 sm:p-24 flex flex-col gap-4 bg-[#ebebeb] dark:bg-[#202020] ">
             <Section>
-              <div className=" md:flex bg-[#f7f7f7] dark:bg-[#171717] shawdow-md rounded-lg mb-12">
+              <div className=" md:flex bg-[#f7f7f7] transition-colors dark:bg-[#171717] shawdow-md rounded-lg mb-12">
                 <div className="imageAbout">
                   <img src="/img/1.jpg" />
                 </div>
@@ -43,7 +43,7 @@ export default function AboutUs() {
             </Section>
 
             <Section>
-              <div className=" md:flex bg-[#f7f7f7] dark:bg-[#171717] shawdow-md rounded-lg ">
+              <div className=" md:flex bg-[#f7f7f7] transition-colors dark:bg-[#171717] shawdow-md rounded-lg ">
                 <div className="p-8 ">
                   <h2 className="text-3xl font-bold text-teal-700 dark:text-teal-500 underline">
                     Our Story

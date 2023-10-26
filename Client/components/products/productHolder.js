@@ -3,7 +3,7 @@ import LeftProductHolder from "./leftHolder";
 export default function ProductHolder() {
   return (
     <>
-      <div className="productHolder bg-[#f7f7f7] dark:bg-[#171717]">
+      <div className="productHolder transition-colors bg-[#f7f7f7] dark:bg-[#171717]">
         <ProductSkeleton />
         <LeftProductHolder />
         <ProductSkeleton />

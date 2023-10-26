@@ -21,7 +21,7 @@ function ProfilePicture(props) {
 
   return (
     <div className="col-span-2">
-      <label className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white">
+      <label className="block mb-2 text-sm text-center transition-colors font-medium text-gray-900 dark:text-white">
         Upload your Profile Photo
       </label>
       <div className="pfp_container">

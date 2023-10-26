@@ -21,7 +21,7 @@ function ProductImage(props) {
 
   return (
     <div className="col-span-2">
-      <label className="block mb-2 text-sm  font-medium text-gray-900 dark:text-white">
+      <label className="block mb-2 text-sm transition-colors font-medium text-gray-900 dark:text-white">
         Upload Image
       </label>
       <div className="productImageContainer">

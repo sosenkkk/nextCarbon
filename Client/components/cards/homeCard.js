@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Card(props) {
   return (
     <>
-      <div className="max-w-sm bg-[#fff]  rounded-lg shadow-xl dark:bg-[#252525] cardComponent">
+      <div className="max-w-sm bg-[#fff] transition-colors  rounded-lg shadow-xl dark:bg-[#252525] cardComponent">
         <Link href="#">
           <img className="rounded-t-lg" src="/img/white.jpg" alt="" />
         </Link>

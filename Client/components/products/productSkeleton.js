@@ -6,7 +6,7 @@ export default function ProductSkeleton(props) {
   return (
     <>
       <div className={`skeletonHolder`}>
-        <div className="flex self-start  flex-col items-center bg-gray-100  rounded-lg shadow-xl md:flex-row dark:bg-[#252525] productSkeleton">
+        <div className="flex self-start transition-colors flex-col items-center bg-gray-100  rounded-lg shadow-xl md:flex-row dark:bg-[#252525] productSkeleton">
           <Link href="/">
             <img
               className="object-cover w-full rounded-t-lg   md:rounded-none md:rounded-l-lg"

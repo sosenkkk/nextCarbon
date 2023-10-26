@@ -9,7 +9,7 @@ export default function ProductCard(props) {
   }
   return (
     <>
-      <div className="w-full bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
+      <div className="w-full bg-white transition-colors rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
         <Link href="/products">
           <img
             className=" p-2  rounded-lg productImage"
