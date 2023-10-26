@@ -68,20 +68,27 @@ exports.addProduct = async (req, res, next) => {
 };
 
 exports.getRequests = async (req, res, next) => {
+  let currentPage = req.query.page || 1;
   let sort;
   if (req.query.sort && req.query.sort != "") {
     sort = req.query.sort;
   }
   try {
-    let requests;
+    const limit = 5;
+    let requests,  totalRequests;
+    totalRequests = await Contacts.find().countDocuments()
     if (sort) {
-      requests = await Contacts.find().sort({createdAt:sort}).populate("user");
+      requests = await Contacts.find().populate("user")
+      .skip((currentPage - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: sort });
     } else {
-      requests = await Contacts.find().populate("user");
+      requests = await Contacts.find().populate("user").skip((currentPage - 1) * limit)
+      .limit(limit);
     }
     res
       .status(201)
-      .json({ message: "Successfully fetched Requests!", requests: requests });
+      .json({ message: "Successfully fetched Requests!", requests: requests, totalRequests:totalRequests });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Requests failed to load!" });
@@ -89,17 +96,25 @@ exports.getRequests = async (req, res, next) => {
 };
 
 exports.getOrders = async (req, res, next) => {
+  let currentPage = req.query.page || 1;
   let sort;
   if (req.query.sort && req.query.sort != "") {
     sort = req.query.sort;
   }
-  console.log(sort)
   try {
-    let orders;
+    const limit = 5;
+    let orders, totalOrders;
+    totalOrders = await Order.find().countDocuments();
+
     if (sort) {
-      orders = await Order.find().sort({createdAt:sort});
+      orders = await Order.find()
+        .skip((currentPage - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: sort });
     } else {
-      orders = await Order.find();
+      orders = await Order.find()
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
     }
     if (orders.length > 0) {
       const updatedOrders = orders.map((order) => {
@@ -113,6 +128,7 @@ exports.getOrders = async (req, res, next) => {
       res.status(201).json({
         message: "Fetched Orders Successfully.",
         orders: updatedOrders,
+        totalOrders: totalOrders,
       });
     } else {
       res.status(404).json({ message: "No orders found." });

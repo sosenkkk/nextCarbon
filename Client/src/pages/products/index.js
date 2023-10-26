@@ -47,6 +47,7 @@ export default function Products() {
       }
     };
     fetchProducts();
+    console.log(products)
   }, [productPage, totalProductPages, productFilter, productSort]);
   const cartChangeHandler = async (id) => {
     const productId = id;

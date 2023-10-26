@@ -5,24 +5,28 @@ import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Pagination } from "@nextui-org/react";
+import Footer from "../../../../components/footer/footer";
 
 
 export default function ViewOrders(props) {
   const toast = useToast();
   const [sort, setsort] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setpage] = useState(1);
   const [orders, setorders] = useState(props.orders);
   useEffect(()=>{
     const token = localStorage.getItem("token")
     const fetchData = async()=>{
-      const result = await fetch(BASE_URL + "view-orders?sort="+sort, {
+      const result = await fetch(BASE_URL + `view-orders?page=${page}&sort=${sort}`, {
         headers: {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
       });
       const res = await result.json();
-      let orders;
       if (result.status == 201) {
+        const pages = Math.ceil(res.totalOrders /5);
+        setTotalPages(pages)
         setorders(res.orders);
       } else if (result.status == 433) {
         toast({
@@ -34,7 +38,9 @@ export default function ViewOrders(props) {
     
     }
     fetchData();
-  },[sort])
+    setTotalPages(Math.ceil(props.totalOrders /5))
+
+  },[sort, page])
   const viewOrderHandler = async (event) => {
     const id = event.target.id.toString();
 
@@ -58,12 +64,16 @@ export default function ViewOrders(props) {
       }
    
   };
+  const paginationHandler = (event) => {
+    setpage(event)
+  };
   const sortRequestHandler = (event) => {
     setsort(event)
+    setpage(1)
   };
   return (
     <>
-      <div className=" min-h-screen pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
+      <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
       <RequestBar onsortProducts={sortRequestHandler} />
 
         {orders.length != 0 && (
@@ -137,10 +147,10 @@ export default function ViewOrders(props) {
           <Pagination
             showShadow
             color="secondary"
-            total={4}
+            total={totalPages}
             initialPage={1}
-            page={1}
-            // onChange={paginationHandler}
+            page={page}
+            onChange={paginationHandler}
           />
         </div>
           </>
@@ -165,6 +175,7 @@ export default function ViewOrders(props) {
           </div>
         )}
       </div>
+      <Footer/>
     </>
   );
 }
@@ -178,9 +189,10 @@ export async function getServerSideProps({ req }) {
     },
   });
   const res = await result.json();
-  let orders;
+  let orders, totalOrders;
   if (result.status == 201) {
     orders = res.orders;
+    totalOrders= res.totalOrders;
   } else if (result.status == 433) {
     toast({
       title: res.message,
@@ -192,6 +204,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       orders: orders,
+      totalOrders: totalOrders
     },
   };
 }

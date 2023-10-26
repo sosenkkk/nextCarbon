@@ -4,6 +4,9 @@ export default function ProductCard(props) {
   const cartButtonHandler = () => {
     props.onAddCart(props.id);
   };
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
     <>
       <div className="w-full bg-white  rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
@@ -29,7 +32,7 @@ export default function ProductCard(props) {
 
           <div className="flex items-center justify-between sm:flex-col productprice">
             <span className="text-3xl font-bold  text-gray-800 dark:text-gray-200">
-              ${props.price}
+            ₹{numberWithCommas(props.price)}
             </span>
             
           </div>
