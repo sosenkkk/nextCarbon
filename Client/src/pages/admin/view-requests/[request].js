@@ -38,7 +38,7 @@ export default function Requests(props) {
             Request Id - {request._id}
           </h1>
         </section>
-        <section class="max-w-2xl shadow-xl rounded-lg px-6 py-8 mx-auto bg-white dark:bg-[#171717]">
+        <section className="max-w-2xl shadow-xl rounded-lg px-6 py-8 mx-auto bg-white dark:bg-[#171717]">
           <h3 className="text-xl dark:text-gray-300 font-semibold leading-5 text-gray-800">
             Customer Details
           </h3>
@@ -102,7 +102,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/404",
       },
     };
   }

@@ -36,7 +36,7 @@ exports.accountInfo = async (req, res, next) => {
         lastName: userInfo.lastName,
         cart: userInfo.cart,
         profile: userInfo.profile,
-        isAdmin:userInfo.isAdmin
+        isAdmin: userInfo.isAdmin,
       });
     } else {
       res.status(404).json({ message: "Some Error Happened, User not found" });
@@ -90,32 +90,37 @@ exports.editInfo = async (req, res, next) => {
     res.status(201).json({ message: "User Updated" });
   }
 };
+
 exports.getProducts = async (req, res, next) => {
   let currentPage = req.query.page || 1;
   const query = {};
   let sort;
-  if (req.query.filter && req.query.filter != " " && req.query.filter!="all") {
+  if (
+    req.query.filter &&
+    req.query.filter != " " &&
+    req.query.filter != "all"
+  ) {
     query.productModel = req.query.filter;
   }
-  if (req.query.sort && req.query.sort!='') {
+  if (req.query.sort && req.query.sort != "") {
     sort = req.query.sort;
   }
-  
+
   const limit = 8;
   try {
     const totalProducts = await Product.find(query).countDocuments();
     let products;
-    if(sort){
-       products = await Product.find(query).sort({productPrice:sort})
-      .skip((currentPage - 1) * limit)
-      .limit(limit);
+    if (sort) {
+      products = await Product.find(query)
+        .sort({ productPrice: sort })
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
+    } else {
+      products = await Product.find(query)
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
     }
-    else{
-       products = await Product.find(query)
-      .skip((currentPage - 1) * limit)
-      .limit(limit);
-    }
-    
+
     if (products.length != 0) {
       res.status(201).json({
         message: "Products fetched Successfully",
@@ -131,14 +136,26 @@ exports.getProducts = async (req, res, next) => {
   }
 };
 
+exports.getSingleProduct = async (req, res, next) => {
+  const productId = req.params.productId;
+  try {
+    const product = await Product.findOne({ _id: productId });
+    res.status(201).json({
+      message: "Product fetched Successfully",
+      product: product,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Products fecthing failed" });
+  }
+};
+
 exports.getTotalProducts = async (req, res, next) => {
   const totalProductModels = await Product.distinct("productModel");
-  res
-    .status(201)
-    .json({
-      message: "Successfully fetched all product models",
-      totalProductModels: totalProductModels,
-    });
+  res.status(201).json({
+    message: "Successfully fetched all product models",
+    totalProductModels: totalProductModels,
+  });
 };
 
 exports.deleteFromCart = async (req, res, next) => {
@@ -182,12 +199,13 @@ exports.contactUs = async (req, res, next) => {
 };
 
 exports.postCart = async (req, res, next) => {
+  const quantity = req.body.quantity|| 1;
   try {
     const prodId = req.body.productId;
     const userId = req.userId;
     const product = await Product.findById(prodId);
     const user = await User.findOne({ _id: userId });
-    const updateduser = await user.addToCart(product);
+    const updateduser = await user.addToCart(product, quantity);
     const updatedUserCart = await updateduser.populate("cart.productId");
     const updatedCart = updatedUserCart.cart;
     const total = getTotalCart(updatedCart);

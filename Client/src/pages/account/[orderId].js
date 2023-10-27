@@ -23,9 +23,7 @@ export default function Order(props) {
   } else {
     dateAndTime = `${orderDate} at ${orderTime}`;
   }
-  order.products.map((product) => {
-    console.log(product);
-  });
+  
   return (
     <>
       <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#131313]">
@@ -47,7 +45,7 @@ export default function Order(props) {
                   </p>
                   {order.products.map((product) => {
                     return (
-                      <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+                      <div key={product.product._id} className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
                         <div className="pb-4 md:pb-8 w-full md:w-40">
                           <img
                             className="w-full hidden md:block"

@@ -5,12 +5,12 @@ export default function ProductCard(props) {
     props.onAddCart(props.id);
   };
   function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toLocaleString("en-IN");
   }
   return (
     <>
-      <div className="w-full bg-white transition-colors rounded-lg shadow-xl   dark:bg-[#171717] productContainer ">
-        <Link href="/products">
+      <div className="w-full bg-white transition-colors rounded-lg shadow-xl   dark:bg-[#171717] productContainer  ">
+        <Link href={`/products/${props.id}`}>
           <img
             className=" p-2  rounded-lg productImage"
             src={props.image}
@@ -19,7 +19,7 @@ export default function ProductCard(props) {
         </Link>
         <div className="px-5 productName">
           <div className="flex justify-between items-center">
-            <Link href="#">
+            <Link href={`/products/${props.id}`}>
               <h5 className="text-2xl hover:underline font-semibold tracking-tight text-gray-800 dark:text-gray-200">
                 {props.name}
               </h5>

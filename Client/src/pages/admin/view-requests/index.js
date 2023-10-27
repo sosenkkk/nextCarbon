@@ -195,7 +195,7 @@ export async function getServerSideProps({ req }) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/404",
       },
     };
   }

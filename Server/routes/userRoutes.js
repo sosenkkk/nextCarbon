@@ -15,6 +15,8 @@ router.get("/cart", isAuth, userController.getCart);
 
 router.get("/products", userController.getProducts);
 
+router.get("/products/:productId", userController.getSingleProduct);
+
 router.get("/total-products", userController.getTotalProducts);
 
 router.post("/check-out", isAuth, userController.postCheckOut)
