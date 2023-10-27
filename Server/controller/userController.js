@@ -36,6 +36,7 @@ exports.accountInfo = async (req, res, next) => {
         lastName: userInfo.lastName,
         cart: userInfo.cart,
         profile: userInfo.profile,
+        isAdmin:userInfo.isAdmin
       });
     } else {
       res.status(404).json({ message: "Some Error Happened, User not found" });

@@ -1,5 +1,5 @@
-import {BsFillTelephoneFill} from "react-icons/bs"
-import {BiLogoGmail} from "react-icons/bi"
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { BiLogoGmail } from "react-icons/bi";
 import { BASE_URL } from "../../../../helper/helper";
 import { useState, useEffect } from "react";
 export default function Order(props) {
@@ -23,9 +23,10 @@ export default function Order(props) {
   } else {
     dateAndTime = `${orderDate} at ${orderTime}`;
   }
-  order.products.map((product) => {
-    console.log(product);
-  });
+  function numberWithCommas(x) {
+    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toLocaleString("en-IN");
+  }
   return (
     <>
       <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#131313]">
@@ -82,7 +83,7 @@ export default function Order(props) {
                           </div>
                           <div className="flex justify-between space-x-8 items-start w-full">
                             <p className="text-base dark:text-gray-300 xl:text-lg leading-6">
-                              ${product.product.productPrice}{" "}
+                              ₹{numberWithCommas(product.product.productPrice)}{" "}
                               <span className="text-red-300 line-through">
                                 {" "}
                                 {/* $45.00 */}
@@ -92,7 +93,10 @@ export default function Order(props) {
                               {product.quantity}
                             </p>
                             <p className="text-base dark:text-gray-300 xl:text-lg font-semibold leading-6 text-gray-800">
-                              ${product.product.productPrice * product.quantity}
+                              ₹
+                              {numberWithCommas(
+                                product.product.productPrice * product.quantity
+                              )}
                             </p>
                           </div>
                         </div>
@@ -111,7 +115,7 @@ export default function Order(props) {
                           Sub-Total
                         </p>
                         <p className="text-base dark:text-gray-300 leading-4 text-gray-600">
-                          ${total.totalPrice}
+                          ₹{numberWithCommas(total.totalPrice)}
                         </p>
                       </div>
                       {/* <div className="flex justify-between items-center w-full">
@@ -139,7 +143,7 @@ export default function Order(props) {
                         Total
                       </p>
                       <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
-                        ${total.totalPrice}
+                        ₹{numberWithCommas(total.totalPrice)}
                       </p>
                     </div>
                   </div>
@@ -206,7 +210,7 @@ export default function Order(props) {
                       </p>
                     </div>
                     <div className="flex justify-center text-gray-800 dark:text-gray-300 md:justify-start items-center space-x-4 py-4 border-b border-teal-500 dark:border-teal-700 w-full">
-                     <BsFillTelephoneFill />
+                      <BsFillTelephoneFill />
                       <p className="cursor-pointer text-sm leading-5 ">
                         +91-{user.phoneNumber}
                       </p>
@@ -255,16 +259,17 @@ export async function getServerSideProps({ req, params }) {
   let order;
   if (result.status == 201) {
     order = res.order;
-  } else if (result.status == 433) {
-    toast({
-      title: res.message,
-      status: "error",
-      isClosable: true,
-    });
+    return {
+      props: {
+        order: order,
+      },
+    };
+  } else if (result.status == 404) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
   }
-  return {
-    props: {
-      order: order,
-    },
-  };
 }

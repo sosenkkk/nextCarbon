@@ -8,19 +8,22 @@ import { Pagination } from "@nextui-org/react";
 import Footer from "../../../../components/footer/footer";
 
 export default function Requests(props) {
-  const [requests, setrequests] = useState(props.requests)
-  const [sort, setsort] = useState("")
+  const [requests, setrequests] = useState(props.requests);
+  const [sort, setsort] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const [page, setpage] = useState(1);
-  useEffect(()=>{
-    const fetchData = async()=>{
-      const token = localStorage.getItem("token")
-      const result = await fetch(BASE_URL + `view-requests?page=${page}&sort=${sort}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      const result = await fetch(
+        BASE_URL + `view-requests?page=${page}&sort=${sort}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const res = await result.json();
       if (result.status == 201) {
         setrequests(res.requests);
@@ -31,10 +34,10 @@ export default function Requests(props) {
           isClosable: true,
         });
       }
-    }
+    };
     fetchData();
-    setTotalPages(Math.ceil(props.totalRequests /5))
-  },[sort, page])
+    setTotalPages(Math.ceil(props.totalRequests / 5));
+  }, [sort, page]);
   const toast = useToast();
   const router = useRouter();
   const deleteRequestHandler = async (event) => {
@@ -58,11 +61,11 @@ export default function Requests(props) {
     }
   };
   const paginationHandler = (event) => {
-    setpage(event)
+    setpage(event);
   };
   const sortRequestHandler = (event) => {
-    setsort(event)
-    setpage(1)
+    setsort(event);
+    setpage(1);
   };
   const truncateString = (str) => {
     return str.length > 20 ? str.substring(0, 17) + "..." : str;
@@ -141,16 +144,16 @@ export default function Requests(props) {
                   ))}
                 </tbody>
               </table>
-              <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
-          <Pagination
-            showShadow
-            color="secondary"
-            total={totalPages}
-            initialPage={1}
-            page={page}
-            onChange={paginationHandler}
-          />
-        </div>
+            </div>
+            <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
+              <Pagination
+                showShadow
+                color="secondary"
+                total={totalPages}
+                initialPage={1}
+                page={page}
+                onChange={paginationHandler}
+              />
             </div>
           </>
         )}
@@ -170,7 +173,7 @@ export default function Requests(props) {
 
 export async function getServerSideProps({ req }) {
   const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL + "view-requests" , {
+  const result = await fetch(BASE_URL + "view-requests", {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
@@ -180,19 +183,21 @@ export async function getServerSideProps({ req }) {
   let requests, totalRequests;
   if (result.status == 201) {
     requests = res.requests;
-    totalRequests= res.totalRequests
-  } else if (result.status == 433) {
-    toast({
-      title: res.message,
-      status: "error",
-      isClosable: true,
-    });
+    totalRequests = res.totalRequests;
+    return {
+      props: {
+        requests: requests,
+        totalRequests: totalRequests,
+      },
+    };
+  } else if (result.status == 404) {
+    
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
   }
-  return {
-    props: {
-      requests: requests,
-      totalRequests: totalRequests
-    },
-  };
+  
 }
-

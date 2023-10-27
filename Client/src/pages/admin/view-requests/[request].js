@@ -93,17 +93,18 @@ export async function getServerSideProps(context) {
   let request;
   if (result.status == 201) {
     request = res.request;
-    console.log(res);
-  } else if (result.status == 433) {
-    toast({
-      title: res.message,
-      status: "error",
-      isClosable: true,
-    });
+    return {
+      props: {
+        request: request,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
   }
-  return {
-    props: {
-      request: request,
-    },
-  };
+  
 }

@@ -67,6 +67,17 @@ exports.addProduct = async (req, res, next) => {
   );
 };
 
+exports.getAddProduct = async (req, res, next) => {
+  console.log("hehe")
+  try{
+    
+    res.status(201).json({ message: "User is a admin" });
+  }catch(err){
+    console.log(err)
+    res.status(404).json({ message: "Some error occured" });
+  }
+}
+
 exports.getRequests = async (req, res, next) => {
   let currentPage = req.query.page || 1;
   let sort;

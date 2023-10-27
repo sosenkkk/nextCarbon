@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ProductImage from "../../../components/products/productImage";
-export default function AddProduct() {
+
+export default function AddProduct(props) {
   const [productImage, setProductImage] = useState(null);
   const productModelRef = useRef();
   const productNameRef = useRef();
@@ -72,7 +73,7 @@ export default function AddProduct() {
         modelNumberRef.current.value = "";
         priceRef.current.value = "";
         productNameRef.current.value = "";
-        setProductImage(null)
+        setProductImage(null);
         router.push("/admin/add-product");
       }
     } else if (validation && !priceValidationHandler(productPrice)) {
@@ -174,4 +175,30 @@ export default function AddProduct() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  let message = "";
+  const token = req.cookies.jwt;
+  const result = await fetch(BASE_URL + "get-add-product", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  const res = await result.json();
+  if (result.status === 201) {
+    message = res.message;
+    return {
+      props: {
+        message: message,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
 }

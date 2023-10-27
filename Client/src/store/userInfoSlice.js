@@ -4,7 +4,8 @@ import { BASE_URL } from "../../helper/helper";
 const initialState = {
   userInfo: {},
   userCart: [],
-  total:{}
+  total:{},
+  isAdmin:false,
 };
 
 export const userInfoSlice = createSlice({
@@ -19,6 +20,9 @@ export const userInfoSlice = createSlice({
     },
     total(state, action){
       state.total = action.payload;
+    },
+    userIsAdmin(state, action){
+      state.isAdmin= action.payload;
     }
   },
 });
@@ -37,6 +41,8 @@ export const fetchUserData = (token) => {
     };
 
     const data = await fetchData();
+    const isAdmin = data.isAdmin;
+    dispatch(userIsAdmin(isAdmin))
     const email = data.email;
     const firstName = data.firstName;
     const lastName = data.lastName;
@@ -66,6 +72,6 @@ export const fetchUserCart = (token) => {
 };
 
 
-export const { info, cart, total } = userInfoSlice.actions;
+export const { info, cart, total, userIsAdmin } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

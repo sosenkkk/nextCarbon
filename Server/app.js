@@ -23,7 +23,7 @@ const store = new MongoDBStore({
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://next-carbon-3asbyirx0-sosenkkk.vercel.app"],
     methods: ["POST", "GET", "HEAD", "PUT", "DELETE"],
     credentials: true,
   })
