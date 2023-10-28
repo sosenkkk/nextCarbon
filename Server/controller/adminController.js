@@ -43,7 +43,6 @@ exports.addProduct = async (req, res, next) => {
   const productName = req.body.productName;
   const productModelNumber = req.body.productModelNumber;
   const productPrice = req.body.productPrice;
-  const userId = req.userId;
   cloudinary.uploader.upload(
     uploadedFile.tempFilePath,
     { folder: "carbon" },
@@ -68,34 +67,74 @@ exports.addProduct = async (req, res, next) => {
 };
 
 exports.getAddProduct = async (req, res, next) => {
-  try{
+  try {
     res.status(201).json({ message: "User is a admin" });
-  }catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
     res.status(404).json({ message: "Some error occured" });
   }
-}
+};
 
 exports.getEditProduct = async (req, res, next) => {
   const productId = req.params.prodId;
-  try{
-    const product = await Product.findOne({_id:productId});
-    res.status(201).json({ message: "Product Fetched", product:product });
-  }catch(err){
-    console.log(err)
+  try {
+    const product = await Product.findOne({ _id: productId });
+    res.status(201).json({ message: "Product Fetched", product: product });
+  } catch (err) {
+    console.log(err);
     res.status(404).json({ message: "Some error occured" });
   }
-}
+};
 
 exports.postEditProduct = async (req, res, next) => {
-  try{
-    res.status(201).json({ message: "User is a admin" });
-  }catch(err){
-    console.log(err)
-    res.status(404).json({ message: "Some error occured" });
+  try {
+    const productId = req.params.prodId;
+    const productModel = req.body.productModel;
+    const productName = req.body.productName;
+    const productModelNumber = req.body.productModelNumber;
+    const productPrice = req.body.productPrice;
+    if (req.files) {
+      const uploadedFile = req.files.image;
+      cloudinary.uploader.upload(
+        uploadedFile.tempFilePath,
+        { folder: "carbon" },
+        async (err, result) => {
+          if (err) {
+            res.status(433).json({ message: "Some error occured. Try again" });
+            console.log(err);
+          } else {
+            const imageUrl = result.url;
+            const product = await Product.findById(productId);
+            console.log(product);
+            if (product) {
+              product.productPrice = productPrice;
+              product.productModel = productModel;
+              product.productModelNumber = productModelNumber;
+              product.productName = productName;
+              product.productImage = imageUrl;
+              const newProduct = await product.save();
+            }
+            res.status(202).json({ message: "Product Updated" });
+          }
+        }
+      );
+    } else {
+      const product = await Product.findById(productId);
+      console.log(product);
+      if (product) {
+        product.productPrice = productPrice;
+        product.productModel = productModel;
+        product.productModelNumber = productModelNumber;
+        product.productName = productName;
+        const newProduct = await product.save();
+      }
+      res.status(202).json({ message: "Product Updated" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Some error occured" });
   }
-}
-
+};
 
 exports.getRequests = async (req, res, next) => {
   let currentPage = req.query.page || 1;
@@ -105,20 +144,27 @@ exports.getRequests = async (req, res, next) => {
   }
   try {
     const limit = 5;
-    let requests,  totalRequests;
-    totalRequests = await Contacts.find().countDocuments()
+    let requests, totalRequests;
+    totalRequests = await Contacts.find().countDocuments();
     if (sort) {
-      requests = await Contacts.find().populate("user")
-      .skip((currentPage - 1) * limit)
-      .limit(limit)
-      .sort({ createdAt: sort });
+      requests = await Contacts.find()
+        .populate("user")
+        .skip((currentPage - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: sort });
     } else {
-      requests = await Contacts.find().populate("user").skip((currentPage - 1) * limit)
-      .limit(limit);
+      requests = await Contacts.find()
+        .populate("user")
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
     }
     res
       .status(201)
-      .json({ message: "Successfully fetched Requests!", requests: requests, totalRequests:totalRequests });
+      .json({
+        message: "Successfully fetched Requests!",
+        requests: requests,
+        totalRequests: totalRequests,
+      });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Requests failed to load!" });
@@ -169,8 +215,6 @@ exports.getOrders = async (req, res, next) => {
   }
 };
 
-
-
 exports.getAllProducts = async (req, res, next) => {
   let currentPage = req.query.page || 1;
   const query = {};
@@ -215,7 +259,6 @@ exports.getAllProducts = async (req, res, next) => {
     res.status(433).json({ message: "Products fecthing failed" });
   }
 };
-
 
 exports.getSingleOrder = async (req, res, next) => {
   const orderId = req.params.orderId;

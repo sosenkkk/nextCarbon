@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import ProductImage from "../../../../components/products/productImage";
 
 export default function AddProduct(props) {
-    console.log(props)
   const [productImage, setProductImage] = useState(null);
   const productModelRef = useRef();
   const productNameRef = useRef();
@@ -51,7 +50,8 @@ export default function AddProduct(props) {
       if(productImage){
         formData.append("image", productImage);
       }
-      const result = await fetch(BASE_URL + "edit-product", {
+      
+      const result = await fetch(BASE_URL + "get-edit-product/"+props.product._id, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -60,13 +60,13 @@ export default function AddProduct(props) {
       });
       const response = await result.json();
       if (result.status == 433) {
-        router.push("/admin/add-product");
+        router.push("/admin/view-products/"+props.product._id);
         toast({
           title: response.message,
           status: "error",
           isClosable: true,
         });
-      } else if (result.status == 201) {
+      } else if (result.status == 202) {
         toast({
           title: response.message,
           status: "success",
@@ -85,14 +85,14 @@ export default function AddProduct(props) {
         status: "error",
         isClosable: true,
       });
-      router.push("/admin/add-product");
+      router.push("/admin/view-products/"+props.product._id);
     } else {
       toast({
         title: "All fields should be filled.",
         status: "error",
         isClosable: true,
       });
-      router.push("/admin/add-product");
+      router.push("/admin/view-products/"+props.product._id);
     }
   };
   return (
