@@ -14,15 +14,16 @@ export default function NewNavbar() {
   const router = useRouter();
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
-  const logoutHandler = async() => {
-    const result = await fetch(BASE_URL + 'logout',{
-      headers:{
-        "Content-type":'application/json'
+  const isAdmin = useSelector((state) => state.user.isAdmin);
+  const logoutHandler = async () => {
+    const result = await fetch(BASE_URL + "logout", {
+      headers: {
+        "Content-type": "application/json",
       },
       credentials: "include",
-    })
+    });
     const res = await result.json();
-    
+
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     localStorage.removeItem("userId");
@@ -30,10 +31,9 @@ export default function NewNavbar() {
     dispatch(login(false));
     dispatch(info({}));
     dispatch(cart([]));
-    setTimeout(()=>{
+    setTimeout(() => {
       router.push("/");
-    },500)
-
+    }, 500);
   };
 
   const hiddenHandler = (event) => {
@@ -42,8 +42,7 @@ export default function NewNavbar() {
   return (
     <div className="fixed top-0 z-50 w-full firefox:bg-opacity-90  navbar">
       <div
-        className="flex justify-between shadow-md"
-        style={{ padding: "1.5rem 2rem" }}
+        className="flex justify-between shadow-md navbarContent"
       >
         <Link href="/" className="flex align-center">
           <img
@@ -59,7 +58,7 @@ export default function NewNavbar() {
         <div className="flex self-center items-center md:hidden gap-2 text-black dark:text-white">
           <Hamburger
             duration={0.4}
-            size={20}
+            size={18}
             toggle={hiddenHandler}
             rounded
             label="Show Menu"
@@ -69,10 +68,10 @@ export default function NewNavbar() {
           {/* <Link href="/account/my-cart" className="buttonTog p-1">
             {isAuth && <BsHandbagFill />}
           </Link> */}
-           {isAuth &&  <CartButton />}
+          {isAuth && <CartButton />}
         </div>
 
-        <div className="hidden md:flex gap-6">
+        <div className="hidden md:flex gap-3">
           <div>
             <Link className="navlinkWhite dark:text-white " href="/">
               Home
@@ -109,6 +108,13 @@ export default function NewNavbar() {
             <div>
               <Link className="navlinkWhite dark:text-white" href="/account">
                 Account
+              </Link>
+            </div>
+          )}
+          {isAuth && isAdmin && (
+            <div>
+              <Link className="navlinkWhite dark:text-white" href="/admin">
+                Admin
               </Link>
             </div>
           )}
@@ -213,6 +219,21 @@ export default function NewNavbar() {
               onClick={hiddenHandler}
             >
               Account
+            </Link>
+          )}
+          {isAuth && isAdmin && (
+            <Link
+              className="navlinkWhite dark:text-white"
+              href="/admin"
+              style={{
+                fontSize: "1.2rem",
+                paddingTop: "4px",
+                width: "100%",
+                marginBottom: "12px",
+              }}
+              onClick={hiddenHandler}
+            >
+              Admin
             </Link>
           )}
           {isAuth && (

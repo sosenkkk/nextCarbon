@@ -39,11 +39,12 @@
 
 .navlinkWhite {
   opacity: 0.65;
-  font-size: 1.2rem;
+  font-size: 18px;
 }
-
+.navbar .navbarContent{
+  padding:1.6rem 2.0rem;
+}
 .mobileNavbar {
-  border-bottom: 2px solid;
   animation: moveit 700ms ease forwards;
 }
 
@@ -453,7 +454,9 @@
   #orderBtn {
     width: 200px;
   }
-
+  .navbar .navbarContent{
+    padding:1rem 2rem;
+  }
   .accountButtons {
     width: 90%;
   }

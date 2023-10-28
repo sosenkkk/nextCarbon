@@ -30,7 +30,7 @@ const ThemeButton = () => {
         <button
           className=" text-gray-100  rounded-md buttonTog"
           onClick={() => setTheme("light")}
-          style={{ padding: "6px " }}
+          style={{ padding: "4px " }}
         >
           <BsMoonFill fontSize={16} />
         </button>
@@ -38,7 +38,7 @@ const ThemeButton = () => {
         <button
           className=" rounded-md text-gray-900 buttonTog"
           onClick={() => setTheme("dark")}
-          style={{ padding: "6px " }}
+          style={{ padding: "4px " }}
         >
           <BsSunFill fontSize={16} />
         </button>

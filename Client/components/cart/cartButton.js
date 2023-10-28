@@ -24,7 +24,7 @@ export default function CartButton() {
         <Link
           href="/account/my-cart"
           className=" text-gray-900 dark:text-white flex  "
-          style={{ padding: "6px " }}
+          style={{ padding: "4px " }}
           id="cartButton"
         >
           <BsHandbagFill className="buttonTog" fontSize={16} />
