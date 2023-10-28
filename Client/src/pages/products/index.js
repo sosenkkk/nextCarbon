@@ -88,6 +88,7 @@ export default function Products() {
               modelNo={product.productModelNumber}
               key={product._id.toString()}
               id={product._id.toString()}
+              isAdmin={false}
               onAddCart={cartChangeHandler}
             />
           ))}

@@ -6,7 +6,6 @@ function ProductImage(props) {
   const changeProfileHandler = () => {
     profileRef.current.click();
   };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -39,6 +38,15 @@ function ProductImage(props) {
             alt="default_pfp"
           />
         )}
+        {
+          props.imageSource && !selectedImage && (
+            <img
+            onClick={changeProfileHandler}
+            src={selectedImage ? selectedImage : props.imageSource}
+            alt="default_pfp"
+          />
+          )
+        }
       </div>
     </div>
   );

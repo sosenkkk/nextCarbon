@@ -68,15 +68,34 @@ exports.addProduct = async (req, res, next) => {
 };
 
 exports.getAddProduct = async (req, res, next) => {
-  console.log("hehe")
   try{
-    
     res.status(201).json({ message: "User is a admin" });
   }catch(err){
     console.log(err)
     res.status(404).json({ message: "Some error occured" });
   }
 }
+
+exports.getEditProduct = async (req, res, next) => {
+  const productId = req.params.prodId;
+  try{
+    const product = await Product.findOne({_id:productId});
+    res.status(201).json({ message: "Product Fetched", product:product });
+  }catch(err){
+    console.log(err)
+    res.status(404).json({ message: "Some error occured" });
+  }
+}
+
+exports.postEditProduct = async (req, res, next) => {
+  try{
+    res.status(201).json({ message: "User is a admin" });
+  }catch(err){
+    console.log(err)
+    res.status(404).json({ message: "Some error occured" });
+  }
+}
+
 
 exports.getRequests = async (req, res, next) => {
   let currentPage = req.query.page || 1;
@@ -149,6 +168,54 @@ exports.getOrders = async (req, res, next) => {
     res.status(433).json({ message: "Some error occured" });
   }
 };
+
+
+
+exports.getAllProducts = async (req, res, next) => {
+  let currentPage = req.query.page || 1;
+  const query = {};
+  let sort;
+  if (
+    req.query.filter &&
+    req.query.filter != " " &&
+    req.query.filter != "all"
+  ) {
+    query.productModel = req.query.filter;
+  }
+  if (req.query.sort && req.query.sort != "") {
+    sort = req.query.sort;
+  }
+
+  const limit = 8;
+  try {
+    const totalProducts = await Product.find(query).countDocuments();
+    let products;
+    if (sort) {
+      products = await Product.find(query)
+        .sort({ productPrice: sort })
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
+    } else {
+      products = await Product.find(query)
+        .skip((currentPage - 1) * limit)
+        .limit(limit);
+    }
+
+    if (products.length != 0) {
+      res.status(201).json({
+        message: "Products fetched Successfully",
+        products: products,
+        totalProducts: totalProducts,
+      });
+    } else {
+      throw new Error("failed fetching");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Products fecthing failed" });
+  }
+};
+
 
 exports.getSingleOrder = async (req, res, next) => {
   const orderId = req.params.orderId;
