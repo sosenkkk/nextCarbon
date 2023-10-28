@@ -1,11 +1,12 @@
 import { BASE_URL } from "../../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Modal from "../../../../components/Modal";
 import { useEffect, useState } from "react";
 import ProductBar from "../../../../components/Navbar/ProductBar";
 import ProductCard from "../../../../components/products/productCard";
 import { Pagination } from "@nextui-org/react";
+import { useSelector } from "react-redux";
 
 export default function AdminProducts(props) {
     const [products, setproducts] = useState([]);
@@ -15,6 +16,19 @@ export default function AdminProducts(props) {
     const [sort, setsort] = useState("");
     const router = useRouter();
     const toast = useToast();
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const token = useSelector((state)=>state.auth.userToken)
+    const openModal = (id) => {
+      setItemToDelete(id);
+      setModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setItemToDelete(null)
+      setModalOpen(false);
+    };
+
   const fetchProducts = async (token) => {
     const result = await fetch(
       BASE_URL + `view-products?page=${page}&filter=${filter}&sort=${sort}`,{
@@ -41,24 +55,31 @@ export default function AdminProducts(props) {
     const token = localStorage.getItem("token")
     fetchProducts(token);
   }, [page,  sort, filter]);
-  const cartChangeHandler = async (id) => {
-    const productId = id;
-    const result = await fetch(BASE_URL + "cart", {
-      method: "POST",
+  const deleteProductHandler = async () => {
+    const id = itemToDelete;
+    const result = await fetch(BASE_URL + "delete-product/"+id, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify({
-        productId: productId,
-      }),
     });
-    const res = await result.json();
-    if (result.status == 201) {
-      dispatch(cart(res.cart));
-      dispatch(total(res.total));
+      const res = await result.json()
+      if (result.status == 201) {
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
+      router.reload()
+      
     } else if (result.status == 433) {
-      console.log("noo");
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
+      router.reload()
+     
     }
   };
   const paginationHandler = (event) => {
@@ -82,6 +103,7 @@ export default function AdminProducts(props) {
         <div className="  gap-4   gap-y-8 productContainerHolder">
           {products.map((product) => (
             <ProductCard
+              onAdminClick={openModal}
               image={product.productImage}
               name={product.productName}
               model={product.productModel}
@@ -92,6 +114,26 @@ export default function AdminProducts(props) {
               isAdmin={true}
             />
           ))}
+          <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="500px">
+                <div className="px-8 rounded-lg py-4 bg-[#f7f7f7]  dark:bg-[#171717] text-gray-800 dark:text-gray-200">
+                  <h2 className="text-lg text-center sm:text-xl font-semibold mb-4">
+                    Click "Yes" to delete the Product.
+                  </h2>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 sm:justify-around">
+                    <button className="cartBtn" onClick={deleteProductHandler}>
+                      Yes
+                    </button>
+                    <button
+                      style={{ backgroundColor: "#F24C3D" }}
+                      className="cartBtn"
+                      onClick={closeModal}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </Modal>
+
         </div>
         <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
           <Pagination

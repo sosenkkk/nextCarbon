@@ -18,6 +18,7 @@ const getTotalCart = (cart) => {
     totalPrice = totalPrice + product.productId.productPrice * product.quantity;
     totalQuantity = totalQuantity + product.quantity;
   });
+
   const total = { totalPrice: totalPrice, totalQuantity: totalQuantity };
   return total;
 };

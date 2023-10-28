@@ -7,6 +7,9 @@ export default function ProductCard(props) {
   function numberWithCommas(x) {
     return x.toLocaleString("en-IN");
   }
+  const adminHandler=()=>{
+    props.onAdminClick(props.id)
+  }
   return (
     <>
       <div className="w-full bg-white transition-colors rounded-lg shadow-xl   dark:bg-[#171717] productContainer  ">
@@ -55,7 +58,10 @@ export default function ProductCard(props) {
           }
           {
             props.isAdmin && 
-            <Link className="cartBtn" style={{width:"100%", backgroundColor:"#176B87"}} href={`view-products/${props.id}`}>Edit Product</Link>
+            <div className="flex gap-3">
+              <Link className="cartBtn"  href={`view-products/${props.id}`}>Edit Product</Link>
+              <button onClick={adminHandler} className="cartBtn" style={{ backgroundColor:"rgb(242, 76, 61)"}}>Delete Product</button>
+            </div>
           }
         </div>
       </div>

@@ -20,6 +20,10 @@ router.get("/get-edit-product/:prodId", isAuth, isAdmin, adminController.getEdit
 
 router.post("/get-edit-product/:prodId", isAuth, isAdmin, adminController.postEditProduct);
 
+router.get("/delete-product/:prodId", isAuth, isAdmin, adminController.postDeleteProduct);
+
+router.get("/delete-request/:reqId", isAuth, isAdmin, adminController.postDeleteRequest);
+
 router.post("/add-product", isAuth, isAdmin, adminController.addProduct);
 
 router.get("/delete-request/:reqId",isAuth, adminController.deleteRequest)

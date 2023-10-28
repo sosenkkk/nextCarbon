@@ -26,7 +26,7 @@ export default function AddProduct(props) {
     return false;
   };
   const priceValidationHandler = (price) => {
-    if (isNaN(price)) {
+    if (isNaN(price) || price.trim().length ==0 || price <=0) {
       return false;
     }
     return true;

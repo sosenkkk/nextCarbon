@@ -3,33 +3,50 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { BiLogoGmail } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import {  useState } from "react";
+import Modal from "../../../../components/Modal";
 
 export default function Requests(props) {
   const router = useRouter();
   const request = props.request;
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
-  const deleteRequestHandler = async (event) => {
-    const id = event.target.id.toString();
-
-    const result = await fetch(BASE_URL + "admin/delete-request/" + id, {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    if (result.status == 201) {
-      console.log("ola");
-    } else if (result.status == 433) {
-      toast({
-        title: res.message,
-        status: "error",
-        isClosable: true,
+  
+  const [isModalOpen, setModalOpen] = useState(false);
+    const openModal = (id) => {
+      setModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+    
+    const deleteHandler = async (event) => {
+      const id = request._id;
+      const result = await fetch(BASE_URL + "delete-request/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
       });
-    }
-  };
-
+      const res = await result.json()
+      if (result.status == 201) {
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+        router.push("/admin/view-requests")
+      } else if (result.status == 433) {
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+        router.reload()
+  
+      }
+    };
   return (
     <>
       <div className="  pt-28 transition-colors md:pt-24 bg-[#f7f7f7] pb-12 dark:bg-[#202020] text-gray-800 dark:text-gray-200  ">
@@ -70,9 +87,28 @@ export default function Requests(props) {
             <p>{request.message}</p>
           </div>
           <div className="w-full flex items-end justify-end mt-4">
-            <button className="cartBtn" style={{background:"rgb(242, 76, 61)"}}>Delete</button>
+            <button className="cartBtn" style={{background:"rgb(242, 76, 61)"}} onClick={openModal}>Delete</button>
           </div>
         </section>
+        <Modal isOpen={isModalOpen} onClose={closeModal} maxWidth="500px">
+                <div className="px-8 rounded-lg py-4 bg-[#f7f7f7]  dark:bg-[#171717] text-gray-800 dark:text-gray-200">
+                  <h2 className="text-lg text-center sm:text-xl font-semibold mb-4">
+                    Click "Yes" to delete the Product.
+                  </h2>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 sm:justify-around">
+                    <button className="cartBtn" onClick={deleteHandler}>
+                      Yes
+                    </button>
+                    <button
+                      style={{ backgroundColor: "#F24C3D" }}
+                      className="cartBtn"
+                      onClick={closeModal}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </Modal>
       </div>
     </>
   );

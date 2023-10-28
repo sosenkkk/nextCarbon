@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { BASE_URL } from "../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { fetchUserData } from "@/store/userInfoSlice";
 
 export default function ContactUs() {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -14,60 +13,52 @@ export default function ContactUs() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const validationHandler = (firstName, lastName, image) => {
-    if (firstName.trim().length == 0 && lastName.trim().length == 0) {
-      if (!image) {
-        return false;
-      }
+  const validationHandler = (firstName) => {
+    if (firstName.trim().length < 6) {
+      return false;
     }
     return true;
   };
 
-  const contactHandler = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    const validation = validationHandler(
-      firstNameRef.current.value,
-      lastNameRef.current.value,
-      profileImage
-    );
-    if (validation) {
-      formData.append("firstName", firstNameRef.current.value);
-      formData.append("lastName", lastNameRef.current.value);
-      formData.append("image", profileImage);
-      const response = await fetch(BASE_URL + "edit-info", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: formData,
-      });
-      const res = await response.json();
-      if (response.status == 433) {
-        router.push("/account/details");
+
+    const contactHandler = async (event) => {
+      event.preventDefault();
+      const message = messageRef.current.value;
+      const validation = validationHandler(message);
+      if (validation) {
+        const response = await fetch(BASE_URL + "contact-us", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            message: message,
+          }),
+        });
+        const res = await response.json();
+        if (response.status == 433) {
+          toast({
+            title: res.message,
+            status: "error",
+            isClosable: true,
+          });
+        } else if (response.status == 201) {
+          messageRef.current.value=""
+          toast({
+            title: res.message,
+            status: "success",
+            isClosable: true,
+          });
+        }
+      } else {
         toast({
-          title: res.message,
+          title: "Message too short. Atleast 6 characters long.",
           status: "error",
           isClosable: true,
         });
-      } else if (response.status == 201) {
-        toast({
-          title: res.message,
-          status: "success",
-          isClosable: true,
-        });
-        dispatch(fetchUserData(token));
-        router.push("/account");
       }
-    } else {
-      router.push("/account/details");
-      toast({
-        title: "Nothing is Changed",
-        status: "error",
-        isClosable: true,
-      });
-    }
-  };
+    };
   return (
     <>
       <div className="min-h-[600px] bg-[#fff] dark:bg-[#111111] transition-colors">

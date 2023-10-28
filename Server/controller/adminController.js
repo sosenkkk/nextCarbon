@@ -89,52 +89,79 @@ exports.getEditProduct = async (req, res, next) => {
 exports.postEditProduct = async (req, res, next) => {
   try {
     const productId = req.params.prodId;
-    const productModel = req.body.productModel;
-    const productName = req.body.productName;
-    const productModelNumber = req.body.productModelNumber;
-    const productPrice = req.body.productPrice;
-    if (req.files) {
-      const uploadedFile = req.files.image;
-      cloudinary.uploader.upload(
-        uploadedFile.tempFilePath,
-        { folder: "carbon" },
-        async (err, result) => {
-          if (err) {
-            res.status(433).json({ message: "Some error occured. Try again" });
-            console.log(err);
-          } else {
-            const imageUrl = result.url;
-            const product = await Product.findById(productId);
-            console.log(product);
-            if (product) {
+    const product = await Product.findById(productId);
+    if (product) {
+      let productModel, productName, productPrice, productModelNumber;
+        productModel = req.body.productModel;
+        productName = req.body.productName;
+        productModelNumber = req.body.productModelNumber;
+        productPrice = req.body.productPrice;
+      console.log(productName, productModel, productModelNumber, productPrice)
+
+      if (req.files) {
+        const uploadedFile = req.files.image;
+        cloudinary.uploader.upload(
+          uploadedFile.tempFilePath,
+          { folder: "carbon" },
+          async (err, result) => {
+            if (err) {
+              res
+                .status(433)
+                .json({ message: "Some error occured. Try again" });
+              console.log(err);
+            } else {
+              const imageUrl = result.url;
+
+              console.log(product);
               product.productPrice = productPrice;
               product.productModel = productModel;
               product.productModelNumber = productModelNumber;
               product.productName = productName;
               product.productImage = imageUrl;
               const newProduct = await product.save();
+              res.status(202).json({ message: "Product Updated" });
             }
-            res.status(202).json({ message: "Product Updated" });
           }
-        }
-      );
-    } else {
-      const product = await Product.findById(productId);
-      console.log(product);
-      if (product) {
+        );
+      } else {
         product.productPrice = productPrice;
         product.productModel = productModel;
         product.productModelNumber = productModelNumber;
         product.productName = productName;
         const newProduct = await product.save();
+
+        res.status(202).json({ message: "Product Updated" });
       }
-      res.status(202).json({ message: "Product Updated" });
     }
   } catch (err) {
     console.log(err);
     res.status(433).json({ message: "Some error occured" });
   }
 };
+
+exports.postDeleteProduct = async (req, res, next) => {
+  try{
+    const id = req.params.prodId;
+    const itemDeleted = await Product.deleteOne({_id:id});
+    res.status(201).json({message:"Item Deleted Successfully"})
+  }catch(err){
+    console.log(err)
+    res.status(433).json({message:"Failed Deleting Product"})
+  }
+ 
+}
+
+exports.postDeleteRequest = async (req, res, next) => {
+  try{
+    const id = req.params.reqId;
+    const itemDeleted = await Contacts.deleteOne({_id:id});
+    res.status(201).json({message:"Request Deleted Successfully"})
+  }catch(err){
+    console.log(err)
+    res.status(433).json({message:"Failed Deleting Request"})
+  }
+ 
+}
 
 exports.getRequests = async (req, res, next) => {
   let currentPage = req.query.page || 1;
@@ -158,13 +185,11 @@ exports.getRequests = async (req, res, next) => {
         .skip((currentPage - 1) * limit)
         .limit(limit);
     }
-    res
-      .status(201)
-      .json({
-        message: "Successfully fetched Requests!",
-        requests: requests,
-        totalRequests: totalRequests,
-      });
+    res.status(201).json({
+      message: "Successfully fetched Requests!",
+      requests: requests,
+      totalRequests: totalRequests,
+    });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Requests failed to load!" });

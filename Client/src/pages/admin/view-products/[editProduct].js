@@ -26,7 +26,7 @@ export default function AddProduct(props) {
     return false;
   };
   const priceValidationHandler = (price) => {
-    if (isNaN(price)) {
+    if (isNaN(price) || price.trim().length==0 || price <=0) {
       return false;
     }
     return true;
@@ -38,6 +38,7 @@ export default function AddProduct(props) {
     const productModelNumber = modelNumberRef.current.value;
     const productName = productNameRef.current.value;
     const productPrice = priceRef.current.value;
+    console.log(productPrice)
     const validation =
       validationHandler(productModel) &&
       validationHandler(productName) &&
@@ -115,9 +116,9 @@ export default function AddProduct(props) {
                 <input
                   type="text"
                   id="first_name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                   ref={productModelRef}
-                  placeholder={props.product.productModel}
+                  defaultValue={props.product.productModel}
                 />
               </div>
               <div className="col-span-2 ">
@@ -130,9 +131,9 @@ export default function AddProduct(props) {
                 <input
                   type="text"
                   id="last_name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                   ref={productNameRef}
-                  placeholder={props.product.productName}
+                  defaultValue={props.product.productName}
                 />
               </div>
             </div>
@@ -146,9 +147,9 @@ export default function AddProduct(props) {
               <input
                 type="text"
                 id="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                 ref={modelNumberRef}
-                placeholder={props.product.productModelNumber}
+                defaultValue={props.product.productModelNumber}
                 />
             </div>
             <div className=" mb-6 col-span-2 ">
@@ -161,9 +162,9 @@ export default function AddProduct(props) {
               <input
                 ttype="number"
                 id="price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                 ref={priceRef}
-                placeholder={props.product.productPrice}
+                defaultValue={props.product.productPrice}
                 />
             </div>
             <ProductImage
