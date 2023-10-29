@@ -56,7 +56,7 @@ exports.login = async (req, res, next) => {
             email: enteredUser.email,
             userId: enteredUser._id.toString(),
           },
-          "my-secret",
+          `${process.env.json_secret}`,
           { expiresIn: "1h" }
         );
 
@@ -119,7 +119,7 @@ exports.postResetPassword = async (req, res, next) => {
     if (!enteredUser) {
       res.status(433).json({ message: "User not registered." });
     } else {
-      const secret = "my-secret" + enteredUser.password;
+      const secret = `${process.env.json_secret}` + enteredUser.password;
       const payload = {
         email: enteredUser.email,
         id: enteredUser._id,
@@ -160,7 +160,7 @@ exports.getResetPassword = async (req, res, next) => {
     if (!user) {
       res.status(433).json({ message: "Invalid Link." });
     } else {
-      const secret = "my-secret" + user.password;
+      const secret = `${process.env.json_secret}` + user.password;
       try {
         const payload = jwt.verify(token, secret);
         if (payload.email != email) {

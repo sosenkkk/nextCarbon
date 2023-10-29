@@ -6,36 +6,10 @@ const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: `drlqa8duh`,
-  api_key: `858762281996182`,
-  api_secret: `Dh5ROsG7lszeA85kUPLVwuupOkA`,
+  cloud_name: `${process.env.cloud_name}`,
+  api_key: `${process.env.api_key}`,
+  api_secret: `${process.env.api_secret}`,
 });
-
-// exports.accountInfo = async (req, res, next) => {
-//   try {
-//     const userId = req.userId;
-//     const userInfo = await User.findOne({
-//       _id: new mongoose.Types.ObjectId(userId),
-//     });
-//     if (userInfo) {
-//       res
-//         .status(202)
-//         .json({
-//           message: "User data found!",
-//           email: userInfo.email,
-//           firstName: userInfo.firstName,
-//           lastName: userInfo.lastName,
-//           cart: userInfo.cart,
-//           profile: userInfo.profile
-//         });
-//     } else {
-//       res.status(404).json({ message: "Some Error Happened, User not found" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     next();
-//   }
-// };
 
 exports.addProduct = async (req, res, next) => {
   const uploadedFile = req.files.image;
@@ -92,11 +66,11 @@ exports.postEditProduct = async (req, res, next) => {
     const product = await Product.findById(productId);
     if (product) {
       let productModel, productName, productPrice, productModelNumber;
-        productModel = req.body.productModel;
-        productName = req.body.productName;
-        productModelNumber = req.body.productModelNumber;
-        productPrice = req.body.productPrice;
-      console.log(productName, productModel, productModelNumber, productPrice)
+      productModel = req.body.productModel;
+      productName = req.body.productName;
+      productModelNumber = req.body.productModelNumber;
+      productPrice = req.body.productPrice;
+      console.log(productName, productModel, productModelNumber, productPrice);
 
       if (req.files) {
         const uploadedFile = req.files.image;
@@ -140,28 +114,26 @@ exports.postEditProduct = async (req, res, next) => {
 };
 
 exports.postDeleteProduct = async (req, res, next) => {
-  try{
+  try {
     const id = req.params.prodId;
-    const itemDeleted = await Product.deleteOne({_id:id});
-    res.status(201).json({message:"Item Deleted Successfully"})
-  }catch(err){
-    console.log(err)
-    res.status(433).json({message:"Failed Deleting Product"})
+    const itemDeleted = await Product.deleteOne({ _id: id });
+    res.status(201).json({ message: "Item Deleted Successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Failed Deleting Product" });
   }
- 
-}
+};
 
 exports.postDeleteRequest = async (req, res, next) => {
-  try{
+  try {
     const id = req.params.reqId;
-    const itemDeleted = await Contacts.deleteOne({_id:id});
-    res.status(201).json({message:"Request Deleted Successfully"})
-  }catch(err){
-    console.log(err)
-    res.status(433).json({message:"Failed Deleting Request"})
+    const itemDeleted = await Contacts.deleteOne({ _id: id });
+    res.status(201).json({ message: "Request Deleted Successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Failed Deleting Request" });
   }
- 
-}
+};
 
 exports.getRequests = async (req, res, next) => {
   let currentPage = req.query.page || 1;

@@ -1,26 +1,20 @@
+const dotenv = require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
-const session = require("express-session");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-const MongoDBStore = require("connect-mongodb-session")(session);
 const path = require("path");
 const MONGO_URI =
-  "mongodb+srv://sosenkkk:sosenk@cluster1.wxdleee.mongodb.net/carbon?retryWrites=true&w=majority";
+  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.wxdleee.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 const app = express();
 
 const PORT = process.env.PORT || 8080;
-const store = new MongoDBStore({
-  uri: MONGO_URI,
-  collection: "user-sessions",
-});
 
 app.use(
   cors({
