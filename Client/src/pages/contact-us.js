@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -9,9 +9,17 @@ export default function ContactUs() {
   const messageRef = useRef();
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
-
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useRouter()
+  useEffect(()=>{
+    if(!localStorage.getItem("token")){
+      toast({
+        title: "Login first to Contact us",
+        status: "error",
+        isClosable: true,
+      });
+      router.push("/")
+    }
+  }, [])
 
   const validationHandler = (firstName) => {
     if (firstName.trim().length < 6) {
