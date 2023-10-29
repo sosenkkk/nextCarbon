@@ -145,7 +145,7 @@ export default function Footer() {
                 <span className="sr-only">GitHub account</span>
               </Link>
               <Link
-                href="https://github.com/sosenkkk/"
+                href="https://dribbble.com/sosenkkk"
                 className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
               >
                 <svg

@@ -1,6 +1,18 @@
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "sunilcarbon112200@gmail.com",
+    pass: "cczf rbsy xblp pswp",
+  },
+});
 
 exports.signup = async (req, res, next) => {
   const email = req.body.email;
@@ -95,12 +107,90 @@ exports.changePassword = async (req, res, next) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(404).json({ message: "Some error occured" });
+
     next();
+  }
+};
+exports.postResetPassword = async (req, res, next) => {
+  const email = req.body.email;
+  try {
+    const enteredUser = await User.findOne({ email: email });
+    if (!enteredUser) {
+      res.status(433).json({ message: "User not registered." });
+    } else {
+      const secret = "my-secret" + enteredUser.password;
+      const payload = {
+        email: enteredUser.email,
+        id: enteredUser._id,
+      };
+      const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+      const link = `http://localhost:3000/auth/${enteredUser._id}/${token}`;
+      const mailOptions = {
+        from: { name: "Carbon", email: "sunilcarbon112200@gmail.com" },
+        to: enteredUser.email,
+        subject: "Reset your password",
+        html: `<body>
+        <h2>Hello ${enteredUser.firstName}! </h2>
+        
+      <h3>Click the link below to reset your account <br> </h3> <a  style=" background-color: teal; color: white; padding: 1rem; border-radius: 12px; margin-bottom:2rem;" href="${link}" target="_blank" >Click to reset</a></body>`,
+      };
+      transporter.sendMail(mailOptions, (err, success) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ message: "Error Sending OTP" });
+        } else if (success) {
+          res
+            .status(201)
+            .json({ message: "Password reset link has been sent to email." });
+        }
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: "Some error occured" });
+    next();
+  }
+};
+exports.getResetPassword = async (req, res, next) => {
+  const { id, token } = req.params;
+  const { email, password } = req.body;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(433).json({ message: "Invalid Link." });
+    } else {
+      const secret = "my-secret" + user.password;
+      try {
+        const payload = jwt.verify(token, secret);
+        if (payload.email != email) {
+          res.status(433).json({ message: "Incorrect Email" });
+        } else {
+          const hashedPassword = await bcrypt.hash(password, 12);
+          const updateUser = await User.findOneAndUpdate(
+            { email: email },
+            { password: hashedPassword },
+            { returnOriginal: false }
+          );
+          res.status(201).json({ message: "User password changed!" });
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(404).json({ message: "Retry with a new link." });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Some Error Occured. Invalid Link." });
   }
 };
 
 exports.getLogout = async (req, res, next) => {
-  // Clear the 'authCookie' by setting it to null and expiring it immediately
-  await res.clearCookie("jwt");
-  res.status(201).json({ message: "User Logged Out." });
+  try {
+    await res.clearCookie("jwt");
+    res.status(201).json({ message: "User Logged Out." });
+  } catch (err) {
+    console.log(err);
+    res.status(433).json({ message: "Erro logging out User." });
+  }
 };

@@ -3,8 +3,10 @@ import Link from "next/link";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const ForgotPassword = (props) => {
+  const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -66,25 +68,22 @@ const ForgotPassword = (props) => {
   const forgotPasswordHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
-    const oldpassword = oldPasswordRef.current.value;
-    const newpassword = passwordRef.current.value;
-    const confirmpassword = confirmPasswordRef.current.value;
+    // const oldpassword = oldPasswordRef.current.value;
+    // const newpassword = passwordRef.current.value;
+    // const confirmpassword = confirmPasswordRef.current.value;
 
-    const validation =
-      validateEmailHandler(email) &&
-      validatePasswordHandler(oldpassword) &&
-      validatePasswordHandler(newpassword) &&
-      validateConfirmPasswordHandler(oldpassword, newpassword, confirmpassword);
+    const validation = validateEmailHandler(email);
+    // validatePasswordHandler(oldpassword) &&
+    // validatePasswordHandler(newpassword) &&
+    // validateConfirmPasswordHandler(oldpassword, newpassword, confirmpassword);
     if (validation) {
-      const response = await fetch(BASE_URL + "change-password", {
+      const response = await fetch(BASE_URL + "reset-password/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
-          oldpassword: oldpassword,
-          newpassword: newpassword,
         }),
       });
       const res = await response.json();
@@ -109,11 +108,12 @@ const ForgotPassword = (props) => {
   };
   return (
     <>
-      <section className="bg-light-theme dark:bg-dark-theme  ">
+     <section className="bg-light-theme dark:bg-dark-theme transition-colors">
         <div className="flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-8 sm:max-w-md xl:p-0 dark:bg-[#252525] dark:border-gray-700">
-            <div className="p-4 space-y-4  sm:p-8 sm:pt-4">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <div className="w-full bg-white rounded-lg shadow-xl md:mt-0 sm:max-w-md xl:p-0 transition-colors dark:bg-[#171717] ">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-700 md:text-2xl dark:text-gray-300">
+           
                 Change your password
               </h1>
               <form
@@ -132,67 +132,16 @@ const ForgotPassword = (props) => {
                     type="text"
                     name="email"
                     id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 transition-colors border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-[#272727] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
                     placeholder="namecompany@any.com"
-                    style={{ cursor: "not-allowed" }}
                     ref={emailRef}
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="oldPassword"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Old Password
-                  </label>
-                  <input
-                    type="password"
-                    name="oldPassword"
-                    id="oldPassword"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
-                    ref={oldPasswordRef}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
-                    ref={passwordRef}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="confirmpassword"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    id="confirmpassword"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
-                    ref={confirmPasswordRef}
-                  />
-                </div>
+
                 <div>
                   <button
                     type="submit"
-                    className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
                   >
                     Change Password
                   </button>
@@ -201,7 +150,7 @@ const ForgotPassword = (props) => {
                   Already have an account yet?{" "}
                   <Link
                     href="/auth/login"
-                    className="font-medium text-purple-600 hover:underline dark:text-purple-500"
+                    className="font-medium text-teal-600 hover:underline dark:text-teal-500"
                   >
                     Login
                   </Link>

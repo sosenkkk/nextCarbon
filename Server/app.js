@@ -9,12 +9,13 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+
 const MongoDBStore = require("connect-mongodb-session")(session);
 const path = require("path");
-
 const MONGO_URI =
   "mongodb+srv://sosenkkk:sosenk@cluster1.wxdleee.mongodb.net/carbon?retryWrites=true&w=majority";
 const app = express();
+
 const PORT = process.env.PORT || 8080;
 const store = new MongoDBStore({
   uri: MONGO_URI,
