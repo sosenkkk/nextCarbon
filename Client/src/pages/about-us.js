@@ -1,5 +1,4 @@
 import Section from "../../components/cards/Section";
-import Footer from "./../../components/footer/footer";
 
 export default function AboutUs() {
   return (

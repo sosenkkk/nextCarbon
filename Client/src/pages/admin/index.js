@@ -1,9 +1,5 @@
-import Link from "next/link";
 import { useSelector } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
-import { useState, useRef } from "react";
-import { useToast } from "@chakra-ui/react";
-import Modal from "../../../components/Modal";
 import { BASE_URL } from "../../../helper/helper";
 
 export default function Admin(props) {
