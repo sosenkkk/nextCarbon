@@ -60,7 +60,7 @@ exports.login = async (req, res, next) => {
           { expiresIn: "1h" }
         );
 
-        res.cookie("jwt", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
+        res.cookie("jwt", token, { maxAge: 1000 * 60 * 60, httpOnly: true, sameSite:"none", secure:true  });
 
         res.status(201).json({
           message: "User logged In",
