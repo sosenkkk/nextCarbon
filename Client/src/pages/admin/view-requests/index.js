@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import Modal from "../../../../components/Modal";
 
 
-export default function Requests(props) {
+export default function Requests() {
   const [requests, setrequests] = useState([]);
   const [admin, setAdmin]= useState(false)
   const [sort, setsort] = useState("");

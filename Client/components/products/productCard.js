@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AiFillInfoCircle } from "react-icons/ai";
 
 export default function ProductCard(props) {
   const cartButtonHandler = () => {
@@ -40,7 +41,7 @@ export default function ProductCard(props) {
             
           </div>
           {
-            !props.isAdmin && 
+            !props.isAdmin && props.isLoggedIn &&
             <button onClick={cartButtonHandler} className="cartBtn cartBtnWidth">
             <span className="cartIconContainer">
               <svg
@@ -55,6 +56,15 @@ export default function ProductCard(props) {
             </span>
             <p className="text">Add to Cart</p>
           </button>
+          }
+          {
+            !props.isAdmin && !props.isLoggedIn &&
+            <Link href={`/products/${props.id}`} className="cartBtn cartBtnWidth">
+            <span className="cartIconContainer">
+              <AiFillInfoCircle/>
+            </span>
+            <p className="text">Details</p>
+          </Link>
           }
           {
             props.isAdmin && 

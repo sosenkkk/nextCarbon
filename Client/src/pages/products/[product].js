@@ -2,15 +2,32 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
-import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-export default function SingleProduct(props) {
-  const product = props.product;
+export default function SingleProduct() {
+  const isAuth = useSelector((state)=>state.auth.isAuthenticated)
+  const router = useRouter()
+  const [product, setProduct]=useState();
   const dispatch = useDispatch();
   const [quantity, setquantity] = useState(1);
   const token = useSelector((state) => state.auth.userToken);
-  
+  const fetchData =async(productId )=>{
+    const result = await fetch(BASE_URL + "products/"+productId);
+    const res = await result.json();
+    if (result.status === 201) {
+      setProduct(res.product);
+      
+    } else {
+      
+    }
+  }
+  useEffect(()=>{
+    if(router.isReady){
+      const productId = router.query.product;
+      fetchData(productId)
+    }
+    
+  }, [router.isReady])
   const cartChangeHandler = async (id) => {
     const productId = product._id;
     const result = await fetch(BASE_URL + "cart", {
@@ -53,7 +70,7 @@ export default function SingleProduct(props) {
   
   return (
     <>
-      <section className="overflow-hidden bg-[#f7f7f7]  pt-24 font-poppins dark:bg-[#202020]">
+     {product && <section className="overflow-hidden bg-[#f7f7f7]  pt-24 font-poppins dark:bg-[#202020]">
         <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full mb-8 px-4 md:w-1/2 md:mb-0">
@@ -87,7 +104,7 @@ export default function SingleProduct(props) {
                 </p>
               </div>
 
-              <div className="w-32 mb-8 ">
+              {isAuth && <div><div className="w-32 mb-8 ">
                 <label
                   htmlFor=""
                   className="w-full pb-1 text-xl font-semibold text-gray-700 border-b border-blue-300 dark:border-gray-600 dark:text-gray-200"
@@ -114,7 +131,7 @@ export default function SingleProduct(props) {
                 <button onClick={cartChangeHandler} className="w-full p-4 bg-teal-500 rounded-md lg:w-2/5 dark:text-gray-200 text-gray-50 hover:bg-teal-600 dark:bg-teal-500 dark:hover:bg-teal-700 crtBtn">
                   Add to cart
                 </button>
-              </div>
+              </div></div>}
               <div className="px-6 pb-6 mt-6 border-t border-gray-300 dark:border-gray-400 ">
                   <div className="flex flex-wrap items-center mt-6">
                     <span className="mr-2">
@@ -137,31 +154,10 @@ export default function SingleProduct(props) {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
     </>
   );
 }
 
 
-export async function getServerSideProps(context) {
-    const productId= context.query.product;
-    let product;
-    const result = await fetch(BASE_URL + "products/"+productId);
-    const res = await result.json();
-    if (result.status === 201) {
-      product = res.product;
-      return {
-        props: {
-          product: product,
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/products",
-        },
-      };
-    }
-  }
   

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Pagination } from "@nextui-org/react";
 import { useRouter } from "next/router";
-export default function ViewOrders(props) {
+export default function ViewOrders() {
   const router = useRouter()
   const [admin, setAdmin] = useState(false);
   const toast = useToast();
@@ -25,9 +25,9 @@ export default function ViewOrders(props) {
     );
     const res = await result.json();
     if (result.status == 201) {
-      setAdmin(true);
       const pages = Math.ceil(res.totalOrders / 5);
       setTotalPages(pages);
+      setAdmin(true);
       setorders(res.orders);
     } else if (result.status == 433) {
       toast({
@@ -42,7 +42,6 @@ export default function ViewOrders(props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetchData(token);
-    setTotalPages(Math.ceil(props.totalOrders / 5));
   }, [sort, page]);
   
   const paginationHandler = (event) => {

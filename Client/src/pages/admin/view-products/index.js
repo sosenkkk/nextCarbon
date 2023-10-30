@@ -8,7 +8,7 @@ import ProductCard from "../../../../components/products/productCard";
 import { Pagination } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 
-export default function AdminProducts(props) {
+export default function AdminProducts() {
   const [admin, setAdmin]= useState(false)
   const [products, setproducts] = useState([]);
     const [page, setpage] = useState(1);

@@ -17,6 +17,7 @@ export default function Products() {
   const [filter, setfilter] = useState("");
   const [sort, setsort] = useState("");
   const token = useSelector((state) => state.auth.userToken);
+  const isAuth = useSelector((state)=>state.auth.isAuthenticated)
   const router = useRouter();
   const toast = useToast();
   const fetchProducts = async () => {
@@ -89,6 +90,7 @@ export default function Products() {
               key={product._id.toString()}
               id={product._id.toString()}
               isAdmin={false}
+              isLoggedIn = {isAuth}
               onAddCart={cartChangeHandler}
             />
           ))}
