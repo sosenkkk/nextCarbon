@@ -3,15 +3,38 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { BiLogoGmail } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import Modal from "../../../../components/Modal";
 
 export default function Requests(props) {
   const router = useRouter();
-  const request = props.request;
+  const [request, setRequest]=useState()
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
-  
+  const fetchData = async (token, reqId)=>{
+  const URL = BASE_URL + "view-requests/" + reqId;
+  const result = await fetch(URL, {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+  const res = await result.json();
+  let request;
+  if (result.status == 201) {
+    setRequest(res.request) ;
+    
+  } else {
+    router.push("/404")
+  }
+  }
+  useEffect(()=>{
+    if(router.isReady){
+      const reqId = router.query.request;
+      const token = localStorage.getItem("token")
+      fetchData(token,reqId)
+    }
+  },[router.isReady])
   const [isModalOpen, setModalOpen] = useState(false);
     const openModal = (id) => {
       setModalOpen(true);
@@ -48,7 +71,7 @@ export default function Requests(props) {
       }
     };
   return (
-    <>
+    <>{request &&
       <div className="  pt-28 transition-colors md:pt-24 bg-[#f7f7f7] pb-12 dark:bg-[#202020] text-gray-800 dark:text-gray-200  ">
         <section className="text-center mb-4">
           <h1 className="sm:text-xl md:text-2xl font-bold border-b-2 inline">
@@ -109,38 +132,13 @@ export default function Requests(props) {
                   </div>
                 </div>
               </Modal>
-      </div>
+      </div>}
     </>
   );
 }
 
-export async function getServerSideProps(context) {
-  const token = context.req.cookies.jwt;
-  const reqId = context.query.request;
-  const URL = BASE_URL + "view-requests/" + reqId;
-  console.log(URL);
-  const result = await fetch(URL, {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  });
-  const res = await result.json();
-  let request;
-  if (result.status == 201) {
-    request = res.request;
-    return {
-      props: {
-        request: request,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
+// export async function getServerSideProps(context) {
+//   const token = context.req.cookies.jwt;
   
-}
+  
+// }

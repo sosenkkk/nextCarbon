@@ -51,6 +51,8 @@ exports.getAddProduct = async (req, res, next) => {
 
 exports.getEditProduct = async (req, res, next) => {
   const productId = req.params.prodId;
+  console.log(productId)
+
   try {
     const product = await Product.findOne({ _id: productId });
     res.status(201).json({ message: "Product Fetched", product: product });

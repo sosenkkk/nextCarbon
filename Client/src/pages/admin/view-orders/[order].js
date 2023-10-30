@@ -2,33 +2,60 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiLogoGmail } from "react-icons/bi";
 import { BASE_URL } from "../../../../helper/helper";
 import { useState, useEffect } from "react";
-export default function Order(props) {
-  const order = props.order;
-  const user = order.user;
-  const total = order.total;
-  const orderDateParse = new Date(order.createdAt);
-  let orderDate = orderDateParse.toLocaleDateString();
-  let orderTime = orderDateParse.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  let dateAndTime;
-  const [hydrated, setHydrated] = useState(false);
+import {useRouter } from "next/router"
+export default function Order() {
+  const [order, setOrder] = useState();
+  const [user, setUser] = useState({});
+  const [total, setTotal] = useState({});
+  const router = useRouter();
+  
+
   useEffect(() => {
-    setHydrated(true);
-  }, []);
-  if (!hydrated) {
-    dateAndTime = " ";
-    return null;
-  } else {
+    if(router.isReady){
+      const token = localStorage.getItem("token");
+      const id = router.query.order;
+          fetchData(token, id);
+    }
+    
+
+  }, [  router.isReady]);
+  let dateAndTime;
+
+  if (order) {
+    const orderDateParse = new Date(order.createdAt);
+    let orderDate = orderDateParse.toLocaleDateString();
+    let orderTime = orderDateParse.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
     dateAndTime = `${orderDate} at ${orderTime}`;
   }
   function numberWithCommas(x) {
     // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return x.toLocaleString("en-IN");
   }
+  const fetchData =async(token, id)=>{
+    
+  const result = await fetch(BASE_URL + "admin/order/" + id, {
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+  const res = await result.json();
+  if (result.status == 201) {
+    setOrder(res.order);
+      setUser(res.order.user);
+      setTotal(res.order.total)
+    
+  } else if (result.status == 404) {
+    router.push("/404")
+  }
+
+  }
   return (
-    <>
+    <>{order && 
       <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#131313]">
         <div className="bg-white dark:bg-[#131313] rounded-lg w-full">
           <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -241,35 +268,8 @@ export default function Order(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 }
 
-export async function getServerSideProps({ req, params }) {
-  const id = params.order;
-  const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL + "admin/order/" + id, {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  });
-  const res = await result.json();
-  let order;
-  if (result.status == 201) {
-    order = res.order;
-    return {
-      props: {
-        order: order,
-      },
-    };
-  } else if (result.status == 404) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
-}

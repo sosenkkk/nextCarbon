@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import {  useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ export default function AddProduct(props) {
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const router = useRouter();
+  const [product, setProduct]=useState()
   const imageSelect = (file) => {
     if (file) {
       setProductImage(file);
@@ -31,6 +32,30 @@ export default function AddProduct(props) {
     }
     return true;
   };
+  const fetchData = async(token, prodId)=>{
+      
+    const result = await fetch(BASE_URL + `get-edit-product/${prodId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    const res = await result.json();
+    console.log(res)
+
+    if (result.status === 201) {
+      setProduct( res.product)
+      
+    } else {
+      router.push("/404")
+    }
+  }
+  useEffect(()=>{
+    if(router.isReady){
+        const prodId = router.query.editProduct;
+        const token = localStorage.getItem("token");
+        fetchData(token, prodId)
+    }
+  },[router.isReady])
   const changeDetailHandler = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -38,7 +63,6 @@ export default function AddProduct(props) {
     const productModelNumber = modelNumberRef.current.value;
     const productName = productNameRef.current.value;
     const productPrice = priceRef.current.value;
-    console.log(productPrice)
     const validation =
       validationHandler(productModel) &&
       validationHandler(productName) &&
@@ -52,7 +76,7 @@ export default function AddProduct(props) {
         formData.append("image", productImage);
       }
       
-      const result = await fetch(BASE_URL + "get-edit-product/"+props.product._id, {
+      const result = await fetch(BASE_URL + "get-edit-product/"+product._id, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -61,7 +85,7 @@ export default function AddProduct(props) {
       });
       const response = await result.json();
       if (result.status == 433) {
-        router.push("/admin/view-products/"+props.product._id);
+        router.push("/admin/view-products/"+product._id);
         toast({
           title: response.message,
           status: "error",
@@ -86,19 +110,19 @@ export default function AddProduct(props) {
         status: "error",
         isClosable: true,
       });
-      router.push("/admin/view-products/"+props.product._id);
+      router.push("/admin/view-products/"+product._id);
     } else {
       toast({
         title: "All fields should be filled.",
         status: "error",
         isClosable: true,
       });
-      router.push("/admin/view-products/"+props.product._id);
+      router.push("/admin/view-products/"+product._id);
     }
   };
   return (
     <>
-      <div className=" bg-[#fff] dark:bg-[#111111]">
+      {product && <div className=" bg-[#fff] dark:bg-[#111111]">
         <div className="p-8 pt-28 md:pt-24  flex align-center justify-around w-full h-100">
           <form
             onSubmit={changeDetailHandler}
@@ -118,7 +142,7 @@ export default function AddProduct(props) {
                   id="first_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                   ref={productModelRef}
-                  defaultValue={props.product.productModel}
+                  defaultValue={product.productModel}
                 />
               </div>
               <div className="col-span-2 ">
@@ -133,7 +157,7 @@ export default function AddProduct(props) {
                   id="last_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                   ref={productNameRef}
-                  defaultValue={props.product.productName}
+                  defaultValue={product.productName}
                 />
               </div>
             </div>
@@ -149,7 +173,7 @@ export default function AddProduct(props) {
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                 ref={modelNumberRef}
-                defaultValue={props.product.productModelNumber}
+                defaultValue={product.productModelNumber}
                 />
             </div>
             <div className=" mb-6 col-span-2 ">
@@ -164,11 +188,11 @@ export default function AddProduct(props) {
                 id="price"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:defaultValue-gray-400 dark:text-white  dark:focus:border-teal-700"
                 ref={priceRef}
-                defaultValue={props.product.productPrice}
+                defaultValue={product.productPrice}
                 />
             </div>
             <ProductImage
-                imageSource = {props.product.productImage}
+                imageSource = {product.productImage}
                 imageUploaded={productImage}
                 onImageSelect={imageSelect}
             />
@@ -180,34 +204,7 @@ export default function AddProduct(props) {
             </button>
           </form>
         </div>
-      </div>
+      </div>}
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const prodId = context.query.editProduct;
-  const token = context.req.cookies.jwt;
-  const result = await fetch(BASE_URL + `get-edit-product/${prodId}`, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-  let product;
-  const res = await result.json();
-  if (result.status === 201) {
-    product= res.product
-    return {
-      props: {
-        product:product
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
 }

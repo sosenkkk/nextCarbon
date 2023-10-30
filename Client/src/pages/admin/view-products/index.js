@@ -9,9 +9,10 @@ import { Pagination } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 
 export default function AdminProducts(props) {
-    const [products, setproducts] = useState([]);
+  const [admin, setAdmin]= useState(false)
+  const [products, setproducts] = useState([]);
     const [page, setpage] = useState(1);
-    const [totalPage, settotalPage] = useState(Math.ceil(props.totalProducts / 8));
+    const [totalPage, settotalPage] = useState(1);
     const [filter, setfilter] = useState("");
     const [sort, setsort] = useState("");
     const router = useRouter();
@@ -39,10 +40,14 @@ export default function AdminProducts(props) {
     );
     const res = await result.json();
     if (result.status == 201) {
+      setAdmin(true)
       setproducts(res.products);
       const pages = Math.ceil(res.totalProducts / 8);
       settotalPage(pages);
-    } else {
+    } else if(result.status == 404){
+      router.push("/404");
+
+    }else {
       router.push("/");
       toast({
         title: res.message,
@@ -95,7 +100,7 @@ export default function AdminProducts(props) {
   };
   return (
     <>
-      <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
+      {admin && <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
         <ProductBar
           onChangeProducts={changeProductsHandler}
           onsortProducts={sortProductsHandler}
@@ -145,38 +150,8 @@ export default function AdminProducts(props) {
             onChange={paginationHandler}
           />
         </div>
-      </div>
+      </div>}
     </>
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL + "view-products", {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  });
-  const res = await result.json();
-  let products, totalProducts;
-  if (result.status == 201) {
-    products = res.products;
-    totalProducts = res.totalProducts;
-    return {
-      props: {
-        products :products,
-        totalProducts :totalProducts
-      },
-    };
-  } else if (result.status == 404) {
-    
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
-  
-}

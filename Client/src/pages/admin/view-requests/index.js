@@ -10,7 +10,8 @@ import Modal from "../../../../components/Modal";
 
 
 export default function Requests(props) {
-  const [requests, setrequests] = useState(props.requests);
+  const [requests, setrequests] = useState([]);
+  const [admin, setAdmin]= useState(false)
   const [sort, setsort] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,31 +29,35 @@ export default function Requests(props) {
     setModalOpen(false);
   };
   const [page, setpage] = useState(1);
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      const result = await fetch(
-        BASE_URL + `view-requests?page=${page}&sort=${sort}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const res = await result.json();
-      if (result.status == 201) {
-        setrequests(res.requests);
-      } else if (result.status == 433) {
-        toast({
-          title: res.message,
-          status: "error",
-          isClosable: true,
-        });
+  const fetchData = async (token) => {
+    const result = await fetch(
+      BASE_URL + `view-requests?page=${page}&sort=${sort}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
       }
-    };
-    fetchData();
-    setTotalPages(Math.ceil(props.totalRequests / 5));
+    );
+    const res = await result.json();
+    if(result.status == 404){
+      router.push("/404")
+    }
+    if (result.status == 201) {
+      setAdmin(true)
+      setrequests(res.requests);
+      setTotalPages(Math.ceil(res.totalRequests / 5));
+    } else if (result.status == 433) {
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetchData(token);
   }, [sort, page]);
   const toast = useToast();
   const router = useRouter();
@@ -94,7 +99,7 @@ export default function Requests(props) {
   };
   return (
     <>
-      <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
+      {admin && <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
         <RequestBar onsortProducts={sortRequestHandler} />
         {requests.length != 0 && (
           <>
@@ -207,38 +212,8 @@ export default function Requests(props) {
             </table>
           </div>
         )}
-      </div>
+      </div>}
     </>
   );
 }
 
-export async function getServerSideProps({ req }) {
-  const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL + "view-requests", {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  });
-  const res = await result.json();
-  let requests, totalRequests;
-  if (result.status == 201) {
-    requests = res.requests;
-    totalRequests = res.totalRequests;
-    return {
-      props: {
-        requests: requests,
-        totalRequests: totalRequests,
-      },
-    };
-  } else if (result.status == 404) {
-    
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
-  
-}

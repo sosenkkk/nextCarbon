@@ -8,7 +8,7 @@ export default function Order() {
   const [user, setUser] = useState({});
   const [total, setTotal] = useState({});
   const router = useRouter();
-  console.log(order)
+  
   const fetchData = async (token, id) => {
     const result = await fetch(BASE_URL + "my-order/" + id, {
       headers: {
