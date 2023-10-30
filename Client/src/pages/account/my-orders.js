@@ -2,38 +2,39 @@ import { BASE_URL } from "../../../helper/helper";
 import { useSelector } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function MyOrders(props) {
-  const token = useSelector((state) => state.auth.userToken);
-  const toast = useToast();
- 
-  const viewOrderHandler = async (event) => {
-    const id = event.target.id.toString();
-
-      const result = await fetch(BASE_URL + "my-order/"+id, {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      if (result.status == 201) {
-        const res = await result.json();
-        const order = res.order;
-
-        
-      } else if (result.status == 433) {
-        toast({
-          title: res.message,
-          status: "error",
-          isClosable: true,
-        });
-      }
-   
-  };
+export default function MyOrders() {
+  const [orders, setOrders] = useState([])
+  const [message, setMessage]= useState("")
+  const fetchData = async(token)=>{
+    const result = await fetch(BASE_URL+"my-orders",{
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:"Bearer "+token
+      },
+      credentials:"include"
+    })
+    const res = await result.json();
+    if(result.status==201){
+       setOrders(res.orders);
+      setMessage(res.message);
+      
+    }else if(result.status == 404){
+      setMessage(res.message);
+    }else{
+      setMessage(res.message);
+    }
+  }
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    fetchData(token)
+  }, [])
+  
   return (
     <>
       <div className=" min-h-[500px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
-        {props.orders.length != 0 && (
+        {orders.length != 0 && (
           <>
             <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -63,7 +64,7 @@ export default function MyOrders(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {props.orders.map((product) => (
+                  {orders.map((product) => (
                     <tr
                       key={product.id}
                       className="bg-white border-b dark:bg-[#171717] dark:border-[#111]"
@@ -102,7 +103,7 @@ export default function MyOrders(props) {
             
           </>
         )}
-        {props.orders.length === 0 && (
+        {orders.length === 0 && (
           <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <caption className="p-5 text-lg font-semibold text-left text-gray-800 bg-white dark:text-gray-200 dark:bg-[#171717]">
@@ -126,33 +127,33 @@ export default function MyOrders(props) {
   );
 }
 
-export const getServerSideProps=async(context)=>{
-  const {req} = context;
-  const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL+"my-orders",{
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:"Bearer "+token
-    },
-    credentials:"include"
-  })
-  const res = await result.json();
-  let orders, message;
-  if(result.status==201){
-     orders = res.orders;
-    message= res.message;
+// export const getServerSideProps=async(context)=>{
+//   const {req} = context;
+//   const token = req.cookies.jwt;
+//   const result = await fetch(BASE_URL+"my-orders",{
+//     headers:{
+//       "Content-Type":"application/json",
+//       Authorization:"Bearer "+token
+//     },
+//     credentials:"include"
+//   })
+//   const res = await result.json();
+//   let orders, message;
+//   if(result.status==201){
+//      orders = res.orders;
+//     setMessage(res.message);
     
-  }else if(result.status == 404){
-    orders = [];
-    message= res.message;
-  }else{
-    orders = [];
-    message= res.message;
-  }
-  return {
-    props:{
-      orders:orders,
-      message : message
-    }
-  }
-}
+//   }else if(result.status == 404){
+//     orders = [];
+//     setMessage(res.message);
+//   }else{
+//     orders = [];
+//     setMessage(res.message);
+//   }
+//   return {
+//     props:{
+//       orders:orders,
+//       message : message
+//     }
+//   }
+// }
