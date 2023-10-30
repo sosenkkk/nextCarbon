@@ -1,11 +1,37 @@
 import { useSelector } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
 import { BASE_URL } from "../../../helper/helper";
-
+import { useRouter } from "next/router";
+import { useEffect, useState } from 'react';
+import { useToast } from '@chakra-ui/react';
 export default function Admin(props) {
+  const toast = useToast()
+  const [admin, setAdmin]= useState(false)
   const userInfo = useSelector((state) => state.user.userInfo);
+  const router = useRouter()
+  const fetchData = async(token)=>{
+    const result = await fetch(BASE_URL + "get-add-product", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      method:"POST"
+    });
+    const res = await result.json();
+    let message;
+    if (result.status === 201) {
+      setAdmin(true)
+      message = res.message;
+      
+    } else {
+      router.push("/404")
+    }
+  }
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    fetchData(token)
+  },[])
   return (
-    <>
+    <>{admin && 
       <div className="w-full min-h-[500px] bg-[#fff]  dark:bg-[#171717] dark:text-gray-200 transition-colors pt-32 p-8 md:p-28">
         <div className=" text-center sm:text-left">
           <h1 className="text-3xl ">Hello {userInfo.firstName}! Welcome to Admin Controls.</h1> 
@@ -36,36 +62,15 @@ export default function Admin(props) {
            
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 }
 
 
-export async function getServerSideProps({ req }) {
-  let message = "";
-  const token = req.cookies.jwt;
+// export async function getServerSideProps({ req }) {
+//   let message = "";
+//   const token = req.cookies.jwt;
 
-  const result = await fetch(BASE_URL + "get-add-product", {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-    method:"POST"
-  });
-  const res = await result.json();
-  if (result.status === 201) {
-    message = res.message;
-    return {
-      props: {
-        message: message,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
-}
+  
+// }

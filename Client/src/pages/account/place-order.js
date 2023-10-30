@@ -7,9 +7,8 @@ import {
   cart as changeCart,
   total as totalHandler,
 } from "@/store/userInfoSlice";
-
 import Link from "next/link";
-import Footer from "../../../components/footer/footer";
+
 export default function PlaceOrder() {
   const cart = useSelector((state) => state.user.userCart);
   const token = useSelector((state) => state.auth.userToken);

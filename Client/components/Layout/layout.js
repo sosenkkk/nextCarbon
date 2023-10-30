@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Script from "next/script";
+import { BASE_URL } from "../../helper/helper";
 import React from "react";
 import NewNavbar from "../Navbar/newNavbar";
 import Footer from "../footer/footer";

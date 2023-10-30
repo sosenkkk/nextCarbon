@@ -16,14 +16,25 @@ export default function MyOrders() {
       credentials:"include"
     })
     const res = await result.json();
+    console.log(res)
     if(result.status==201){
        setOrders(res.orders);
       setMessage(res.message);
       
     }else if(result.status == 404){
       setMessage(res.message);
+      toast({
+        title: message,
+        status: "error",
+        isClosable: true,
+      });
     }else{
       setMessage(res.message);
+      toast({
+        title: message,
+        status: "error",
+        isClosable: true,
+      });
     }
   }
   useEffect(()=>{
@@ -127,33 +138,3 @@ export default function MyOrders() {
   );
 }
 
-// export const getServerSideProps=async(context)=>{
-//   const {req} = context;
-//   const token = req.cookies.jwt;
-//   const result = await fetch(BASE_URL+"my-orders",{
-//     headers:{
-//       "Content-Type":"application/json",
-//       Authorization:"Bearer "+token
-//     },
-//     credentials:"include"
-//   })
-//   const res = await result.json();
-//   let orders, message;
-//   if(result.status==201){
-//      orders = res.orders;
-//     setMessage(res.message);
-    
-//   }else if(result.status == 404){
-//     orders = [];
-//     setMessage(res.message);
-//   }else{
-//     orders = [];
-//     setMessage(res.message);
-//   }
-//   return {
-//     props:{
-//       orders:orders,
-//       message : message
-//     }
-//   }
-// }

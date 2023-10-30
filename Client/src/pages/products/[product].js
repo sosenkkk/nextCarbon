@@ -145,7 +145,6 @@ export default function SingleProduct(props) {
 
 export async function getServerSideProps(context) {
     const productId= context.query.product;
-    console.log(productId)
     let product;
     const result = await fetch(BASE_URL + "products/"+productId);
     const res = await result.json();

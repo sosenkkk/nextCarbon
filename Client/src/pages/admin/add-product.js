@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import {  useRef, useState } from "react";
+import {  useRef, useState,  useEffect } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ProductImage from "../../../components/products/productImage";
 
 export default function AddProduct(props) {
+  const [admin, setAdmin]= useState(false)
   const [productImage, setProductImage] = useState(null);
   const productModelRef = useRef();
   const productNameRef = useRef();
@@ -14,6 +15,27 @@ export default function AddProduct(props) {
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
   const router = useRouter();
+  const fetchData = async(token)=>{
+    const result = await fetch(BASE_URL + "get-add-product", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      method:"POST"
+    });
+    const res = await result.json();
+    let message;
+    if (result.status === 201) {
+      setAdmin(true)
+      message = res.message;
+      
+    } else {
+      router.push("/404")
+    }
+  }
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    fetchData(token)
+  },[])
   const imageSelect = (file) => {
     if (file) {
       setProductImage(file);
@@ -94,7 +116,7 @@ export default function AddProduct(props) {
   };
   return (
     <>
-      <div className=" bg-[#fff] dark:bg-[#111111]">
+     {admin &&  <div className=" bg-[#fff] dark:bg-[#111111]">
         <div className="p-8 pt-28 md:pt-24  flex align-center justify-around w-full h-100">
           <form
             onSubmit={changeDetailHandler}
@@ -172,34 +194,34 @@ export default function AddProduct(props) {
             </button>
           </form>
         </div>
-      </div>
+      </div>}
     </>
   );
 }
 
-export async function getServerSideProps({ req }) {
-  let message = "";
-  const token = req.cookies.jwt;
-  const result = await fetch(BASE_URL + "get-add-product", {
-    method:"POST",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-  const res = await result.json();
-  if (result.status === 201) {
-    message = res.message;
-    return {
-      props: {
-        message: message,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-    };
-  }
-}
+// export async function getServerSideProps({ req }) {
+//   let message = "";
+//   const token = req.cookies.jwt;
+//   const result = await fetch(BASE_URL + "get-add-product", {
+//     method:"POST",
+//     headers: {
+//       Authorization: "Bearer " + token,
+//     },
+//   });
+//   const res = await result.json();
+//   if (result.status === 201) {
+//     message = res.message;
+//     return {
+//       props: {
+//         message: message,
+//       },
+//     };
+//   } else {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: "/404",
+//       },
+//     };
+//   }
+// }
