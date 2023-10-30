@@ -14,7 +14,7 @@ router.get('/admin/order/:orderId', isAuth, isAdmin, adminController.getSingleOr
 
 router.get('/view-requests/:reqId', isAuth, isAdmin,  adminController.getRequest )
 
-router.get("/get-add-product", isAuth, isAdmin, adminController.getAddProduct);
+router.post("/get-add-product", isAuth, isAdmin, adminController.getAddProduct);
 
 router.get("/get-edit-product/:prodId", isAuth, isAdmin, adminController.getEditProduct);
 

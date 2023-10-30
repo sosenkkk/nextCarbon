@@ -181,6 +181,7 @@ export async function getServerSideProps({ req }) {
   let message = "";
   const token = req.cookies.jwt;
   const result = await fetch(BASE_URL + "get-add-product", {
+    method:"POST",
     headers: {
       Authorization: "Bearer " + token,
     },

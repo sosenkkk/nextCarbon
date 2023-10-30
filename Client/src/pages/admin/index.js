@@ -45,10 +45,12 @@ export default function Admin(props) {
 export async function getServerSideProps({ req }) {
   let message = "";
   const token = req.cookies.jwt;
+
   const result = await fetch(BASE_URL + "get-add-product", {
     headers: {
       Authorization: "Bearer " + token,
     },
+    method:"POST"
   });
   const res = await result.json();
   if (result.status === 201) {
