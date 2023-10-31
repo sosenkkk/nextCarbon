@@ -80,7 +80,7 @@ export default function Account() {
       <div className="w-full bg-[#fff]  dark:bg-[#171717] dark:text-gray-200 transition-colors pt-32 p-8 md:p-24">
         <div className=" text-center sm:text-left">
           <h1 className="text-3xl ">Hello {userInfo.firstName}!</h1>
-          <Link className="md:text-xl hover:underline" href="/account/details">
+          <Link className="md:text-xl text-teal-700 dark:text-teal-500 hover:underline" href="/account/details">
             Manage your account
           </Link>
         </div>

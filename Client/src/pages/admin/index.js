@@ -19,17 +19,9 @@ export default function Admin(props) {
       method:"POST"
     });
     const res = await result.json();
-    
     if (result.status === 201) {
       setAdmin(true)
-      
-      
     } else {
-      toast({
-        title: res.message,
-        status: "error",
-        isClosable: true,
-      });
       router.push("/404")
     }
   }

@@ -84,7 +84,7 @@ const SignUp = (props) => {
       const res = await response.json();
       if (response.status == 433) {
       setbuttondisabled(false)
-        router.push("/auth/signup");
+        router.push("/auth/signUp");
         toast({
           title: res.message,
           status: "error",
