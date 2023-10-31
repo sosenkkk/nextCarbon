@@ -1,10 +1,10 @@
 import { BASE_URL } from "../../../helper/helper";
-import { useSelector } from "react-redux";
-import { useToast } from "@chakra-ui/react";
+import { Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MyOrders() {
+  const [productsLoaded, setproductsLoaded] = useState(false);
   const [orders, setOrders] = useState([])
   const [message, setMessage]= useState("")
   const fetchData = async(token)=>{
@@ -16,11 +16,10 @@ export default function MyOrders() {
       credentials:"include"
     })
     const res = await result.json();
-    console.log(res)
     if(result.status==201){
        setOrders(res.orders);
       setMessage(res.message);
-      
+      setproductsLoaded(true)
     }else if(result.status == 404){
       setMessage(res.message);
       toast({
@@ -38,13 +37,14 @@ export default function MyOrders() {
     }
   }
   useEffect(()=>{
+    setproductsLoaded(false)
     const token = localStorage.getItem("token")
     fetchData(token)
   }, [])
   
   return (
     <>
-      <div className=" min-h-[500px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
+      { productsLoaded &&  <div className=" min-h-[500px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
         {orders.length != 0 && (
           <>
             <div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
@@ -133,7 +133,12 @@ export default function MyOrders() {
             </table>
           </div>
         )}
-      </div>
+      </div>}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }

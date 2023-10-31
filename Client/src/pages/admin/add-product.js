@@ -4,9 +4,11 @@ import { BASE_URL } from "../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ProductImage from "../../../components/products/productImage";
+import {  Spinner } from "@nextui-org/react";
 
 export default function AddProduct(props) {
   const [admin, setAdmin]= useState(false)
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const [productImage, setProductImage] = useState(null);
   const productModelRef = useRef();
   const productNameRef = useRef();
@@ -65,6 +67,7 @@ export default function AddProduct(props) {
       validationHandler(productName) &&
       validationHandler(productModelNumber);
     if (validation && productImage && priceValidationHandler(productPrice)) {
+      setbuttondisabled(true)
       formData.append("productModel", productModel);
       formData.append("productName", productName);
       formData.append("productModelNumber", productModelNumber);
@@ -79,14 +82,16 @@ export default function AddProduct(props) {
       });
       const response = await result.json();
       if (result.status == 433) {
-        router.push("/admin/add-product");
+      setbuttondisabled(false)
+      router.push("/admin/add-product");
         toast({
           title: response.message,
           status: "error",
           isClosable: true,
         });
       } else if (result.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: response.message,
           status: "success",
           isClosable: true,
@@ -186,42 +191,31 @@ export default function AddProduct(props) {
               imageUploaded={productImage}
               onImageSelect={imageSelect}
             />
-            <button
-              type="submit"
-              className="text-white mt-6 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-            >
-              Submit
-            </button>
+            {
+                    !buttondisabled && 
+                    <button
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    Submit
+                  </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 cursor-not-allowed"
+                  >
+                    <Spinner />
+                  </div>
+                  }
           </form>
         </div>
       </div>}
+      {!admin && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
-
-// export async function getServerSideProps({ req }) {
-//   let message = "";
-//   const token = req.cookies.jwt;
-//   const result = await fetch(BASE_URL + "get-add-product", {
-//     method:"POST",
-//     headers: {
-//       Authorization: "Bearer " + token,
-//     },
-//   });
-//   const res = await result.json();
-//   if (result.status === 201) {
-//     message = res.message;
-//     return {
-//       props: {
-//         message: message,
-//       },
-//     };
-//   } else {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/404",
-//       },
-//     };
-//   }
-// }

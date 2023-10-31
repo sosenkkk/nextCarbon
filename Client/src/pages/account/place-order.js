@@ -1,5 +1,5 @@
 import { BASE_URL } from "../../../helper/helper";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -8,10 +8,12 @@ import {
   total as totalHandler,
 } from "@/store/userInfoSlice";
 import Link from "next/link";
+import { Spinner } from "@nextui-org/react";
 
 export default function PlaceOrder() {
   const cart = useSelector((state) => state.user.userCart);
   const token = useSelector((state) => state.auth.userToken);
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const toast = useToast();
   const dispatch = useDispatch();
   const total = useSelector((state) => state.user.total);
@@ -52,8 +54,9 @@ export default function PlaceOrder() {
       validationHandler(city) &&
       numberHandler(pincode) &&
       validationHandler(phoneNumber);
-    console.log(validation);
+    
     if (validation) {
+      setbuttondisabled(true)
       const user = {
         name: name,
         shippingAddress: address,
@@ -77,13 +80,14 @@ export default function PlaceOrder() {
         }),
       });
       const res = await result.json();
-      console.log(res);
       if (result.status == 201) {
-        router.push("/account");
+      setbuttondisabled(false)
+      router.push("/account");
         dispatch(changeCart([]));
         dispatch(totalHandler({}));
       } else if (result.status == 433) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "error",
           isClosable: true,
@@ -241,9 +245,17 @@ export default function PlaceOrder() {
                     </label>
                   </div>
                 </div>
-                <button type="submit" className="cartBtn">
+                {!buttondisabled && <button type="submit" className="cartBtn">
                   Submit
-                </button>
+                </button>}
+                {
+                    buttondisabled && 
+                    <div
+                    className="cartBtn"
+                  >
+                    <Spinner />
+                  </div>
+                  }
               </form>
             </div>
           </>

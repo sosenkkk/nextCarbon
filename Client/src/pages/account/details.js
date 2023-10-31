@@ -5,9 +5,11 @@ import { BASE_URL } from "../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { fetchUserData } from "@/store/userInfoSlice";
+import { Spinner } from "@nextui-org/react";
 
 export default function Details() {
   const userInfo = useSelector((state) => state.user.userInfo);
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const [profileImage, setProfileImage] = useState(null);
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -38,6 +40,7 @@ export default function Details() {
       profileImage
     );
     if (validation) {
+      setbuttondisabled(true)
       formData.append("firstName", firstNameRef.current.value);
       formData.append("lastName", lastNameRef.current.value);
       formData.append("image", profileImage);
@@ -50,14 +53,16 @@ export default function Details() {
       });
       const res = await response.json();
       if (response.status == 433) {
-        router.push("/account/details");
+      setbuttondisabled(false)
+      router.push("/account/details");
         toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
@@ -119,22 +124,6 @@ export default function Details() {
                   ref={lastNameRef}
                 />
               </div>
-
-              {/* <div>
-              <label
-                htmlFor="phone"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Phone number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-                placeholder="XXXXXXXXXX"
-                
-              />
-            </div> */}
             </div>
             <div className="mb-6 col-span-2 sm:col-span-1">
               <label
@@ -152,58 +141,25 @@ export default function Details() {
                 style={{ cursor: "not-allowed" }}
               />
             </div>
-            {/* <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-              placeholder="•••••••••"
-              
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              New Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-              placeholder="•••••••••"
-              
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="confirm_password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Confirm new password
-            </label>
-            <input
-              type="password"
-              id="confirm_password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-teal-700 block w-full p-2.5 dark:bg-[#262626] dark:border-[#3b3b3b] dark:placeholder-gray-400 dark:text-white  dark:focus:border-teal-700"
-              placeholder="•••••••••"
-              
-            />
-          </div> */}
+          
 
-            <button
-              type="submit"
-              className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-            >
-              Submit
-            </button>
+            {
+                    !buttondisabled && 
+                    <button
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    Submit
+                  </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 cursor-not-allowed"
+                  >
+                    <Spinner />
+                  </div>
+                  }
           </form>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { BiLogoGmail } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import {  useEffect, useState } from "react";
 import Modal from "../../../../components/Modal";
+import {  Spinner } from "@nextui-org/react";
 
 export default function Requests(props) {
   const router = useRouter();
@@ -20,7 +21,6 @@ export default function Requests(props) {
     },
   });
   const res = await result.json();
-  let request;
   if (result.status == 201) {
     setRequest(res.request) ;
     
@@ -133,12 +133,13 @@ export default function Requests(props) {
                 </div>
               </Modal>
       </div>}
+      {!request && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const token = context.req.cookies.jwt;
-  
-  
-// }
+

@@ -1,12 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import { Spinner } from "@nextui-org/react";
 
 const ChangePassword = (props) => {
   const userInfo = useSelector((state) => state.user.userInfo);
-
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const toast = useToast();
   const router = useRouter();
   const oldPasswordRef = useRef();
@@ -62,6 +63,7 @@ const ChangePassword = (props) => {
       validatePasswordHandler(newpassword) &&
       validateConfirmPasswordHandler(oldpassword, newpassword, confirmpassword);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(BASE_URL + "change-password", {
         method: "POST",
         headers: {
@@ -75,14 +77,16 @@ const ChangePassword = (props) => {
       });
       const res = await response.json();
       if (response.status == 433) {
-        router.push("/account/change-password");
+      setbuttondisabled(false)
+      router.push("/account/change-password");
         toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
@@ -164,12 +168,23 @@ const ChangePassword = (props) => {
                   />
                 </div>
                 <div>
-                  <button
+                {
+                    !buttondisabled && 
+                    <button
                     type="submit"
-                    className="text-white mt-4 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
                   >
                     Change Password
                   </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 cursor-not-allowed"
+                  >
+                    <Spinner />
+                  </div>
+                  }
                 </div>
               </form>
             </div>

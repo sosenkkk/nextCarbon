@@ -2,8 +2,10 @@ import { useSelector } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
+import {  Spinner } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
+
 export default function Admin(props) {
   const toast = useToast()
   const [admin, setAdmin]= useState(false)
@@ -17,12 +19,17 @@ export default function Admin(props) {
       method:"POST"
     });
     const res = await result.json();
-    let message;
+    
     if (result.status === 201) {
       setAdmin(true)
-      message = res.message;
+      
       
     } else {
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
       router.push("/404")
     }
   }
@@ -63,14 +70,13 @@ export default function Admin(props) {
           </div>
         </div>
       </div>}
+      {!admin && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
 
 
-// export async function getServerSideProps({ req }) {
-//   let message = "";
-//   const token = req.cookies.jwt;
-
-  
-// }

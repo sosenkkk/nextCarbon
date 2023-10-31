@@ -1,10 +1,12 @@
 import { BASE_URL } from "../../../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import RequestBar from "../../../../components/Navbar/requestBar";
+import {  Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Pagination } from "@nextui-org/react";
 import { useRouter } from "next/router";
+
 export default function ViewOrders() {
   const router = useRouter()
   const [admin, setAdmin] = useState(false);
@@ -13,6 +15,8 @@ export default function ViewOrders() {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setpage] = useState(1);
   const [orders, setorders] = useState();
+  const [productsLoaded, setproductsLoaded] = useState(false);
+
   const fetchData = async (token) => {
     const result = await fetch(
       BASE_URL + `view-orders?page=${page}&sort=${sort}`,
@@ -29,7 +33,9 @@ export default function ViewOrders() {
       setTotalPages(pages);
       setAdmin(true);
       setorders(res.orders);
+      setproductsLoaded(true)
     } else if (result.status == 433) {
+      setproductsLoaded(false)
       toast({
         title: res.message,
         status: "error",
@@ -40,6 +46,8 @@ export default function ViewOrders() {
     }
   };
   useEffect(() => {
+    setproductsLoaded(false)
+    
     const token = localStorage.getItem("token");
     fetchData(token);
   }, [sort, page]);
@@ -53,7 +61,7 @@ export default function ViewOrders() {
   };
   return (
     <>
-      {admin && (
+      {admin && productsLoaded &&  (
         <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
           <RequestBar onsortProducts={sortRequestHandler} />
 
@@ -155,6 +163,11 @@ export default function ViewOrders() {
           )}
         </div>
       )}
+       {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }

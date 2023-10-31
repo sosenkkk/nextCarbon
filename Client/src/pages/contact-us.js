@@ -1,25 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-
+import { Spinner } from "@nextui-org/react";
 export default function ContactUs() {
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const userInfo = useSelector((state) => state.user.userInfo);
   const messageRef = useRef();
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
-  const router = useRouter()
-  useEffect(()=>{
-    if(!localStorage.getItem("token")){
+  const router = useRouter();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
       toast({
         title: "Login first to Contact us",
         status: "error",
         isClosable: true,
       });
-      router.push("/")
+      router.push("/");
     }
-  }, [])
+  }, []);
 
   const validationHandler = (firstName) => {
     if (firstName.trim().length < 6) {
@@ -28,45 +29,47 @@ export default function ContactUs() {
     return true;
   };
 
-
-    const contactHandler = async (event) => {
-      event.preventDefault();
-      const message = messageRef.current.value;
-      const validation = validationHandler(message);
-      if (validation) {
-        const response = await fetch(BASE_URL + "contact-us", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            message: message,
-          }),
-        });
-        const res = await response.json();
-        if (response.status == 433) {
-          toast({
-            title: res.message,
-            status: "error",
-            isClosable: true,
-          });
-        } else if (response.status == 201) {
-          messageRef.current.value=""
-          toast({
-            title: res.message,
-            status: "success",
-            isClosable: true,
-          });
-        }
-      } else {
-        toast({
-          title: "Message too short. Atleast 6 characters long.",
+  const contactHandler = async (event) => {
+    event.preventDefault();
+    const message = messageRef.current.value;
+    const validation = validationHandler(message);
+    if (validation) {
+      setbuttondisabled(true)
+      const response = await fetch(BASE_URL + "contact-us", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          message: message,
+        }),
+      });
+      const res = await response.json();
+      if (response.status == 433) {
+      setbuttondisabled(false)
+      toast({
+          title: res.message,
           status: "error",
           isClosable: true,
         });
+      } else if (response.status == 201) {
+      setbuttondisabled(false)
+      messageRef.current.value = "";
+        toast({
+          title: res.message,
+          status: "success",
+          isClosable: true,
+        });
       }
-    };
+    } else {
+      toast({
+        title: "Message too short. Atleast 6 characters long.",
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
   return (
     <>
       <div className="min-h-[600px] bg-[#fff] dark:bg-[#111111] transition-colors">
@@ -112,12 +115,21 @@ export default function ContactUs() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-            >
-              Submit
-            </button>
+            {!buttondisabled && (
+              <button
+                type="submit"
+                className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+              >
+                Submit
+              </button>
+            )}
+            {buttondisabled && (
+              <div
+                className="w-full cursor-not-allowed text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+              >
+                <Spinner />
+              </div>
+            )}
           </form>
         </div>
       </div>

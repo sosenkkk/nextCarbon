@@ -3,7 +3,9 @@ import { BiLogoGmail } from "react-icons/bi";
 import { BASE_URL } from "../../../helper/helper";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { Spinner } from "@nextui-org/react";
 export default function Order() {
+  const [productsLoaded, setproductsLoaded] = useState(false);
   const [order, setOrder] = useState();
   const [user, setUser] = useState({});
   const [total, setTotal] = useState({});
@@ -21,7 +23,9 @@ export default function Order() {
       setOrder(res.order);
       setUser(res.order.user);
       setTotal(res.order.total)
+      setproductsLoaded(true)
     } else if (result.status == 433) {
+      setproductsLoaded(false)
       toast({
         title: res.message,
         status: "error",
@@ -53,7 +57,7 @@ export default function Order() {
 
   return (
     <>
-      {order && (
+      {order  && productsLoaded &&  (
         <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#131313]">
           <div className="bg-white dark:bg-[#131313] rounded-lg w-full">
             <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -270,33 +274,11 @@ export default function Order() {
           </div>
         </div>
       )}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
-
-// export async function getServerSideProps({ req, params }) {
-//   const id = params.orderId;
-//   const token = req.cookies.jwt;
-//   const result = await fetch(BASE_URL + "my-order/" + id, {
-//     headers: {
-//       Authorization: "Bearer " + token,
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   const res = await result.json();
-//   let order;
-//   if (result.status == 201) {
-//     order = res.order;
-//   } else if (result.status == 433) {
-//     toast({
-//       title: res.message,
-//       status: "error",
-//       isClosable: true,
-//     });
-//   }
-//   return {
-//     props: {
-//       order: order,
-//     },
-//   };
-// }

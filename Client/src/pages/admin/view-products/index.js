@@ -5,10 +5,11 @@ import Modal from "../../../../components/Modal";
 import { useEffect, useState } from "react";
 import ProductBar from "../../../../components/Navbar/ProductBar";
 import ProductCard from "../../../../components/products/productCard";
-import { Pagination } from "@nextui-org/react";
+import { Pagination , Spinner } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 
 export default function AdminProducts() {
+  const [productsLoaded, setproductsLoaded] = useState(false);
   const [admin, setAdmin]= useState(false)
   const [products, setproducts] = useState([]);
     const [page, setpage] = useState(1);
@@ -44,9 +45,10 @@ export default function AdminProducts() {
       setproducts(res.products);
       const pages = Math.ceil(res.totalProducts / 8);
       settotalPage(pages);
+      setproductsLoaded(true)
     } else if(result.status == 404){
       router.push("/404");
-
+      
     }else {
       router.push("/");
       toast({
@@ -57,6 +59,7 @@ export default function AdminProducts() {
     }
   };
   useEffect(() => {
+    setproductsLoaded(false)
     const token = localStorage.getItem("token")
     fetchProducts(token);
   }, [page,  sort, filter]);
@@ -100,7 +103,7 @@ export default function AdminProducts() {
   };
   return (
     <>
-      {admin && <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
+      {admin && productsLoaded && <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
         <ProductBar
           onChangeProducts={changeProductsHandler}
           onsortProducts={sortProductsHandler}
@@ -151,6 +154,11 @@ export default function AdminProducts() {
           />
         </div>
       </div>}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }

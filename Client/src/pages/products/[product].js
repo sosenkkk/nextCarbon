@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
 import {  Spinner } from "@nextui-org/react";
+import { useToast } from "@chakra-ui/react";
 
 export default function SingleProduct() {
+  const toast = useToast()
   const isAuth = useSelector((state)=>state.auth.isAuthenticated)
   const router = useRouter()
   const [product, setProduct]=useState();
@@ -21,6 +23,11 @@ export default function SingleProduct() {
       setproductsLoaded(true)
       
     } else {
+      toast({
+        title: res.message,
+        status: "error",
+        isClosable: true,
+      });
       router.push("/products")
     }
   }

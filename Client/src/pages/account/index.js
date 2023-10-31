@@ -5,12 +5,14 @@ import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import Modal from "../../../components/Modal";
 import { BASE_URL } from "../../../helper/helper";
+import { Spinner } from "@nextui-org/react";
 
 export default function Account() {
   const userInfo = useSelector((state) => state.user.userInfo);
   const messageRef = useRef();
   const token = useSelector((state) => state.auth.userToken);
   const toast = useToast();
+  const [buttondisabled, setbuttondisabled] = useState(false)
 
 
   const validationHandler = (message) => {
@@ -35,6 +37,7 @@ export default function Account() {
     const message = messageRef.current.value;
     const validation = validationHandler(message);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(BASE_URL + "contact-us", {
         method: "POST",
         headers: {
@@ -46,15 +49,17 @@ export default function Account() {
         }),
       });
       const res = await response.json();
-      console.log(res);
+      
       if (response.status == 433) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
@@ -142,12 +147,23 @@ export default function Account() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                >
-                  Submit
-                </button>
+                {
+                    !buttondisabled && 
+                    <button
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    Submit
+                  </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 cursor-not-allowed"
+                  >
+                    <Spinner />
+                  </div>
+                  }
               </form>
             </Modal>
           </div>

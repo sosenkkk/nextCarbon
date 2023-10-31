@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Pagination } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import Modal from "../../../../components/Modal";
-
+import {  Spinner } from "@nextui-org/react";
 
 export default function Requests() {
   const [requests, setrequests] = useState([]);
@@ -16,6 +16,8 @@ export default function Requests() {
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [productsLoaded, setproductsLoaded] = useState(false);
+
   const token = useSelector((state)=>state.auth.userToken)
   console.log(itemToDelete)
   const openModal = (event) => {
@@ -47,8 +49,10 @@ export default function Requests() {
       setAdmin(true)
       setrequests(res.requests);
       setTotalPages(Math.ceil(res.totalRequests / 5));
-    } else if (result.status == 433) {
-      toast({
+    setproductsLoaded(true)
+  } else if (result.status == 433) {
+    setproductsLoaded(false)
+    toast({
         title: res.message,
         status: "error",
         isClosable: true,
@@ -56,6 +60,7 @@ export default function Requests() {
     }
   };
   useEffect(() => {
+    setproductsLoaded(false)
     const token = localStorage.getItem("token");
     fetchData(token);
   }, [sort, page]);
@@ -99,7 +104,7 @@ export default function Requests() {
   };
   return (
     <>
-      {admin && <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
+      {admin && productsLoaded &&  <div className=" min-h-[600px] pt-28 transition-colors md:pt-24 bg-[#f7f7f7] dark:bg-[#202020] p-4 sm:px-8  ">
         <RequestBar onsortProducts={sortRequestHandler} />
         {requests.length != 0 && (
           <>
@@ -213,6 +218,11 @@ export default function Requests() {
           </div>
         )}
       </div>}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }

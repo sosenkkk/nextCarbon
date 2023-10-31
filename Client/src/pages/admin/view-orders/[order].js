@@ -2,22 +2,23 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiLogoGmail } from "react-icons/bi";
 import { BASE_URL } from "../../../../helper/helper";
 import { useState, useEffect } from "react";
+import {  Spinner } from "@nextui-org/react";
 import {useRouter } from "next/router"
+
 export default function Order() {
   const [order, setOrder] = useState();
   const [user, setUser] = useState({});
   const [total, setTotal] = useState({});
   const router = useRouter();
-  
+  const [productsLoaded, setproductsLoaded] = useState(false);
 
   useEffect(() => {
     if(router.isReady){
+      setproductsLoaded(false)
       const token = localStorage.getItem("token");
       const id = router.query.order;
           fetchData(token, id);
     }
-    
-
   }, [  router.isReady]);
   let dateAndTime;
 
@@ -32,7 +33,6 @@ export default function Order() {
     dateAndTime = `${orderDate} at ${orderTime}`;
   }
   function numberWithCommas(x) {
-    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return x.toLocaleString("en-IN");
   }
   const fetchData =async(token, id)=>{
@@ -48,14 +48,14 @@ export default function Order() {
     setOrder(res.order);
       setUser(res.order.user);
       setTotal(res.order.total)
-    
+    setproductsLoaded(true)
   } else if (result.status == 404) {
     router.push("/404")
   }
 
   }
   return (
-    <>{order && 
+    <>{order && productsLoaded &&
       <div className="pt-24 min-h-screen md:pt-20 bg-[#f7f7f7] dark:bg-[#131313]">
         <div className="bg-white dark:bg-[#131313] rounded-lg w-full">
           <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -269,6 +269,11 @@ export default function Order() {
           </div>
         </div>
       </div>}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
