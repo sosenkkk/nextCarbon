@@ -3,10 +3,12 @@ import Link from "next/link";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Spinner } from "@nextui-org/react";
 
 const SignUp = (props) => {
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const isAuth = useSelector((state)=>state.auth.isAuthenticated)
   useEffect(() => {
     if(isAuth){
@@ -68,6 +70,7 @@ const SignUp = (props) => {
       validatePasswordHandler(password) &&
       validateConfirmPasswordHandler(password, confirmpassword);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(BASE_URL + "signup", {
         method: "POST",
         headers: {
@@ -80,6 +83,7 @@ const SignUp = (props) => {
       });
       const res = await response.json();
       if (response.status == 433) {
+      setbuttondisabled(false)
         router.push("/auth/signup");
         toast({
           title: res.message,
@@ -87,7 +91,8 @@ const SignUp = (props) => {
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
@@ -95,6 +100,7 @@ const SignUp = (props) => {
         router.push("/auth/login");
       }
     } else {
+      setbuttondisabled(false)
       router.push("/auth/signUp");
     }
   };
@@ -164,12 +170,25 @@ const SignUp = (props) => {
                   />
                 </div>
                 <div>
-                  <button
+                  {
+                    !buttondisabled && 
+                    <button
                     type="submit"
                     className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
                   >
-                    Sign in
+                    Sign Up
                   </button>
+                  }
+                  {
+                    buttondisabled && 
+                    <div
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    <Spinner />
+                  </div>
+                  }
+                  
                 </div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account yet?{" "}

@@ -1,11 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { Spinner } from "@nextui-org/react";
+
 import { BASE_URL } from "../../../../helper/helper";
 
 const ForgotPassword = (props) => {
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -62,6 +64,7 @@ const ForgotPassword = (props) => {
       validatePasswordHandler(newpassword) &&
       validateConfirmPasswordHandler(newpassword, confirmpassword);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(
         BASE_URL + `reset-password/${userId}/${token}`,
         {
@@ -77,20 +80,23 @@ const ForgotPassword = (props) => {
       );
       const res = await response.json();
       if (response.status == 433) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
         });
         router.push("/auth/login");
       } else if (response.status == 404) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "error",
           isClosable: true,
@@ -164,12 +170,24 @@ const ForgotPassword = (props) => {
                   />
                 </div>
                 <div>
-                  <button
+                {
+                    !buttondisabled && 
+                    <button
                     type="submit"
                     className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
                   >
-                    Change Password
+                    Reset Password
                   </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    <Spinner />
+                  </div>
+                  }
                 </div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account yet?{" "}

@@ -125,7 +125,7 @@ exports.postResetPassword = async (req, res, next) => {
         id: enteredUser._id,
       };
       const token = jwt.sign(payload, secret, { expiresIn: "15m" });
-      const link = `http://localhost:3000/auth/${enteredUser._id}/${token}`;
+      const link = `https://next-carbon.vercel.app/auth/${enteredUser._id}/${token}`;
       const mailOptions = {
         from: { name: "Carbon", email: "sunilcarbon112200@gmail.com" },
         to: enteredUser.email,

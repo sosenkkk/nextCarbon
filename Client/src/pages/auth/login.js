@@ -1,14 +1,16 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../helper/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
 import { fetchUserCart, fetchUserData } from "@/store/userInfoSlice";
-import { info, cart } from "@/store/userInfoSlice";
+import { info } from "@/store/userInfoSlice";
+import { Spinner } from "@nextui-org/react";
 const Login = () => {
   const isAuth = useSelector((state)=>state.auth.isAuthenticated)
+  const [buttondisabled, setbuttondisabled] = useState(false)
 
   useEffect(() => {
     if(isAuth){
@@ -74,6 +76,7 @@ const Login = () => {
       validateEmailHandler(enteredData.email) &&
       validatePasswordHandler(enteredData.password);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(BASE_URL + "login", {
         method: "POST",
         credentials:"include",
@@ -89,21 +92,24 @@ const Login = () => {
       const res = await response.json();
 
       if (response.status == 433) {
-        router.push("/auth/login");
+      setbuttondisabled(false)
+      router.push("/auth/login");
         toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 403) {
-        router.push("/auth/login");
+      setbuttondisabled(false)
+      router.push("/auth/login");
         toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        dispatch(userToken(res.token));
+      setbuttondisabled(false)
+      dispatch(userToken(res.token));
         toast({
           title: res.message,
           status: "success",
@@ -183,12 +189,24 @@ const Login = () => {
                     Forgot password?
                   </Link>
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                >
-                  Sign in
-                </button>
+                {
+                    !buttondisabled && 
+                    <button
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    Sign In
+                  </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    <Spinner />
+                  </div>
+                  }
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don't have an account yet?{" "}
                   <Link

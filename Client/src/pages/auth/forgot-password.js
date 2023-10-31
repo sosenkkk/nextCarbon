@@ -1,18 +1,16 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { Spinner } from "@nextui-org/react";
 
 const ForgotPassword = (props) => {
-  const token = useSelector((state) => state.auth.userToken);
+  const [buttondisabled, setbuttondisabled] = useState(false)
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const oldPasswordRef = useRef();
-  const confirmPasswordRef = useRef();
+
   const validateEmail = new RegExp(
     /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$/
   );
@@ -28,55 +26,14 @@ const ForgotPassword = (props) => {
       return false;
     }
   };
-  const validatePasswordHandler = (password) => {
-    if (password.trim().length > 5) {
-      return true;
-    } else {
-      toast({
-        title: "Password must contain atleast 6 characters.",
-        status: "error",
-        isClosable: true,
-      });
-      return false;
-    }
-  };
-  const validateConfirmPasswordHandler = (
-    oldpassword,
-    newpassword,
-    confirmpassword
-  ) => {
-    if (newpassword.trim() === oldpassword.trim()) {
-      toast({
-        title: "Old and new password cannot be same.",
-        status: "error",
-        isClosable: true,
-      });
-    } else {
-      if (newpassword.trim() === confirmpassword.trim()) {
-        return true;
-      } else {
-        toast({
-          title: "Passwords does not match.",
-          status: "error",
-          isClosable: true,
-        });
-        return false;
-      }
-    }
-  };
+
 
   const forgotPasswordHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
-    // const oldpassword = oldPasswordRef.current.value;
-    // const newpassword = passwordRef.current.value;
-    // const confirmpassword = confirmPasswordRef.current.value;
-
     const validation = validateEmailHandler(email);
-    // validatePasswordHandler(oldpassword) &&
-    // validatePasswordHandler(newpassword) &&
-    // validateConfirmPasswordHandler(oldpassword, newpassword, confirmpassword);
     if (validation) {
+      setbuttondisabled(true)
       const response = await fetch(BASE_URL + "reset-password/", {
         method: "POST",
         headers: {
@@ -88,14 +45,16 @@ const ForgotPassword = (props) => {
       });
       const res = await response.json();
       if (response.status == 433) {
-        router.push("/auth/forgot-password");
+      setbuttondisabled(false)
+      router.push("/auth/forgot-password");
         toast({
           title: res.message,
           status: "error",
           isClosable: true,
         });
       } else if (response.status == 201) {
-        toast({
+      setbuttondisabled(false)
+      toast({
           title: res.message,
           status: "success",
           isClosable: true,
@@ -139,12 +98,24 @@ const ForgotPassword = (props) => {
                 </div>
 
                 <div>
-                  <button
+                {
+                    !buttondisabled && 
+                    <button
                     type="submit"
                     className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
                   >
-                    Change Password
+                    Reset Password
                   </button>
+                  }
+                {
+                    buttondisabled && 
+                    <div
+                    type="submit"
+                    className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-1 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                  >
+                    <Spinner />
+                  </div>
+                  }
                 </div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account yet?{" "}
