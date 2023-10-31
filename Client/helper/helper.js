@@ -1,2 +1,2 @@
-export const BASE_URL = "https://carbon-eddq.onrender.com/"
+export const BASE_URL = "http://localhost:8080/"
 

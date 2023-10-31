@@ -1,15 +1,20 @@
-import ProductCard from "../../../components/products/productCard";
+// import ProductCard from "../../../components/products/productCard";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
-import ProductBar from "../../../components/Navbar/ProductBar";
+import ProductBar from "../../components/Navbar/ProductBar";
 import { cart, total } from "@/store/userInfoSlice";
-import { Pagination, Spinner } from "@nextui-org/react";
+import { Pagination } from "@nextui-org/react";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import React, { Suspense, lazy } from "react";
+// import ProductCard from './../../components/products/productCard';
 
-export default function Products() {
-  const [productsLoaded, setproductsLoaded] = useState(false);
+const ProductCard= lazy(()=>import('../../components/products/productCard'))
+// import ProductLoading from './../../components/loading/productcard';
+
+export default function ProductsPage() {
+  
   const dispatch = useDispatch();
   const [products, setproducts] = useState([]);
   const [page, setpage] = useState(1);
@@ -29,8 +34,7 @@ export default function Products() {
       setproducts(res.products);
       const pages = Math.ceil(res.totalProducts / 8);
       settotalPage(pages);
-    setproductsLoaded(true)
-  } else {
+    } else {
       router.push("/");
       toast({
         title: res.message,
@@ -40,8 +44,7 @@ export default function Products() {
     }
   };
   useEffect(() => {
-    setproductsLoaded(false)
-      fetchProducts();
+    fetchProducts();
   }, [page,  sort, filter]);
   const cartChangeHandler = async (id) => {
     const productId = id;
@@ -76,13 +79,16 @@ export default function Products() {
   };
   return (
     <>
-      {productsLoaded && <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
+      <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
         <ProductBar
           onChangeProducts={changeProductsHandler}
           onsortProducts={sortProductsHandler}
         />
+
         <div className="  gap-4   gap-y-8 productContainerHolder">
           {products.map((product) => (
+          <Suspense fallback={<ProductLoading />}>
+
             <ProductCard
               image={product.productImage}
               name={product.productName}
@@ -95,6 +101,8 @@ export default function Products() {
               isLoggedIn = {isAuth}
               onAddCart={cartChangeHandler}
             />
+        //   </Suspense>
+
           ))}
         </div>
         <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">
@@ -107,12 +115,7 @@ export default function Products() {
             onChange={paginationHandler}
           />
         </div>
-      </div>}
-      {!productsLoaded && 
-        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
-          <Spinner size="lg" color="secondary" />
-        </div>
-      }
+      </div>
     </>
   );
 }

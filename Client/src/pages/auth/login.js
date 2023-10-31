@@ -2,17 +2,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { BASE_URL } from "../../../helper/helper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";
 import { fetchUserCart, fetchUserData } from "@/store/userInfoSlice";
 import { info, cart } from "@/store/userInfoSlice";
 const Login = () => {
+  const isAuth = useSelector((state)=>state.auth.isAuthenticated)
+
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      router.push("/");
+    if(isAuth){
+      router.push("/")
     }
-  });
+  },[isAuth]);
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();
@@ -62,7 +64,7 @@ const Login = () => {
       return false;
     }
   };
-
+  
   const loginHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;

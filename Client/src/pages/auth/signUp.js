@@ -4,12 +4,15 @@ import { BASE_URL } from "../../../helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
 const SignUp = (props) => {
+  const isAuth = useSelector((state)=>state.auth.isAuthenticated)
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      router.push("/");
+    if(isAuth){
+      router.push("/")
     }
-  });
+  },[isAuth]);
   const toast = useToast();
   const router = useRouter();
   const emailRef = useRef();

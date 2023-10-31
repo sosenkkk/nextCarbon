@@ -3,11 +3,13 @@ import { BASE_URL } from "../../../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";
+import {  Spinner } from "@nextui-org/react";
 
 export default function SingleProduct() {
   const isAuth = useSelector((state)=>state.auth.isAuthenticated)
   const router = useRouter()
   const [product, setProduct]=useState();
+  const [productsLoaded, setproductsLoaded] = useState(false);
   const dispatch = useDispatch();
   const [quantity, setquantity] = useState(1);
   const token = useSelector((state) => state.auth.userToken);
@@ -16,14 +18,16 @@ export default function SingleProduct() {
     const res = await result.json();
     if (result.status === 201) {
       setProduct(res.product);
+      setproductsLoaded(true)
       
     } else {
-      
+      router.push("/products")
     }
   }
   useEffect(()=>{
     if(router.isReady){
       const productId = router.query.product;
+      setproductsLoaded(false)
       fetchData(productId)
     }
     
@@ -70,7 +74,7 @@ export default function SingleProduct() {
   
   return (
     <>
-     {product && <section className="overflow-hidden bg-[#f7f7f7]  pt-24 font-poppins dark:bg-[#202020]">
+     {product && productsLoaded && <section className="overflow-hidden bg-[#f7f7f7]  pt-24 font-poppins dark:bg-[#202020]">
         <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full mb-8 px-4 md:w-1/2 md:mb-0">
@@ -155,6 +159,11 @@ export default function SingleProduct() {
           </div>
         </div>
       </section>}
+      {!productsLoaded && 
+        <div className="min-h-[500px] pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0 flex items-center justify-around">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      }
     </>
   );
 }
