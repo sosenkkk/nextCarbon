@@ -9,7 +9,7 @@
 }
 
 .navbar {
-  background-color: rgba(255, 255, 255, 0.215);
+  background-color: rgba(255, 255, 255, 0.281);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   font-family: "Roboto", sans-serif;
@@ -101,10 +101,11 @@
 
 .caroselText {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 1.7rem;
   color: white;
+  letter-spacing: 2px;
   font-family: "Roboto", sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -192,7 +193,11 @@
 .productHeader {
   border-bottom: 1px solid;
 }
-
+.bottomCardImage{
+  width:100%;
+  height: 250px;
+  object-fit: cover;
+}
 .ruler__front {
   border: none;
   border-bottom: 1rem dashed rgb(28, 127, 127);

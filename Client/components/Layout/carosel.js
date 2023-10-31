@@ -17,7 +17,7 @@ export default function Carosel() {
         spaceBetween={30}
         centeredSlides={true}
         autoplay={{
-          delay: 2500,
+          delay: 4000,
           disableOnInteraction: false,
         }}
         pagination={{
@@ -33,20 +33,20 @@ export default function Carosel() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <p className="caroselText">Hello my name is shashank Raj</p>
-          <img className="imageSlider" src="/img/main2.jpg" alt="image" />
+          <p className="caroselText">Uncompromising Quality</p>
+          <img className="imageSlider" src="/img/slide2.jpg" alt="image" />
         </SwiperSlide>
         <SwiperSlide>
-          <p className="caroselText">Hello my name is shashank Raj</p>
-          <img className="imageSlider" src="/img/main1.jpg" alt="image" />
+          <p className="caroselText">Sleek and Modern Design</p>
+          <img className="imageSlider" src="/img/slide1.jpg" alt="image" />
         </SwiperSlide>
         <SwiperSlide>
-          <p className="caroselText">Hello my name is shashank Raj</p>
-          <img className="imageSlider" src="/img/main2.jpg" alt="image" />
+          <p className="caroselText">Eco-Friendly Solutions</p>
+          <img className="imageSlider" src="/img/slide3.jpg" alt="image" />
         </SwiperSlide>
         <SwiperSlide>
-          <p className="caroselText">Hello my name is shashank Raj</p>
-          <img className="imageSlider" src="/img/main1.jpg" alt="image" />
+          <p className="caroselText">Customer-Centric Approach</p>
+          <img className="imageSlider" src="/img/slide4.jpg" alt="image" />
         </SwiperSlide>
       </Swiper>
     </>
