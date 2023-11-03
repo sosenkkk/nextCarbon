@@ -7,8 +7,12 @@ import { cart, total } from "@/store/userInfoSlice";
 import { Pagination, Spinner } from "@nextui-org/react";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 export default function Products() {
+  const searchParams = useSearchParams()
+  var bilter = null;
+  const[alreadyFiltered, setAlreadyFiltered]= useState("");
   const [productsLoaded, setproductsLoaded] = useState(false);
   const dispatch = useDispatch();
   const [products, setproducts] = useState([]);
@@ -21,8 +25,15 @@ export default function Products() {
   const router = useRouter();
   const toast = useToast();
   const fetchProducts = async () => {
+    let uri;
+    if(bilter){
+      setAlreadyFiltered(bilter)
+       uri=BASE_URL + `products?page=${page}&filter=${bilter}&sort=${sort}`
+    }else{
+      uri=BASE_URL + `products?page=${page}&filter=${filter}&sort=${sort}`
+    }
     const result = await fetch(
-      BASE_URL + `products?page=${page}&filter=${filter}&sort=${sort}`
+      uri
     );
     const res = await result.json();
     if (result.status == 201) {
@@ -40,9 +51,11 @@ export default function Products() {
     }
   };
   useEffect(() => {
+    if(router.isReady){
+    bilter = searchParams.get('filter')
     setproductsLoaded(false)
-      fetchProducts();
-  }, [page,  sort, filter]);
+      fetchProducts();}
+  }, [page,  sort, filter, router.isReady]);
   const cartChangeHandler = async (id) => {
     const productId = id;
     const result = await fetch(BASE_URL + "cart", {
@@ -77,10 +90,19 @@ export default function Products() {
   return (
     <>
       {productsLoaded && <div className=" pt-28 transition-colors md:pt-20 bg-[#f9f9f9] dark:bg-[#202020]  p-4 sm:px-8 py-0">
-        <ProductBar
+        {!alreadyFiltered && <ProductBar
           onChangeProducts={changeProductsHandler}
           onsortProducts={sortProductsHandler}
-        />
+          selectedCategory={filter}
+          selectedSort={sort}
+        />}
+        {
+          alreadyFiltered && 
+          <div className="w-full">
+            <h2 className=" my-4 text-center filterHeader">Explore wide range of <span>{alreadyFiltered}</span></h2>
+          </div>
+
+        }
         <div className="  gap-4   gap-y-8 productContainerHolder">
           {products.map((product) => (
             <ProductCard

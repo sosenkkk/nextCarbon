@@ -198,6 +198,18 @@
   height: 250px;
   object-fit: cover;
 }
+
+.filterHeader{
+  font-size:3rem;
+  font-style: italic;
+}
+.filterHeader span{
+  margin-left:4px;
+  font-family: "Oswald", sans-serif;
+  color:rgb(28, 127, 127);
+  font-style:normal;
+  border-bottom: 3px solid rgb(28, 127, 127);
+}
 .ruler__front {
   border: none;
   border-bottom: 1rem dashed rgb(28, 127, 127);
@@ -449,6 +461,9 @@
 }
 
 @media screen and (max-width: 768px) {
+  .filterHeader{
+    font-size: 2;
+  }
   .productSkeleton a {
     width: 100%;
   }

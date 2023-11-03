@@ -1,9 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
 
 export default function ProductBar(props) {
-  const router = useRouter();
   const productModels = useSelector((state) => state.product.productModels);
   const categoryHandler = (event) => {
     props.onChangeProducts(event.target.value);
@@ -24,6 +22,7 @@ export default function ProductBar(props) {
         placeholder="Filter Category"
         className="max-w-xs "
         onChange={categoryHandler}
+        selectedKeys={props.selectedCategory? [props.selectedCategory]:""}
       >
         <SelectItem className="max-w-xs dark:text-white" key="all" value="all">
           All
@@ -43,6 +42,8 @@ export default function ProductBar(props) {
         size="sm"
         label="Sort"
         className="max-w-xs "
+        selectedKeys={props.selectedSort? [props.selectedSort]:""}
+        placeholder="Sort by Price"
       >
         {sortCategory.map((category) => (
           <SelectItem
