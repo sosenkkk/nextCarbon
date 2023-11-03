@@ -19,7 +19,7 @@ export default function AboutUs() {
             <Section>
               <div className=" md:flex bg-[#f7f7f7] transition-colors dark:bg-[#171717] shawdow-md rounded-lg mb-12">
                 <div className="imageAbout">
-                  <img src="/img/1.jpg" />
+                  <img src="/img/aboutus2.jpg" />
                 </div>
                 <div className="p-8">
                   <h1 className="text-3xl font-bold text-teal-700 dark:text-teal-500 underline">
@@ -59,7 +59,7 @@ export default function AboutUs() {
                   </p>
                 </div>
                 <div className="imageAbout">
-                  <img src="/img/1.jpg" />
+                  <img src="/img/aboutus1.jpg" />
                 </div>
               </div>
             </Section>

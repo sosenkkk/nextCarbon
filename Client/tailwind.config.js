@@ -5,11 +5,20 @@ module.exports = {
   content: [
     "./node_modules/flowbite-react/**/*.js",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      semiblack:"rgb(27,27,27,0.7)",
+      semiwhite:"rgb(255,255,255,0.55)"
+      
+    },
     extend: {
       backgroundImage: {
         "dark-theme": "url('/img/blackTheme1.jpg')",
@@ -21,9 +30,7 @@ module.exports = {
         "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
       },
     },
-    colors: {
-      purple: "#3f3cbb",
-    },
+    
   },
   darkMode: "class",
 

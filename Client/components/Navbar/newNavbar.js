@@ -40,7 +40,7 @@ export default function NewNavbar() {
     setcollapse((state) => !state);
   };
   return (
-    <div className="fixed top-0 z-50 w-full firefox:bg-opacity-90  navbar">
+    <div className="fixed top-0 z-50 w-full bg-semiwhite dark:bg-semiblack  navbar ">
       <div
         className="flex justify-between shadow-md navbarContent"
       >

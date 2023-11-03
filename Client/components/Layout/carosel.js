@@ -34,7 +34,7 @@ export default function Carosel() {
       >
         <SwiperSlide>
           <p className="caroselText">Uncompromising Quality</p>
-          <img className="imageSlider" src="/img/slide2.jpg" alt="image" />
+          <img className="imageSlider" src="/img/slide8.jpg" alt="image" />
         </SwiperSlide>
         <SwiperSlide>
           <p className="caroselText">Sleek and Modern Design</p>
@@ -42,11 +42,11 @@ export default function Carosel() {
         </SwiperSlide>
         <SwiperSlide>
           <p className="caroselText">Eco-Friendly Solutions</p>
-          <img className="imageSlider" src="/img/slide3.jpg" alt="image" />
+          <img className="imageSlider" src="/img/slide9.jpg" alt="image" />
         </SwiperSlide>
         <SwiperSlide>
           <p className="caroselText">Customer-Centric Approach</p>
-          <img className="imageSlider" src="/img/slide4.jpg" alt="image" />
+          <img className="imageSlider" src="/img/slide3.jpg" alt="image" />
         </SwiperSlide>
       </Swiper>
     </>

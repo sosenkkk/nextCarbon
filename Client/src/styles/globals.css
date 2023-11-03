@@ -9,7 +9,7 @@
 }
 
 .navbar {
-  background-color: rgba(255, 255, 255, 0.281);
+  /* background-color: rgba(255,255,255,0.8); */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   font-family: "Roboto", sans-serif;
@@ -273,6 +273,7 @@
   height: 100%;
   object-fit: cover;
   width: 100%;
+  
 }
 
 .aboutUsTitle {
@@ -460,7 +461,10 @@
   object-fit: contain;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
+  .navbar .navbarContent{
+    padding:1rem 2rem;
+  }
   .filterHeader{
     font-size: 2;
   }
@@ -474,9 +478,7 @@
   #orderBtn {
     width: 200px;
   }
-  .navbar .navbarContent{
-    padding:1rem 2rem;
-  }
+  
   .accountButtons {
     width: 90%;
   }
