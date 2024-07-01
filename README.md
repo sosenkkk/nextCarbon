@@ -1,6 +1,5 @@
 # Carbon
 
-CARBON
 [Click here to visit the website](https://next-carbon.vercel.app/)
 
 Carbon is a modern e-commerce website designed to provide a seamless shopping experience. The frontend is built with Next.js and styled with Tailwind CSS, while the backend is powered by Node.js. For dynamic animations, Carbon utilizes Framer Motion.
@@ -10,6 +9,7 @@ Carbon is a modern e-commerce website designed to provide a seamless shopping ex
 - **Dynamic UI**: Built with Next.js for server-side rendering and fast client-side navigation.
 - **Responsive Design**: Tailwind CSS ensures a responsive and mobile-first design.
 - **Smooth Animations**: Framer Motion provides smooth and interactive animations.
+- **Dark and Light Mode**: Offers both dark and light modes for a modern user experience.
 - **Secure and Scalable**: Built with security best practices and scalability in mind.
 - **Admin Panel**: An admin panel is available (not visible to all users) to track the status of orders and manage the store.
 
@@ -73,10 +73,6 @@ To get a local copy up and running, follow these steps:
     ```
 
 Your application should now be running on `http://localhost:3000` for the frontend.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure that your code adheres to the existing code style and add tests for any new features or bug fixes.
 
 ## License
 
