@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import Section from "./../cards/Section";
+import { BRAND_NAME } from "../../utils/constants";
 
 export default function FrontPart() {
   return (
@@ -11,7 +12,7 @@ export default function FrontPart() {
         <div className={styles.frontMain}>
           <Section>
             <h1 className="dark:text-gray-300 text-gray-700 transition-colors frontHeading">
-              Carbon
+              {BRAND_NAME}
             </h1>
           </Section>
           <Section>

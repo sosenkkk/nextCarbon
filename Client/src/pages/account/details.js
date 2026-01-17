@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import ProfilePicture from "../../../components/account/profilePicture";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { fetchUserData } from "@/store/userInfoSlice";

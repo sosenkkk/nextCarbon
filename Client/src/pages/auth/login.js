@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { login, userToken } from "@/store/authSlice";
 import { useToast } from "@chakra-ui/react";

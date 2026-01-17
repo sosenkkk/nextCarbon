@@ -1,4 +1,5 @@
 import Section from "../../components/cards/Section";
+import { BRAND_NAME } from "../../utils/constants";
 
 export default function AboutUs() {
   return (
@@ -6,7 +7,7 @@ export default function AboutUs() {
       <div className="pt-24 md:pt-20 bg-[#f7f7f7] dark:bg-[#171717] transition-colors">
         <div className="w-full">
           <div className="aboutUsTitle">
-            <h1 className=" text-teal-700">Carbon</h1>
+            <h1 className=" text-teal-700">{BRAND_NAME}</h1>
           </div>
           <img
             alt="aboutUsImage"
@@ -23,10 +24,10 @@ export default function AboutUs() {
                 </div>
                 <div className="p-8">
                   <h1 className="text-3xl font-bold text-teal-700 dark:text-teal-500 underline">
-                    About Carbon
+                    About {BRAND_NAME}
                   </h1>
                   <p className="introduction text-gray-700 dark:text-gray-300 font-normal md:text-lg">
-                    At Carbon, we're passionate about reimagining everyday
+                    At {BRAND_NAME}, we're passionate about reimagining everyday
                     spaces. We understand the significance of bathrooms in your
                     daily life, and we're committed to enhancing your
                     experience.
@@ -34,7 +35,7 @@ export default function AboutUs() {
                     Our brand is built on three pillars: Innovation, Elegance,
                     and Quality.
                     <br />
-                    At Carbon, we believe that your bathroom should be a haven
+                    At {BRAND_NAME}, we believe that your bathroom should be a haven
                     of luxury and functionality.
                   </p>
                 </div>
@@ -48,13 +49,13 @@ export default function AboutUs() {
                     Our Story
                   </h2>
                   <p className="text-gray-700 dark:text-gray-300 md:text-lg">
-                    Carbon was born out of a passion for transforming everyday
+                    {BRAND_NAME} was born out of a passion for transforming everyday
                     spaces into extraordinary experiences. <br />
                     Our mission is simple: to create bathroom solutions that
                     elevate your daily rituals.
                     <br />
                     From faucets that conserve water to sleek, eco-friendly
-                    toilets, Carbon is dedicated to sustainability without
+                    toilets, {BRAND_NAME} is dedicated to sustainability without
                     compromising on style.
                   </p>
                 </div>

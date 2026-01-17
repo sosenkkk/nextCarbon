@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND_NAME } from "../../utils/constants";
 
 export default function Footer() {
   return (
@@ -14,7 +15,7 @@ export default function Footer() {
                   alt=" Logo"
                 />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-gray-300">
-                  Carbon
+                  {BRAND_NAME}
                 </span>
               </Link>
             </div>
@@ -29,7 +30,7 @@ export default function Footer() {
                       href="https://github.com/sosenkkk/nextCarbon"
                       className="hover:underline"
                     >
-                      Carbon
+                      {BRAND_NAME}
                     </Link>
                   </li>
                   <li>
@@ -86,7 +87,7 @@ export default function Footer() {
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <Link href="/" className="hover:underline">
-                Carbon™
+                {BRAND_NAME}™
               </Link>
               . All Rights Reserved.
             </span>

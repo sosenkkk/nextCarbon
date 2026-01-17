@@ -3,6 +3,7 @@ import Carosel from "./../../components/Layout/carosel";
 import CardHolder from "../../components/cards/cardHolder";
 import ProductHolder from "../../components/products/productHolder";
 import Link from "next/link";
+import { BRAND_NAME } from "../../utils/constants";
 export default function Home() {
   return (
     <>
@@ -32,7 +33,7 @@ export default function Home() {
                   alt=" Logo"
                 />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-gray-300">
-                  Carbon
+                  {BRAND_NAME}
                 </span>
               </Link>
             </div>
@@ -44,7 +45,7 @@ export default function Home() {
                 <ul className="text-gray-600 dark:text-gray-400 font-medium">
                   <li className="mb-4">
                     <Link href="/" className="hover:underline">
-                      Carbon
+                      {BRAND_NAME}
                     </Link>
                   </li>
                   <li>
@@ -101,7 +102,7 @@ export default function Home() {
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <Link href="/" className="hover:underline">
-                Carbon™
+                {BRAND_NAME}™
               </Link>
               . All Rights Reserved.
             </span>

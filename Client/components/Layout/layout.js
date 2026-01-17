@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Script from "next/script";
-import { BASE_URL } from "../../helper/helper";
+import { BASE_URL } from "../helper/helper";
 import React from "react";
 import NewNavbar from "../Navbar/newNavbar";
 import Footer from "../footer/footer";
@@ -24,22 +24,26 @@ function Layout(props) {
   const dispatch = useDispatch();
   let token;
   const logoutHandler = async () => {
-    const result = await fetch(BASE_URL + "logout", {
-      headers: {
-        "Content-type": "application/json",
-      },
-      credentials: "include",
-    });
-    const res = await result.json();
-    localStorage.removeItem("token");
-    localStorage.removeItem("expiryDate");
-    localStorage.removeItem("userId");
-    dispatch(login(false));
-    dispatch(userToken({}));
-    dispatch(info({}));
-    dispatch(cart([]));
-    dispatch(total({}));
-    router.push("/");
+    try {
+      const result = await fetch(BASE_URL + "logout", {
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      await result.json();
+      localStorage.removeItem("token");
+      localStorage.removeItem("expiryDate");
+      localStorage.removeItem("userId");
+      dispatch(login(false));
+      dispatch(userToken({}));
+      dispatch(info({}));
+      dispatch(cart([]));
+      dispatch(total({}));
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const setAutoLogout = (milliseconds) => {
@@ -48,7 +52,7 @@ function Layout(props) {
     }, milliseconds);
   };
   useEffect(() => {
-    dispatch(fetchProductModels())
+    dispatch(fetchProductModels());
     token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     if (!token || !expiryDate) {
@@ -75,7 +79,7 @@ function Layout(props) {
           onLoginSuccess={loginSuccessHandler}
         />
         {props.children}
-        <Footer/>
+        <Footer />
       </main>
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></Script>
     </>

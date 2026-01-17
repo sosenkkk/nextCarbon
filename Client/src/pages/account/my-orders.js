@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";

@@ -48,7 +48,7 @@ exports.login = async (req, res, next) => {
     if (enteredUser) {
       const passwordCheck = await bcrypt.compare(
         password,
-        enteredUser.password
+        enteredUser.password,
       );
       if (passwordCheck == true) {
         const token = jwt.sign(
@@ -57,10 +57,15 @@ exports.login = async (req, res, next) => {
             userId: enteredUser._id.toString(),
           },
           `${process.env.json_secret}`,
-          { expiresIn: "1h" }
+          { expiresIn: "1h" },
         );
 
-        res.cookie("jwt", token, { maxAge: 1000 * 60 * 60, httpOnly: true, sameSite:"none", secure:true  });
+        res.cookie("jwt", token, {
+          maxAge: 1000 * 60 * 60,
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
 
         res.status(201).json({
           message: "User logged In",
@@ -90,14 +95,14 @@ exports.changePassword = async (req, res, next) => {
     } else {
       const passwordCheck = await bcrypt.compare(
         password,
-        enteredUser.password
+        enteredUser.password,
       );
       if (passwordCheck == true) {
         const hashedPassword = await bcrypt.hash(newPassword, 12);
         const updateUser = await User.findOneAndUpdate(
           { email: email },
           { password: hashedPassword },
-          { returnOriginal: false }
+          { returnOriginal: false },
         );
 
         res.status(201).json({ message: "User password changed!" });
@@ -170,7 +175,7 @@ exports.getResetPassword = async (req, res, next) => {
           const updateUser = await User.findOneAndUpdate(
             { email: email },
             { password: hashedPassword },
-            { returnOriginal: false }
+            { returnOriginal: false },
           );
           res.status(201).json({ message: "User password changed!" });
         }

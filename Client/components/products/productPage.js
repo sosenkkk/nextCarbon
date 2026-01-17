@@ -1,6 +1,6 @@
 // import ProductCard from "../../../components/products/productCard";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../helper/helper";
+import { BASE_URL } from "../helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import ProductBar from "../../components/Navbar/ProductBar";
 import { cart, total } from "@/store/userInfoSlice";
@@ -10,11 +10,10 @@ import { useRouter } from "next/router";
 import React, { Suspense, lazy } from "react";
 // import ProductCard from './../../components/products/productCard';
 
-const ProductCard= lazy(()=>import('../../components/products/productCard'))
+const ProductCard = lazy(() => import("../../components/products/productCard"));
 // import ProductLoading from './../../components/loading/productcard';
 
 export default function ProductsPage() {
-  
   const dispatch = useDispatch();
   const [products, setproducts] = useState([]);
   const [page, setpage] = useState(1);
@@ -22,22 +21,31 @@ export default function ProductsPage() {
   const [filter, setfilter] = useState("");
   const [sort, setsort] = useState("");
   const token = useSelector((state) => state.auth.userToken);
-  const isAuth = useSelector((state)=>state.auth.isAuthenticated)
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const router = useRouter();
   const toast = useToast();
   const fetchProducts = async () => {
-    const result = await fetch(
-      BASE_URL + `products?page=${page}&filter=${filter}&sort=${sort}`
-    );
-    const res = await result.json();
-    if (result.status == 201) {
-      setproducts(res.products);
-      const pages = Math.ceil(res.totalProducts / 8);
-      settotalPage(pages);
-    } else {
-      router.push("/");
+    try {
+      const result = await fetch(
+        BASE_URL + `products?page=${page}&filter=${filter}&sort=${sort}`,
+      );
+      const res = await result.json();
+      if (result.status == 201) {
+        setproducts(res.products);
+        const pages = Math.ceil(res.totalProducts / 8);
+        settotalPage(pages);
+      } else {
+        router.push("/");
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
       toast({
-        title: res.message,
+        title: "Failed to fetch products",
         status: "error",
         isClosable: true,
       });
@@ -45,25 +53,35 @@ export default function ProductsPage() {
   };
   useEffect(() => {
     fetchProducts();
-  }, [page,  sort, filter]);
+  }, [page, sort, filter]);
+
   const cartChangeHandler = async (id) => {
-    const productId = id;
-    const result = await fetch(BASE_URL + "cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({
-        productId: productId,
-      }),
-    });
-    const res = await result.json();
-    if (result.status == 201) {
-      dispatch(cart(res.cart));
-      dispatch(total(res.total));
-    } else if (result.status == 433) {
-      console.log("noo");
+    try {
+      const productId = id;
+      const result = await fetch(BASE_URL + "cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          productId: productId,
+        }),
+      });
+      const res = await result.json();
+      if (result.status == 201) {
+        dispatch(cart(res.cart));
+        dispatch(total(res.total));
+      } else if (result.status == 433) {
+        console.log("noo");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast({
+        title: "Failed to add product to cart",
+        status: "error",
+        isClosable: true,
+      });
     }
   };
   const paginationHandler = (event) => {
@@ -87,22 +105,21 @@ export default function ProductsPage() {
 
         <div className="  gap-4   gap-y-8 productContainerHolder">
           {products.map((product) => (
-          <Suspense fallback={<ProductLoading />}>
-
-            <ProductCard
-              image={product.productImage}
-              name={product.productName}
-              model={product.productModel}
-              price={product.productPrice}
-              modelNo={product.productModelNumber}
-              key={product._id.toString()}
-              id={product._id.toString()}
-              isAdmin={false}
-              isLoggedIn = {isAuth}
-              onAddCart={cartChangeHandler}
-            />
-        //   </Suspense>
-
+            <Suspense fallback={<ProductLoading />}>
+              <ProductCard
+                image={product.productImage}
+                name={product.productName}
+                model={product.productModel}
+                price={product.productPrice}
+                modelNo={product.productModelNumber}
+                key={product._id.toString()}
+                id={product._id.toString()}
+                isAdmin={false}
+                isLoggedIn={isAuth}
+                onAddCart={cartChangeHandler}
+              />
+              //{" "}
+            </Suspense>
           ))}
         </div>
         <div className="flex justify-center py-4 bg-[#f9f9f9] dark:bg-[#202020] transition">

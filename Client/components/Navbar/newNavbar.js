@@ -7,7 +7,8 @@ import { info, cart } from "@/store/userInfoSlice";
 import { useState } from "react";
 import { Squash as Hamburger } from "hamburger-react";
 import CartButton from "../cart/cartButton";
-import { BASE_URL } from "../../helper/helper";
+import { BASE_URL } from "../helper/helper";
+import { BRAND_NAME } from "../../utils/constants";
 
 export default function NewNavbar() {
   const [collapse, setcollapse] = useState(true);
@@ -16,25 +17,27 @@ export default function NewNavbar() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const isAdmin = useSelector((state) => state.user.isAdmin);
   const logoutHandler = async () => {
-    const result = await fetch(BASE_URL + "logout", {
-      headers: {
-        "Content-type": "application/json",
-      },
-      credentials: "include",
-    });
-    const res = await result.json();
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("expiryDate");
-    localStorage.removeItem("userId");
-    hiddenHandler();
-    dispatch(login(false));
-    dispatch(info({}));
-    dispatch(cart([]));
-    setTimeout(() => {
-      router.push("/");
-    }, 500);
-  };
+      try {
+        const result = await fetch(BASE_URL + "logout", {
+          headers: {
+            "Content-type": "application/json",
+          },
+          credentials: "include",
+        });
+        await result.json();
+        localStorage.removeItem("token");
+        localStorage.removeItem("expiryDate");
+        localStorage.removeItem("userId");
+        dispatch(login(false));
+        dispatch(userToken({}));
+        dispatch(info({}));
+        dispatch(cart([]));
+        dispatch(total({}));
+        router.push("/");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    };
 
   const hiddenHandler = (event) => {
     setcollapse((state) => !state);
@@ -46,12 +49,12 @@ export default function NewNavbar() {
       >
         <Link href="/" className="flex align-center">
           <img
-            src="/img/carbonLogo.png"
-            className=" h-6 self-center mr-3"
+            src="/img/carbonLogo2.png"
+            className=" h-10 self-center pt-1 mr-1"
             alt="MyLogo"
           />
           <p className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Carbon
+            {BRAND_NAME}
           </p>
         </Link>
 
@@ -71,7 +74,7 @@ export default function NewNavbar() {
           {isAuth && <CartButton />}
         </div>
 
-        <div className="hidden md:flex gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <div>
             <Link className="navlinkWhite dark:text-white " href="/">
               Home

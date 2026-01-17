@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../../../helper/helper";
+import { BASE_URL } from "../../../../components/helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { BiLogoGmail } from "react-icons/bi";

@@ -1,6 +1,6 @@
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiLogoGmail } from "react-icons/bi";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Spinner } from "@nextui-org/react";
@@ -12,27 +12,38 @@ export default function Order() {
   const router = useRouter();
   
   const fetchData = async (token, id) => {
-    const result = await fetch(BASE_URL + "my-order/" + id, {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-    });
-    const res = await result.json();
-    if (result.status == 201) {
-      setOrder(res.order);
-      setUser(res.order.user);
-      setTotal(res.order.total)
-      setproductsLoaded(true)
-    } else if (result.status == 433) {
-      setproductsLoaded(false)
+    try {
+      const result = await fetch(BASE_URL + "my-order/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
+      const res = await result.json();
+      if (result.status == 201) {
+        setOrder(res.order);
+        setUser(res.order.user);
+        setTotal(res.order.total)
+        setproductsLoaded(true)
+      } else if (result.status == 433) {
+        setproductsLoaded(false)
+        toast({
+          title: res.message,
+          status: "error",
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      setproductsLoaded(false);
       toast({
-        title: res.message,
+        title: "Error fetching order",
+        description: error.message,
         status: "error",
         isClosable: true,
       });
     }
   };
+
   useEffect(() => {
     if(router.isReady){
       const token = localStorage.getItem("token");

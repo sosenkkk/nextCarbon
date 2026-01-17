@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import Link from "next/link";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";

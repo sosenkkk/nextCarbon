@@ -4,7 +4,7 @@ import AccountCard from "./../../../components/cards/accountCard";
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import Modal from "../../../components/Modal";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { Spinner } from "@nextui-org/react";
 
 export default function Account() {

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";

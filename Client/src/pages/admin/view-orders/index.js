@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../../../helper/helper";
+import { BASE_URL } from "../../../../components/helper/helper";
 import { useToast } from "@chakra-ui/react";
 import RequestBar from "../../../../components/Navbar/requestBar";
 import {  Spinner } from "@nextui-org/react";

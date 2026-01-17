@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import {  useRef, useState,  useEffect } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import ProductImage from "../../../components/products/productImage";

@@ -1,6 +1,6 @@
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BiLogoGmail } from "react-icons/bi";
-import { BASE_URL } from "../../../../helper/helper";
+import { BASE_URL } from "../../../../components/helper/helper";
 import { useState, useEffect } from "react";
 import {  Spinner } from "@nextui-org/react";
 import {useRouter } from "next/router"

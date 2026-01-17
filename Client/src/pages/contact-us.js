@@ -1,6 +1,6 @@
 import {  useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { BASE_URL } from "../../helper/helper";
+import { BASE_URL } from "../../components/helper/helper";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Spinner } from "@nextui-org/react";

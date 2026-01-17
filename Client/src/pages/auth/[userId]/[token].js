@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { Spinner } from "@nextui-org/react";
 
-import { BASE_URL } from "../../../../helper/helper";
+import { BASE_URL } from "../../../../components/helper/helper";
 
 const ForgotPassword = (props) => {
   const [buttondisabled, setbuttondisabled] = useState(false)

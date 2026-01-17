@@ -42,7 +42,7 @@
   font-size: 18px;
 }
 .navbar .navbarContent{
-  padding:1.6rem 2.0rem;
+  padding:1.2rem 2.0rem;
 }
 .mobileNavbar {
   animation: moveit 700ms ease forwards;

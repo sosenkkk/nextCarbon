@@ -1,6 +1,6 @@
 import ProductCard from "../../../components/products/productCard";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import ProductBar from "../../../components/Navbar/ProductBar";
 import { cart, total } from "@/store/userInfoSlice";

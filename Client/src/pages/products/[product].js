@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { cart, total } from "@/store/userInfoSlice";
 import { useRouter } from "next/router";

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import AccountCard from "./../../../components/cards/accountCard";
-import { BASE_URL } from "../../../helper/helper";
+import { BASE_URL } from "../../../components/helper/helper";
 import { useRouter } from "next/router";
 import {  Spinner } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
