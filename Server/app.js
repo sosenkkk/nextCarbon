@@ -13,7 +13,6 @@ const path = require("path");
 const MONGO_URI =
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.wxdleee.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 
-  console.log(MONGO_URI)
 const app = express();
 
 const PORT = process.env.PORT || 8080;
@@ -53,5 +52,5 @@ app.use((error, req, res, next) => {
 
 mongoose.connect(MONGO_URI).then(() => {
   app.listen(PORT);
-  console.log("connected");
+  console.log("connected to backend and listening to port ");
 });
